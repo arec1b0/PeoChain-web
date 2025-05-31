@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
 import { 
   Shield, 
   Key, 
@@ -26,6 +27,7 @@ import Navigation from '@/components/navigation';
 export default function ValidatorBonds() {
   const [expandedFaq, setExpandedFaq] = useState<string | null>(null);
 
+  // Define static content
   const bondingSteps = [
     {
       step: 1,
@@ -77,7 +79,7 @@ export default function ValidatorBonds() {
     }
   ];
 
-  const validatorSlots = [
+  const staticValidatorSlots = [
     {
       network: 'Testnet',
       status: 'Active',
@@ -126,7 +128,8 @@ export default function ValidatorBonds() {
     }
   ];
 
-  const networkStats = {
+  // Use live data when available with proper fallbacks
+  const networkStats = validatorStats && validatorStats.testnet && validatorStats.mainnet ? validatorStats : {
     testnet: {
       totalValidators: 347,
       totalStaked: '2.1M PEO',
