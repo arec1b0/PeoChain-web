@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'wouter';
 import { 
-  Hexagon, 
+  Circle, 
   Menu, 
   X, 
   Sun, 
@@ -10,8 +10,10 @@ import {
   Search, 
   ChevronDown,
   Home,
-  Sparkles,
-  BookOpen
+  Zap,
+  FileText,
+  Database,
+  Layers3
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
