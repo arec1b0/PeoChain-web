@@ -7,7 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useThemeContext, Theme } from '@/components/ui/theme-provider';
+import { useThemeContext } from '@/components/ui/theme-provider';
+import type { Theme } from '@/hooks/use-theme';
 import { useKeyboardNavigation } from '@/hooks/use-accessibility';
 
 interface ThemeToggleProps {

@@ -57,3 +57,4 @@ export function useThemeContext(): ThemeProviderContextValue {
 }
 
 export { ThemeProvider };
+export type { Theme, ResolvedTheme };

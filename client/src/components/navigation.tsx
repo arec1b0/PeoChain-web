@@ -75,8 +75,6 @@ export default function Navigation() {
     { href: '/whitepaper', label: 'Whitepaper', icon: BookOpen, id: 'whitepaper' },
   ];
 
-
-
   const navigateToPage = (href: string) => {
     window.location.href = href;
     setIsMobileMenuOpen(false);
@@ -129,11 +127,11 @@ export default function Navigation() {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`fixed top-1 w-full z-40 transition-all duration-300 ${
+        className={`fixed top-1 w-full z-40 nav-bg-transition ${
           isScrolled 
-            ? 'bg-background/95 dark:bg-background/95 backdrop-blur-md shadow-lg' 
-            : 'bg-background/90 dark:bg-background/90 backdrop-blur-md'
-        } border-b border-sage/20 dark:border-sage/30`}
+            ? 'bg-background/95 backdrop-blur-md shadow-lg' 
+            : 'bg-background/90 backdrop-blur-md'
+        } border-b border-sage/20`}
         role="navigation"
         aria-label="Main navigation"
       >
