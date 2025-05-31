@@ -167,7 +167,7 @@ export default function Navigation() {
                 alt="PeoChain Logo" 
                 className="w-8 h-8 object-contain"
               />
-
+              <span className="text-xl font-raleway font-bold text-sage">PeoChain</span>
             </motion.button>
             
             {/* Desktop Navigation */}
