@@ -269,17 +269,7 @@ export default function Navigation() {
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="flex lg:hidden items-center space-x-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleTheme}
-                className="h-9 w-9 text-foreground hover:text-sage"
-                aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
-              >
-                {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </Button>
-              
+            <div className="flex lg:hidden items-center">
               <Button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 variant="ghost"
