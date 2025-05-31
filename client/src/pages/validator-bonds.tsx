@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
 import { 
   Shield, 
   Key, 
@@ -128,8 +127,7 @@ export default function ValidatorBonds() {
     }
   ];
 
-  // Use live data when available with proper fallbacks
-  const networkStats = validatorStats && validatorStats.testnet && validatorStats.mainnet ? validatorStats : {
+  const networkStats = {
     testnet: {
       totalValidators: 347,
       totalStaked: '2.1M PEO',
@@ -316,7 +314,7 @@ export default function ValidatorBonds() {
             </h2>
             
             <div className="space-y-6">
-              {validatorSlots.map((slot, index) => (
+              {staticValidatorSlots.map((slot, index) => (
                 <Card key={slot.network} className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-sage/20 shadow-lg">
                   <CardContent className="p-8">
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-6 lg:space-y-0">
