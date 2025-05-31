@@ -1,28 +1,48 @@
+import { AccessibleComponent } from '@/types';
+
 export interface FeatureDetail {
-  text: string;
+  readonly text: string;
+  readonly ariaLabel?: string;
 }
 
 export interface CoreFeature {
-  icon: string;
-  title: string;
-  description: string;
-  metric: string;
-  gradient: string;
-  details: FeatureDetail[];
+  readonly icon: string;
+  readonly title: string;
+  readonly description: string;
+  readonly metric: string;
+  readonly gradient: string;
+  readonly details: readonly FeatureDetail[];
+  readonly ariaLabel?: string;
 }
 
 export interface PerformanceMetric {
-  label: string;
-  value: number;
-  unit: string;
-  comparison: string;
+  readonly label: string;
+  readonly value: number;
+  readonly unit: string;
+  readonly comparison: string;
+  readonly ariaLabel?: string;
 }
 
 export interface TechnicalHighlight {
-  icon: string;
-  title: string;
-  description: string;
-  gradient: string;
+  readonly icon: string;
+  readonly title: string;
+  readonly description: string;
+  readonly gradient: string;
+  readonly ariaLabel?: string;
+}
+
+export interface FeatureCardProps extends AccessibleComponent {
+  readonly feature: CoreFeature;
+  readonly index: number;
+  readonly isInView: boolean;
+}
+
+export interface PerformanceBenchmarksProps extends AccessibleComponent {
+  readonly metrics: readonly PerformanceMetric[];
+  readonly isInView: boolean;
+  readonly title: string;
+  readonly highlight: string;
+  readonly description: string;
 }
 
 export const coreFeatures: CoreFeature[] = [

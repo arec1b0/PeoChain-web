@@ -1,20 +1,51 @@
+import { AnimatedComponent, AccessibleComponent } from '@/types';
+
 export interface HeroMetric {
-  value: number;
-  label: string;
-  suffix?: string;
-  className?: string;
+  readonly value: number;
+  readonly label: string;
+  readonly suffix?: string;
+  readonly className?: string;
+  readonly ariaLabel?: string;
 }
 
 export interface FloatingNode {
-  id: number;
-  size: number;
-  position: {
+  readonly id: number;
+  readonly size: number;
+  readonly position: Readonly<{
     top?: string;
     bottom?: string;
     left?: string;
     right?: string;
-  };
-  delay: number;
+  }>;
+  readonly delay: number;
+}
+
+export interface HeroTitleProps extends AnimatedComponent {
+  readonly title: Readonly<{
+    primary: string;
+    highlight: string;
+    secondary: string;
+    secondaryHighlight: string;
+    suffix: string;
+  }>;
+}
+
+export interface HeroDescriptionProps extends AccessibleComponent {
+  readonly description: Readonly<{
+    text: string;
+    tps: string;
+    finality: string;
+    accessibility: string;
+    fees: string;
+  }>;
+}
+
+export interface HeroAction {
+  readonly type: 'primary' | 'secondary';
+  readonly label: string;
+  readonly icon: string;
+  readonly href: string;
+  readonly ariaLabel?: string;
 }
 
 export const heroMetrics: HeroMetric[] = [
