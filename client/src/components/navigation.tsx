@@ -28,34 +28,43 @@ export default function Navigation() {
   const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
-      
-      setIsScrolled(scrollTop > 50);
-      setScrollProgress(progress);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollTop = window.scrollY;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = Math.min((scrollTop / docHeight) * 100, 100);
+          
+          setIsScrolled(scrollTop > 50);
+          setScrollProgress(progress);
 
-      // Determine active section
-      const sections = ['home', 'technology', 'ecosystem', 'features', 'community'];
-      const sectionElements = sections.map(id => ({
-        id,
-        element: document.getElementById(id) || document.querySelector(`#${id}`)
-      }));
+          // Determine active section
+          const sections = ['home', 'technology', 'ecosystem', 'features', 'community'];
+          const sectionElements = sections.map(id => ({
+            id,
+            element: document.getElementById(id) || document.querySelector(`#${id}`)
+          }));
 
-      let currentSection = 'home';
-      sectionElements.forEach(({ id, element }) => {
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            currentSection = id;
-          }
-        }
-      });
-      setActiveSection(currentSection);
+          let currentSection = 'home';
+          sectionElements.forEach(({ id, element }) => {
+            if (element) {
+              const rect = element.getBoundingClientRect();
+              if (rect.top <= 100 && rect.bottom >= 100) {
+                currentSection = id;
+              }
+            }
+          });
+          setActiveSection(currentSection);
+          
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
