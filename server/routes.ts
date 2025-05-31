@@ -52,8 +52,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Set session
-      req.session.userId = user.id;
-      req.session.username = user.username;
+      authReq.session.userId = user.id;
+      authReq.session.username = user.username;
       
       res.json({ 
         message: 'Login successful',
@@ -65,8 +65,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/auth/logout', (req: AuthenticatedRequest, res) => {
-    req.session.destroy((err) => {
+  app.post('/api/auth/logout', (req: Request, res: Response) => {
+    const authReq = req as AuthenticatedRequest;
+    authReq.session.destroy((err) => {
       if (err) {
         return res.status(500).json({ error: 'Could not log out' });
       }
@@ -74,9 +75,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
-  app.get('/api/auth/me', requireAuth, async (req: AuthenticatedRequest, res) => {
+  app.get('/api/auth/me', requireAuth, async (req: Request, res: Response) => {
+    const authReq = req as AuthenticatedRequest;
     try {
-      const user = await storage.getUser(req.user!.id);
+      const user = await storage.getUser(authReq.user!.id);
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
