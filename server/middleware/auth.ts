@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { Request, Response, NextFunction } from 'express';
-import { storage } from '../storage';
+import session from 'express-session';
 
 export async function hashPassword(password: string): Promise<string> {
   const saltRounds = 12;
@@ -16,6 +16,10 @@ export interface AuthenticatedRequest extends Request {
     id: number;
     username: string;
   };
+  session: session.Session & Partial<session.SessionData> & {
+    userId?: number;
+    username?: string;
+  };
 }
 
 export function requireAuth(req: AuthenticatedRequest, res: Response, next: NextFunction) {
@@ -26,7 +30,7 @@ export function requireAuth(req: AuthenticatedRequest, res: Response, next: Next
   // Add user info to request
   req.user = {
     id: req.session.userId,
-    username: req.session.username
+    username: req.session.username || ''
   };
   
   next();
@@ -36,7 +40,7 @@ export function optionalAuth(req: AuthenticatedRequest, res: Response, next: Nex
   if (req.session?.userId) {
     req.user = {
       id: req.session.userId,
-      username: req.session.username
+      username: req.session.username || ''
     };
   }
   next();
