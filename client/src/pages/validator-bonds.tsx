@@ -445,12 +445,12 @@ export default function ValidatorBonds() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.0 }}
           >
-            <Card className="bg-gradient-to-br from-sage to-medium-forest text-white shadow-lg">
+            <Card className="bg-gradient-to-br from-sage to-medium-forest shadow-lg">
               <CardContent className="p-12">
-                <h2 className="text-3xl font-raleway font-medium mb-4">
+                <h2 className="text-3xl font-raleway font-medium mb-4 text-white">
                   Ready to Become a Validator?
                 </h2>
-                <p className="text-lg font-hammersmith opacity-90 mb-8 max-w-2xl mx-auto">
+                <p className="text-lg font-hammersmith mb-8 max-w-2xl mx-auto text-white/90">
                   Join the decentralized network securing the future of finance. 
                   Start with testnet validation and prepare for mainnet launch.
                 </p>
