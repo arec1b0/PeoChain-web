@@ -1,0 +1,36 @@
+<context>
+  Project: PeoChain platform (or any DeFi/infra service of similar caliber).
+  Goal: Absolute unification of UI patterns, full responsiveness, and DevOps discipline with zero tolerance for chaos.
+</context>
+
+<design_tokens>
+{
+  "color": "All colors and states (primary, secondary, accent, semantic, backgrounds) are centralized in tokens.json or via Tailwind theme.extend.",
+  "spacing": "Scale from 2 to 64 px, stepwise (power-of-two), always through tokens.",
+  "radius": "Standardized values only: 4, 8, 16 px (or rem), only via tokens.",
+  "integration": "Tokens live in codebase and auto-sync with Figma or your chosen design tool."
+}
+</design_tokens>
+
+<instructions>
+  1. All new UI and patches must use only global tokens (color, spacing, radius)—absolutely no inline styles.
+  2. Mobile QA is required for every key flow, especially validator onboarding and FAQ—use real devices, not just emulators.
+  3. Implement a global loading skeleton and error boundary at the App level, not just in individual components.
+  4. Standardize all error/success feedback: every form uses a single, unified pattern, no ad-hoc messages.
+  5. Set up Storybook (or equivalent) and cover all atomic UI components and key pages with basic E2E tests (Cypress/Playwright).
+  6. Automate accessibility audits (axe-core, Lighthouse) and specifically address all Radix UI edge-cases (focus, aria, escape handling).
+  7. Document developer onboarding/setup; add a “component map” (UI structure map) in the README.
+  8. Production must include favicon and web manifest (PWA-ready).
+  9. Branded micro-interactions (button hover, nav transitions, click) must be present—brief, never distracting or excessive.
+  10. Tokens must be integrated with Figma (or your design tool): bi-directional parity, no visual/code drift.
+</instructions>
+
+<validation>
+  1. Confirm that all components use only tokens—no inline overrides or legacy styles.
+  2. Verify mobile responsiveness across all critical user journeys.
+  3. Accessibility: at least WCAG AA, with all Radix edge-cases handled.
+  4. Storybook and E2E coverage: at least 80% of atomic components, key flows tested.
+  5. Onboarding docs and component map are up-to-date after every major change.
+  6. All forms deliver standardized feedback, with no hidden or inconsistent errors.
+</validation>
+

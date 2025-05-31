@@ -10,7 +10,7 @@ import {
   Search, 
   ChevronDown,
   Home,
-  Sparkles,
+  Zap,
   BookOpen
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -81,7 +81,7 @@ export default function Navigation() {
   }, []);
 
   const navItems = [
-    { href: '/technology', label: 'Technology', icon: Sparkles, id: 'technology' },
+    { href: '/technology', label: 'Technology', icon: Zap, id: 'technology' },
     { href: '/whitepaper', label: 'Whitepaper', icon: BookOpen, id: 'whitepaper' },
   ];
 

@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 :root {
+  /* System Colors */
   --background: 142 23% 89%; /* #e1eae3 */
   --foreground: 142 23% 26%; /* #38503f */
   --muted: 142 10% 90%;
@@ -24,14 +25,40 @@
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
   --ring: 142 23% 26%;
-  --radius: 0.75rem;
   
-  /* Custom PeoChain colors */
+  /* Design System Tokens */
+  --radius: 8px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  
+  /* Spacing Scale (power-of-two) */
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  
+  /* PeoChain Brand Colors */
   --mint: 142 23% 89%; /* #e1eae3 */
   --forest: 142 23% 26%; /* #38503f */
   --sage: 142 25% 51%; /* #6d9e79 */
   --medium-forest: 142 20% 45%; /* #5b8466 */
   --dark-sage: 142 20% 35%; /* #4a6a52 */
+  
+  /* Semantic Colors */
+  --success: 120 60% 50%;
+  --warning: 45 100% 60%;
+  --error: 0 84% 60%;
+  --info: 210 100% 60%;
+  
+  /* Animation Durations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
 }
 
 .dark {
