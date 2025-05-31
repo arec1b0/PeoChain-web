@@ -16,6 +16,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
+import brandmarkLogo from '@assets/brandmark-design.png';
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -160,9 +161,11 @@ export default function Navigation() {
               onKeyDown={(e) => handleKeyDown(e, navigateToHome)}
               aria-label="PeoChain homepage"
             >
-              <div className="w-8 h-8 gradient-sage-forest rounded-lg flex items-center justify-center">
-                <Hexagon className="text-white h-4 w-4" />
-              </div>
+              <img 
+                src={brandmarkLogo} 
+                alt="PeoChain Logo" 
+                className="w-8 h-8 object-contain"
+              />
               <span className="text-xl font-hammersmith font-medium text-foreground dark:text-foreground">
                 PeoChain
               </span>
