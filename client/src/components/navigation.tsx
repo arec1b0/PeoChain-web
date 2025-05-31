@@ -254,8 +254,11 @@ export default function Navigation() {
               </Button>
 
               {/* Launch App Button */}
-              <Button className="bg-sage hover:bg-medium-forest text-white font-raleway font-medium h-9">
-                Launch App
+              <Button 
+                onClick={() => window.location.href = '/validator-bonds'}
+                className="bg-sage hover:bg-medium-forest text-white font-raleway font-medium h-9"
+              >
+                Validator Bonds
               </Button>
             </div>
 
@@ -346,8 +349,11 @@ export default function Navigation() {
                 ))}
 
                 <div className="pt-4 border-t border-sage/20">
-                  <Button className="w-full bg-sage hover:bg-medium-forest text-white font-raleway font-medium">
-                    Launch App
+                  <Button 
+                    onClick={() => window.location.href = '/validator-bonds'}
+                    className="w-full bg-sage hover:bg-medium-forest text-white font-raleway font-medium"
+                  >
+                    Validator Bonds
                   </Button>
                 </div>
               </div>
