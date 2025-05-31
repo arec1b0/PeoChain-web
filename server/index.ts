@@ -10,14 +10,14 @@ const app = express();
 
 // Security middleware
 app.use(helmet({
-  contentSecurityPolicy: {
+  contentSecurityPolicy: process.env.NODE_ENV === 'production' ? {
     directives: {
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       scriptSrc: ["'self'"],
       imgSrc: ["'self'", "data:", "https:"],
     },
-  },
+  } : false, // Disable CSP in development to allow Vite hot reload
 }));
 
 // Rate limiting
