@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useState, useCallback } from "react"
 
 type Theme = "dark" | "light" | "system"
 
@@ -13,14 +13,19 @@ type ThemeProviderProps = {
 type ThemeProviderState = {
   theme: Theme
   setTheme: (theme: Theme) => void
+  resolvedTheme: Theme
 }
 
 const initialState: ThemeProviderState = {
   theme: "system",
   setTheme: () => null,
+  resolvedTheme: "light"
 }
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+
+const getSystemTheme = (): Theme => 
+  window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 
 export function ThemeProvider({
   children,
@@ -28,38 +33,61 @@ export function ThemeProvider({
   storageKey = "peochain-ui-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return defaultTheme
+    return (localStorage.getItem(storageKey) as Theme) || defaultTheme
+  })
+  
+  const [resolvedTheme, setResolvedTheme] = useState<Theme>('light')
 
-  useEffect(() => {
+  const applyTheme = useCallback((newTheme: Theme) => {
     const root = window.document.documentElement
-
     root.classList.remove("light", "dark")
 
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light"
-
-      root.classList.add(systemTheme)
-      return
+    let resolved = newTheme
+    if (newTheme === "system") {
+      resolved = getSystemTheme()
     }
+    
+    root.classList.add(resolved)
+    setResolvedTheme(resolved)
+    root.setAttribute('data-theme', resolved)
+    
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(storageKey, newTheme)
+    }
+  }, [storageKey])
 
-    root.classList.add(theme)
-  }, [theme])
+  // Initialize theme on mount and system theme changes
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    
+    applyTheme(theme)
+    
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleChange = () => {
+      if (theme === 'system') {
+        applyTheme('system')
+      }
+    }
+    
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [theme, applyTheme])
+  
+  const setTheme = useCallback((newTheme: Theme) => {
+    setThemeState(newTheme)
+  }, [])
 
-  const value = {
+  const value: ThemeProviderState = {
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
-    },
+    setTheme,
+    resolvedTheme
   }
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider value={value} {...props}>
       {children}
     </ThemeProviderContext.Provider>
   )
@@ -67,9 +95,8 @@ export function ThemeProvider({
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
-
-  if (context === undefined)
+  if (context === undefined) {
     throw new Error("useTheme must be used within a ThemeProvider")
-
+  }
   return context
 }

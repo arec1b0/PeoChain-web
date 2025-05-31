@@ -1,312 +1,480 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'wouter';
 import { 
-  Hexagon, 
-  Menu, 
-  X, 
-  Search, 
-  ChevronDown,
-  Home,
-  Zap,
-  BookOpen
-} from 'lucide-react';
+  useState, 
+  useEffect, 
+  useRef, 
+  useCallback, 
+  forwardRef, 
+  type ReactNode,
+  type KeyboardEvent,
+  type MouseEvent,
+  type FormEvent,
+  type ChangeEvent,
+  type FC,
+  type ReactElement,
+  type SVGProps,
+  type ForwardedRef,
+  type ImgHTMLAttributes
+} from 'react';
+import { Link, useLocation } from 'wouter';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, Menu, X, Moon, Sun, ArrowRight, Zap, BookOpen, Home as HomeIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import brandmarkLogo from '@assets/brandmark-design.png';
+import { useTheme } from '@/components/ui/theme-provider';
+import { cn } from '@/lib/utils';
+import { useOnClickOutside } from '@/hooks/use-click-outside';
+import { useLockBodyScroll } from '@/hooks/use-lock-body-scroll';
+import { useKeyPress, type KeyHandler } from '@/hooks/use-key-press';
 
-import brandmark_design from "@assets/brandmark-design.png";
+type Theme = 'light' | 'dark' | 'system';
+type ClickHandler = (e: MouseEvent<HTMLElement>) => void;
 
-export default function Navigation() {
+interface BrandmarkLogoProps extends ImgHTMLAttributes<HTMLImageElement> {
+  children?: ReactNode;
+}
+
+const BrandmarkLogo = forwardRef<HTMLImageElement, BrandmarkLogoProps>(
+  (props: BrandmarkLogoProps, ref: ForwardedRef<HTMLImageElement>) => {
+    const { children, ...rest } = props;
+    return (
+      <img
+        ref={ref}
+        className="h-8 w-auto"
+        src="/logo.png"
+        alt="PeoChain"
+        {...rest}
+      />
+    );
+  }
+);
+
+BrandmarkLogo.displayName = 'BrandmarkLogo';
+
+interface NavItem {
+  label: string;
+  href: string;
+  id: string;
+  icon: FC<SVGProps<SVGSVGElement>>;
+}
+
+const Navigation: FC = (): ReactElement => {
+  // Refs
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const searchButtonRef = useRef<HTMLButtonElement>(null);
+  const lastFocusedElement = useRef<HTMLElement | null>(null);
+  
+  // State
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState('home');
+  
+  // Hooks
+  const { theme, setTheme } = useTheme();
+  const [location] = useLocation();
+  
+  // Lock body scroll when menu or search is open
+  useLockBodyScroll(isMobileMenuOpen || isSearchOpen);
 
+  // Define handleKeyDown before it's used in useEffect
+  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLElement>, callback?: () => void): void => {
+    if (e.key === 'Escape') {
+      if (isSearchOpen) {
+        setIsSearchOpen(false);
+        searchButtonRef.current?.focus();
+      } else if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    } else if ((e.key === 'Enter' || e.key === ' ') && callback) {
+      callback();
+    }
+  }, [isSearchOpen, isMobileMenuOpen]);
+
+  // Close mobile menu when clicking outside
+  useOnClickOutside(mobileMenuRef, (): void => {
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+      menuButtonRef.current?.focus();
+    }
+  });
+
+  // Close search when clicking outside
+  useOnClickOutside(
+    searchInputRef,
+    (): void => {
+      if (isSearchOpen) {
+        setIsSearchOpen(false);
+        searchButtonRef.current?.focus();
+      }
+    },
+    ['mousedown', 'touchstart']
+  );
+  
+  // Handle escape key
   useEffect(() => {
-    let ticking = false;
-    
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const scrollTop = window.scrollY;
-          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-          const progress = Math.min((scrollTop / docHeight) * 100, 100);
-          
-          setIsScrolled(scrollTop > 50);
-          setScrollProgress(progress);
-
-          // Determine active section
-          const sections = ['home', 'technology', 'ecosystem', 'features', 'community'];
-          const sectionElements = sections.map(id => ({
-            id,
-            element: document.getElementById(id) || document.querySelector(`#${id}`)
-          }));
-
-          let currentSection = 'home';
-          sectionElements.forEach(({ id, element }) => {
-            if (element) {
-              const rect = element.getBoundingClientRect();
-              if (rect.top <= 100 && rect.bottom >= 100) {
-                currentSection = id;
-              }
-            }
-          });
-          setActiveSection(currentSection);
-          
-          ticking = false;
-        });
-        ticking = true;
+    const handleKeyPress = (e: globalThis.KeyboardEvent): void => {
+      if (e.key === 'Escape') {
+        handleKeyDown(e as unknown as KeyboardEvent<HTMLElement>);
       }
     };
+    
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [handleKeyDown]);
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+  // Focus trap for mobile menu
+  useEffect(() => {
+    if (isMobileMenuOpen || isSearchOpen) {
+      lastFocusedElement.current = document.activeElement as HTMLElement;
+      const focusableElements = mobileMenuRef.current?.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      ) as NodeListOf<HTMLElement>;
+      
+      if (focusableElements && focusableElements.length > 0) {
+        focusableElements[0].focus();
+      }
+      
+      return () => {
+        lastFocusedElement.current?.focus();
+      };
+    }
+    return undefined;
+  }, [isMobileMenuOpen, isSearchOpen]);
+
+  // Track scroll position for progress bar and header
+  useEffect(() => {
+    const handleScroll = (): void => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = scrollTop > 10;
+      
+      setIsScrolled(scrolled);
+      
+      if (windowHeight > 0) {
+        const progress = (scrollTop / windowHeight) * 100;
+        setScrollProgress(Math.min(progress, 100));
+      }
+      
+      // Update active section based on scroll position
+      const sections = document.querySelectorAll('section[id]');
+      sections.forEach((section) => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop <= 100) {
+          setActiveSection(section.id);
+        }
+      });
+    };
+    
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
-
-  const navItems = [
+  const navItems: NavItem[] = [
+    { href: '/', label: 'Home', icon: HomeIcon, id: 'home' },
     { href: '/technology', label: 'Technology', icon: Zap, id: 'technology' },
     { href: '/whitepaper', label: 'Whitepaper', icon: BookOpen, id: 'whitepaper' },
   ];
 
-  const navigateToPage = (href: string) => {
-    window.location.href = href;
-    setIsMobileMenuOpen(false);
-  };
+  const toggleMobileMenu = useCallback((): void => {
+    setIsMobileMenuOpen((prev: boolean) => !prev);
+  }, []);
 
-  const scrollToTop = () => {
+  const toggleSearch = useCallback((): void => {
+    setIsSearchOpen((prev: boolean) => !prev);
+    setTimeout(() => searchInputRef.current?.focus(), 0);
+  }, []);
+
+  const scrollToTop = useCallback((): void => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    setIsMobileMenuOpen(false);
-  };
+  }, []);
 
-  const navigateToHome = () => {
-    window.location.href = '/';
+  const navigateToPage = useCallback((path: string): void => {
+    window.location.href = path;
     setIsMobileMenuOpen(false);
-  };
+  }, []);
 
-  const handleKeyDown = (event: React.KeyboardEvent, action: () => void) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      action();
+  const navigateToHome = useCallback((e?: KeyboardEvent<HTMLElement> | MouseEvent<HTMLElement>): void => {
+    if (e && 'key' in e && e.key !== 'Enter' && e.key !== ' ') {
+      return;
     }
-  };
+    navigateToPage('/');
+  }, [navigateToPage]);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
+  const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
+    setSearchQuery(e.target.value);
+  }, []);
+
+  const handleSearchSubmit = useCallback((e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Simple search implementation - scroll to matching section
-      const query = searchQuery.toLowerCase();
-      const matchingSection = navItems.find(item => 
-        item.label.toLowerCase().includes(query) || 
-        item.id.toLowerCase().includes(query)
+      const matchingItem = navItems.find((item: NavItem) =>
+        item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.id.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      
-      if (matchingSection) {
-        navigateToPage(matchingSection.href);
+      if (matchingItem) {
+        navigateToPage(matchingItem.href);
       }
-      setSearchQuery('');
-      setIsSearchOpen(false);
     }
-  };
+    setIsMobileMenuOpen(false);
+    setIsSearchOpen(false);
+  }, [searchQuery, navigateToPage, navItems]);
 
   return (
-    <>
-      {/* Progress Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50">
-        <Progress 
-          value={scrollProgress} 
-          className="h-1 rounded-none bg-transparent"
-        />
-      </div>
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className={`fixed top-1 w-full z-40 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-background/95 backdrop-blur-md shadow-lg' 
-            : 'bg-background/90 backdrop-blur-md'
-        } border-b border-sage/20`}
-        role="navigation"
-        aria-label="Main navigation"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <motion.button
-              className="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-sage rounded-lg p-1"
-              whileHover={{ scale: 1.05 }}
-              onClick={navigateToHome}
-              onKeyDown={(e) => handleKeyDown(e, navigateToHome)}
-              aria-label="PeoChain homepage"
-            >
-              <img 
-                src={brandmark_design} 
-                alt="PeoChain Logo" 
-                className="w-8 h-8 object-contain"
-              />
-              <span className="text-xl font-raleway font-bold text-sage">PeoChain</span>
-            </motion.button>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-1">
-              <button
-                onClick={scrollToTop}
-                onKeyDown={(e) => handleKeyDown(e, scrollToTop)}
-                className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-raleway font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-sage ${
-                  activeSection === 'home' 
-                    ? 'text-sage bg-sage/10' 
-                    : 'text-foreground hover:text-sage hover:bg-sage/5'
-                }`}
-                aria-label="Go to home section"
-              >
-                <Home className="h-4 w-4" />
-                <span>Home</span>
-              </button>
-              
+    <div className="relative">
+      {/* Main Header */}
+      <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+          <div className="flex gap-6 md:gap-10">
+            <Link href="/" className="flex items-center space-x-2">
+              <BrandmarkLogo />
+              <span className="inline-block font-bold">PeoChain</span>
+            </Link>
+            <nav className="hidden gap-6 md:flex">
               {navItems.map((item) => (
-                <button
-                  key={item.href}
-                  onClick={() => navigateToPage(item.href)}
-                  onKeyDown={(e) => handleKeyDown(e, () => navigateToPage(item.href))}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-raleway font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-sage text-foreground hover:text-sage hover:bg-sage/5`}
-                  aria-label={`Go to ${item.label} page`}
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className="flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </button>
+                  {item.label}
+                </Link>
               ))}
-            </div>
-            
-            {/* Desktop Actions */}
-            <div className="hidden lg:flex items-center space-x-2">
-              {/* Search */}
-              <div className="relative">
-                <AnimatePresence>
-                  {isSearchOpen ? (
-                    <motion.form
-                      initial={{ width: 0, opacity: 0 }}
-                      animate={{ width: 200, opacity: 1 }}
-                      exit={{ width: 0, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      onSubmit={handleSearchSubmit}
-                      className="flex items-center"
-                    >
-                      <Input
-                        type="text"
-                        placeholder="Search sections..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="h-9 text-sm bg-background/50 border-sage/30 focus:border-sage"
-                        autoFocus
-                        aria-label="Search website sections"
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setIsSearchOpen(false)}
-                        className="ml-1"
-                        aria-label="Close search"
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </motion.form>
-                  ) : (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setIsSearchOpen(true)}
-                      className="h-9 w-9 text-foreground hover:text-sage"
-                      aria-label="Open search"
-                    >
-                      <Search className="h-4 w-4" />
-                    </Button>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Theme Toggle */}
-              <div className="relative">
+            </nav>
+          </div>
+          <div className="flex flex-1 items-center justify-end space-x-4">
+            <nav className="flex items-center space-x-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="h-9 w-9"
+              >
+                {theme === 'dark' ? (
+                  <Sun className="h-4 w-4" />
+                ) : (
+                  <Moon className="h-4 w-4" />
+                )}
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9"
+                onClick={toggleSearch}
+                ref={searchButtonRef}
+              >
+                <Search className="h-4 w-4" />
+                <span className="sr-only">Search</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 md:hidden"
+                onClick={toggleMobileMenu}
+                ref={menuButtonRef}
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-4 w-4" />
+                ) : (
+                  <Menu className="h-4 w-4" />
+                )}
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </nav>
+          </div>
+        </div>
+      </header>
+      
+      {/* Progress Bar */}
+      {isScrolled && (
+        <div 
+          className="fixed top-0 left-0 right-0 z-50" 
+          role="progressbar" 
+          aria-valuenow={Math.round(scrollProgress)} 
+          aria-valuemin={0} 
+          aria-valuemax={100}
+          aria-label="Page scroll progress"
+        >
+          <Progress value={scrollProgress} className="h-1" />
+        </div>
+      )}
+      
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            ref={mobileMenuRef}
+            className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+          >
+            <div className="fixed inset-x-0 top-0 z-50 min-h-screen w-full border-r bg-background px-6 pb-32 shadow-lg">
+              <div className="flex h-16 items-center justify-between">
+                <Link href="/" className="flex items-center">
+                  <BrandmarkLogo />
+                  <span className="ml-2 font-bold">PeoChain</span>
+                </Link>
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => {
-                    const currentTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark'
-                    document.documentElement.classList.toggle('dark')
-                    localStorage.setItem('peochain-ui-theme', currentTheme)
-                  }}
-                  className="h-9 w-9 text-foreground hover:text-sage"
-                  aria-label="Toggle theme"
+                  className="h-9 w-9"
+                  onClick={toggleMobileMenu}
                 >
-                  <motion.div
-                    initial={false}
-                    animate={{ rotate: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="relative">
-                      <div className="h-4 w-4 transition-all dark:opacity-0 dark:rotate-90">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <circle cx="12" cy="12" r="5"/>
-                          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-                        </svg>
-                      </div>
-                      <div className="absolute inset-0 h-4 w-4 transition-all opacity-0 rotate-90 dark:opacity-100 dark:rotate-0">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                        </svg>
-                      </div>
-                    </div>
-                  </motion.div>
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Close menu</span>
                 </Button>
               </div>
-
-              {/* Launch App Button */}
-              <Button 
-                onClick={() => window.location.href = '/validator-bonds'}
-                className="bg-sage hover:bg-medium-forest text-white font-raleway font-medium h-9"
-              >
-                Validator Bonds
-              </Button>
+              <nav className="mt-8 grid gap-6">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    className="flex items-center gap-2 text-lg font-medium hover:text-primary"
+                    onClick={() => navigateToPage(item.href)}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
             </div>
-
-            {/* Mobile Menu Button */}
-            <div className="flex lg:hidden items-center">
-              <Button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9 text-foreground hover:text-sage"
-                aria-label="Toggle mobile menu"
-                aria-expanded={isMobileMenuOpen}
-              >
-                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {/* Search Overlay */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+          >
+            <div className="container flex h-full items-center justify-center">
+              <div className="w-full max-w-lg">
+                <form onSubmit={handleSearchSubmit} className="relative">
+                  <Input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Search..."
+                    className="h-12 pr-12"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                  />
+                  <Button
+                    type="submit"
+                    size="icon"
+                    className="absolute right-0 top-0 h-12 w-12"
+                  >
+                    <ArrowRight className="h-4 w-4" />
+                    <span className="sr-only">Search</span>
+                  </Button>
+                </form>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-4 top-4 h-9 w-9"
+                  onClick={() => setIsSearchOpen(false)}
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Close search</span>
+                </Button>
+              </div>
             </div>
-          </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+          role="progressbar" 
+          aria-valuenow={Math.round(scrollProgress)} 
+          aria-valuemin={0} 
+          aria-valuemax={100}
+          aria-label="Page scroll progress"
+        >
+          <Progress value={scrollProgress} className="h-1" />
+        </div>
+      )}
+      
+      <header className="fixed top-0 left-0 right-0 z-40 transition-all duration-300">
+        <nav 
+          className={cn(
+            'flex items-center justify-between px-4 py-3 transition-all duration-300',
+            isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
+          )}
+          aria-label="Main navigation"
+        >
+          <div className="flex items-center space-x-2">
+            <Link 
+              href="/" 
+              className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md p-1 -ml-1"
+              aria-label="Go to homepage"
+              aria-current={window.location.pathname === '/' ? 'page' : undefined}
+              onClick={navigateToHome}
+              onKeyDown={(e) => handleKeyDown(e, navigateToHome)}
+              href={item.href}
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                window.location.pathname.startsWith(item.href)
+                  ? 'text-foreground bg-primary/10'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+              }`}
+              aria-current={window.location.pathname.startsWith(item.href) ? 'page' : undefined}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="ml-2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            onClick={() => window.open('/app', '_blank')}
+          >
+            Launch App
+            <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+          </Button>
         </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden bg-background/95 dark:bg-background/95 backdrop-blur-md border-t border-sage/20"
-              role="menu"
-            >
-              <div className="px-4 py-4 space-y-2">
-                {/* Mobile Search */}
-                <form onSubmit={handleSearchSubmit} className="mb-4">
-                  <div className="relative">
-                    <Input
-                      type="text"
+        {/* Mobile menu and search buttons */}
+        <div className="flex md:hidden items-center space-x-1">
+          <button
+            ref={searchButtonRef}
+            type="button"
+            onClick={toggleSearch}
+            className="p-2 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+            aria-label="Search"
+            aria-expanded={isSearchOpen}
+            aria-controls="search-dialog"
+          >
+            <Search className="h-5 w-5" aria-hidden="true" />
+          </button>
+          <button
+            ref={menuButtonRef}
+            type="button"
+            onClick={toggleMobileMenu}
+            className="p-2 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background lg:hidden"
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
+            aria-haspopup="true"
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-5 w-5" aria-hidden="true" />
+            ) : (
+              <Menu className="h-5 w-5" aria-hidden="true" />
+            )}
+          </button>
+        </div>
+      </nav>
                       placeholder="Search sections..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
