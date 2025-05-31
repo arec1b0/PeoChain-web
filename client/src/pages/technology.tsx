@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import Navigation from '@/components/navigation';
+import TechStackSection from '@/components/tech-stack-section';
+import TechnologySection from '@/components/technology-section';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Workflow, ShieldCheck, Zap, Network } from 'lucide-react';
@@ -25,17 +27,17 @@ export default function Technology() {
   }
 
   return (
-    <div className="min-h-screen bg-mint">
+    <div className="min-h-screen">
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+      <section className="pt-24 pb-8 px-4 sm:px-6 lg:px-8 bg-mint">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-8"
           >
             <h1 className="text-5xl md:text-6xl font-raleway font-bold text-forest mb-6">
               Technology Stack
@@ -44,9 +46,17 @@ export default function Technology() {
               Discover the innovative technologies powering PeoChain's revolutionary blockchain platform
             </p>
           </motion.div>
+        </div>
+      </section>
 
-          {/* Consensus Section */}
-          {technologyData?.consensus && (
+      {/* Advanced Technology Stack Section */}
+      <TechStackSection />
+      
+      {/* Revolutionary Technology Section */}
+      <TechnologySection />
+    </div>
+  );
+}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
