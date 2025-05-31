@@ -1,15 +1,15 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { 
-  Network, 
-  Shield, 
-  Key, 
+  Workflow, 
+  ShieldCheck, 
+  KeyRound, 
   AlertTriangle, 
   ChevronDown, 
   ChevronUp,
-  Cpu,
-  Database,
-  Layers,
+  Brain,
+  HardDrive,
+  Layers3,
   Lock
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -24,7 +24,7 @@ export default function TechStackSection() {
   const techComponents = [
     {
       id: 'subnet',
-      icon: Network,
+      icon: Workflow,
       title: 'Subnet Validator Network',
       subtitle: 'Distributed Architecture',
       description: 'Hierarchical validator network with specialized subnets for optimal performance and security',
@@ -47,7 +47,7 @@ export default function TechStackSection() {
     },
     {
       id: 'zkproofs',
-      icon: Shield,
+      icon: ShieldCheck,
       title: 'Zero-Knowledge Proofs',
       subtitle: 'Privacy & Verification',
       description: 'Advanced ZK-STARK implementation for transaction privacy and computational integrity',
@@ -70,7 +70,7 @@ export default function TechStackSection() {
     },
     {
       id: 'threshold',
-      icon: Key,
+      icon: KeyRound,
       title: 'Threshold Signature Scheme',
       subtitle: 'Distributed Security',
       description: 'Multi-party signature system enabling secure operations without single points of failure',
@@ -408,9 +408,9 @@ export default function TechStackSection() {
           transition={{ duration: 0.8, delay: 1.0 }}
         >
           {[
-            { icon: Cpu, label: 'High Performance Computing', color: 'text-sage' },
-            { icon: Database, label: 'Distributed Storage', color: 'text-medium-forest' },
-            { icon: Layers, label: 'Modular Architecture', color: 'text-dark-sage' },
+            { icon: Brain, label: 'High Performance Computing', color: 'text-sage' },
+            { icon: HardDrive, label: 'Distributed Storage', color: 'text-medium-forest' },
+            { icon: Layers3, label: 'Modular Architecture', color: 'text-dark-sage' },
             { icon: Lock, label: 'Cryptographic Security', color: 'text-forest' }
           ].map((tech, index) => (
             <motion.div
