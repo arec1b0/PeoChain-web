@@ -99,6 +99,11 @@ export default function Navigation() {
     setIsMobileMenuOpen(false);
   };
 
+  const navigateToHome = () => {
+    window.location.href = '/';
+    setIsMobileMenuOpen(false);
+  };
+
   const handleKeyDown = (event: React.KeyboardEvent, action: () => void) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
@@ -151,8 +156,8 @@ export default function Navigation() {
             <motion.button
               className="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-sage rounded-lg p-1"
               whileHover={{ scale: 1.05 }}
-              onClick={scrollToTop}
-              onKeyDown={(e) => handleKeyDown(e, scrollToTop)}
+              onClick={navigateToHome}
+              onKeyDown={(e) => handleKeyDown(e, navigateToHome)}
               aria-label="PeoChain homepage"
             >
               <div className="w-8 h-8 gradient-sage-forest rounded-lg flex items-center justify-center">
