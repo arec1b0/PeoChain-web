@@ -3,7 +3,6 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ErrorBoundaryEnhanced, DefaultErrorFallback } from "@/components/ui/error-boundary-enhanced";
 import { FloatingLoader } from "@/components/ui/loading-states";
 import Home from "@/pages/home";
@@ -35,20 +34,12 @@ function App() {
         console.error('Application error:', error, errorInfo);
       }}
     >
-      <ThemeProvider
-        defaultTheme="system"
-        enableSystem
-        storageKey="peochain-theme"
-        attribute="class"
-        enableColorScheme
-      >
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <Toaster />
-            <AppRouter />
-          </TooltipProvider>
-        </QueryClientProvider>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <AppRouter />
+        </TooltipProvider>
+      </QueryClientProvider>
     </ErrorBoundaryEnhanced>
   );
 }

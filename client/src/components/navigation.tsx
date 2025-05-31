@@ -14,7 +14,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import { ThemeToggle } from '@/components/ui/theme-toggle';
 import brandmarkLogo from '@assets/brandmark-design.png';
 
 import brandmark_design from "@assets/brandmark-design.png";
@@ -127,7 +126,7 @@ export default function Navigation() {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`fixed top-1 w-full z-40 nav-bg-transition ${
+        className={`fixed top-1 w-full z-40 transition-all duration-300 ${
           isScrolled 
             ? 'bg-background/95 backdrop-blur-md shadow-lg' 
             : 'bg-background/90 backdrop-blur-md'
@@ -230,9 +229,6 @@ export default function Navigation() {
                   )}
                 </AnimatePresence>
               </div>
-
-              {/* Theme Toggle */}
-              <ThemeToggle variant="dropdown" size="md" />
 
               {/* Launch App Button */}
               <Button 
