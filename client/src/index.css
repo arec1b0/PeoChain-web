@@ -62,25 +62,32 @@
 }
 
 .dark {
-  --background: 142 23% 4%;
-  --foreground: 0 0% 98%;
-  --muted: 142 10% 15%;
-  --muted-foreground: 142 10% 65%;
-  --popover: 142 23% 4%;
-  --popover-foreground: 0 0% 98%;
-  --card: 142 23% 4%;
-  --card-foreground: 0 0% 98%;
-  --border: 142 10% 15%;
-  --input: 142 10% 15%;
-  --primary: 142 25% 51%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 142 10% 15%;
-  --secondary-foreground: 0 0% 98%;
-  --accent: 142 20% 45%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 63% 31%;
-  --destructive-foreground: 0 0% 98%;
-  --ring: 142 10% 84%;
+  --background: 142 23% 4%; /* Very dark green background */
+  --foreground: 0 0% 98%; /* Almost white text */
+  --muted: 142 10% 8%; /* Slightly lighter than background */
+  --muted-foreground: 0 0% 65%; /* Light gray for muted text */
+  --popover: 142 15% 6%; /* Dark popover background */
+  --popover-foreground: 0 0% 95%; /* Light popover text */
+  --card: 142 15% 6%; /* Dark card background */
+  --card-foreground: 0 0% 95%; /* Light card text */
+  --border: 142 10% 18%; /* Visible border in dark mode */
+  --input: 142 10% 12%; /* Dark input background */
+  --primary: 142 35% 65%; /* Brighter sage for dark mode */
+  --primary-foreground: 142 23% 4%; /* Dark text on bright sage */
+  --secondary: 142 10% 12%; /* Dark secondary background */
+  --secondary-foreground: 0 0% 90%; /* Light secondary text */
+  --accent: 142 30% 60%; /* Brighter accent for visibility */
+  --accent-foreground: 142 23% 4%; /* Dark text on bright accent */
+  --destructive: 0 70% 60%; /* Brighter red for visibility */
+  --destructive-foreground: 0 0% 98%; /* White text on red */
+  --ring: 142 35% 65%; /* Bright ring color for focus */
+  
+  /* Dark mode brand colors - brighter versions */
+  --mint: 142 30% 85%; /* Brighter mint for dark mode */
+  --forest: 0 0% 85%; /* Light text color */
+  --sage: 142 35% 65%; /* Brighter sage */
+  --medium-forest: 142 30% 55%; /* Brighter medium forest */
+  --dark-sage: 142 25% 45%; /* Lighter dark sage */
 }
 
 @layer base {

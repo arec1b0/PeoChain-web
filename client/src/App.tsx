@@ -16,12 +16,9 @@ import { useReducedMotion } from "@/hooks/use-accessibility";
 import { useAnimationStore } from "@/store";
 
 function AppRouter() {
-  const reducedMotion = useReducedMotion()
-  const { setReducedMotion } = useAnimationStore()
-
-  useEffect(() => {
-    setReducedMotion(reducedMotion)
-  }, [reducedMotion, setReducedMotion])
+  // Remove the problematic animation store integration for now
+  // const reducedMotion = useReducedMotion()
+  // Focus on core functionality first
 
   return (
     <Suspense fallback={<FloatingLoader />}>
