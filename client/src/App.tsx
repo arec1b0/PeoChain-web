@@ -16,6 +16,13 @@ import { useReducedMotion } from "@/hooks/use-accessibility";
 import { useAnimationStore } from "@/store";
 
 function AppRouter() {
+  const reducedMotion = useReducedMotion()
+  const { setReducedMotion } = useAnimationStore()
+
+  useEffect(() => {
+    setReducedMotion(reducedMotion)
+  }, [reducedMotion, setReducedMotion])
+
   return (
     <Suspense fallback={<FloatingLoader />}>
       <Switch>
@@ -37,12 +44,14 @@ function App() {
         console.error('Application error:', error, errorInfo);
       }}
     >
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <AppRouter />
-        </TooltipProvider>
-      </QueryClientProvider>
+      <ThemeProvider defaultTheme="system" storageKey="peochain-ui-theme">
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <Toaster />
+            <AppRouter />
+          </TooltipProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </ErrorBoundaryEnhanced>
   );
 }
