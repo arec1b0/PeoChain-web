@@ -145,7 +145,6 @@ export default function ValidatorBonds() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-mint to-white dark:from-gray-900 dark:to-gray-800">
       <Navigation />
-      
       <div className="pt-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           {/* Header Section */}
@@ -447,7 +446,7 @@ export default function ValidatorBonds() {
           >
             <Card className="bg-gradient-to-br from-sage to-medium-forest shadow-lg">
               <CardContent className="p-12">
-                <h2 className="text-3xl font-raleway font-medium mb-4 text-white">
+                <h2 className="text-3xl font-raleway font-medium mb-4 text-[#33523e]">
                   Ready to Become a Validator?
                 </h2>
                 <p className="text-lg font-hammersmith mb-8 max-w-2xl mx-auto text-white/90">
