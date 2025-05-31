@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Network, FlaskRound, FileText } from 'lucide-react';
+import { Workflow, TestTube, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import AnimatedCounter from './animated-counter';
@@ -118,7 +118,7 @@ export default function HeroSection() {
             onClick={() => window.location.href = '/validator-bonds'}
             className="bg-sage hover:bg-medium-forest text-white font-raleway font-medium text-lg px-8 py-4 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
           >
-            <Network className="mr-2 h-5 w-5" />
+            <Workflow className="mr-2 h-5 w-5" />
             Join Validator Network
           </Button>
           <Button 
@@ -126,7 +126,7 @@ export default function HeroSection() {
             size="lg"
             className="border-2 border-sage text-forest hover:bg-sage hover:text-white font-raleway font-medium text-lg px-8 py-4 rounded-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
           >
-            <FlaskRound className="mr-2 h-5 w-5" />
+            <TestTube className="mr-2 h-5 w-5" />
             Experience Testnet
           </Button>
           <Button 
@@ -134,7 +134,7 @@ export default function HeroSection() {
             size="lg"
             className="border-2 border-sage text-forest hover:bg-sage hover:text-white font-raleway font-medium text-lg px-8 py-4 rounded-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
           >
-            <FileText className="mr-2 h-5 w-5" />
+            <BookOpen className="mr-2 h-5 w-5" />
             Read Whitepaper
           </Button>
         </motion.div>

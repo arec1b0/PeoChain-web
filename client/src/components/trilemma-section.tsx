@@ -1,23 +1,23 @@
 import { motion } from 'framer-motion';
-import { Rocket, Shield, Globe } from 'lucide-react';
+import { Zap, ShieldCheck, Network } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default function TrilemmaSection() {
   const trilemmaPoints = [
     {
-      icon: Rocket,
+      icon: Zap,
       title: 'Scalability',
       description: '100,000+ TPS with sharding and parallel processing',
       gradient: 'gradient-sage-forest'
     },
     {
-      icon: Shield,
+      icon: ShieldCheck,
       title: 'Security',
       description: 'Cryptographic proofs with validator slashing',
       gradient: 'bg-medium-forest'
     },
     {
-      icon: Globe,
+      icon: Network,
       title: 'Decentralization',
       description: '10,000+ global validators with low barriers',
       gradient: 'bg-dark-sage'

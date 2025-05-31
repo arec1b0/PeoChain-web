@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Link2, 
+  Hexagon, 
   Menu, 
   X, 
   Sun, 
@@ -9,10 +9,10 @@ import {
   Search, 
   ChevronDown,
   Home,
-  Zap,
-  Settings,
-  Code,
-  Users
+  Sparkles,
+  Layers3,
+  Blocks,
+  MessageSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -70,10 +70,10 @@ export default function Navigation() {
   }, []);
 
   const navItems = [
-    { href: '#technology', label: 'Technology', icon: Zap, id: 'technology' },
-    { href: '#ecosystem', label: 'Ecosystem', icon: Settings, id: 'ecosystem' },
-    { href: '#features', label: 'Features', icon: Code, id: 'features' },
-    { href: '#community', label: 'Community', icon: Users, id: 'community' },
+    { href: '#technology', label: 'Technology', icon: Sparkles, id: 'technology' },
+    { href: '#ecosystem', label: 'Ecosystem', icon: Layers3, id: 'ecosystem' },
+    { href: '#features', label: 'Features', icon: Blocks, id: 'features' },
+    { href: '#community', label: 'Community', icon: MessageSquare, id: 'community' },
   ];
 
   const toggleTheme = () => {
@@ -153,7 +153,7 @@ export default function Navigation() {
               aria-label="PeoChain homepage"
             >
               <div className="w-8 h-8 gradient-sage-forest rounded-lg flex items-center justify-center">
-                <Link2 className="text-white h-4 w-4" />
+                <Hexagon className="text-white h-4 w-4" />
               </div>
               <span className="text-xl font-hammersmith font-medium text-foreground dark:text-foreground">
                 PeoChain
