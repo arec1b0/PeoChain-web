@@ -207,14 +207,14 @@ export const generateCSSVariables = () => {
       --color-info: ${designTokens.color.semantic.info};
       
       /* Spacing */
-      --space-xs: ${designTokens.spacing.xs};
-      --space-sm: ${designTokens.spacing.sm};
-      --space-md: ${designTokens.spacing.md};
-      --space-lg: ${designTokens.spacing.lg};
-      --space-xl: ${designTokens.spacing.xl};
-      --space-2xl: ${designTokens.spacing['2xl']};
-      --space-3xl: ${designTokens.spacing['3xl']};
-      --space-4xl: ${designTokens.spacing['4xl']};
+      --space-px: ${designTokens.spacing.px};
+      --space-1: ${designTokens.spacing[1]};
+      --space-2: ${designTokens.spacing[2]};
+      --space-4: ${designTokens.spacing[4]};
+      --space-8: ${designTokens.spacing[8]};
+      --space-16: ${designTokens.spacing[16]};
+      --space-24: ${designTokens.spacing[24]};
+      --space-32: ${designTokens.spacing[32]};
       
       /* Radius */
       --radius-sm: ${designTokens.radius.sm};

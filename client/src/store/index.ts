@@ -70,7 +70,19 @@ interface NetworkStats {
 }
 
 // UI Store - Local interface state
-export const useUIStore = create<UIState>()(
+interface UIStore extends UIState {
+  setTheme: (theme: 'light' | 'dark' | 'system') => void
+  toggleSidebar: () => void
+  pushModal: (modalId: string) => void
+  popModal: () => void
+  addNotification: (notification: Omit<Notification, 'id' | 'timestamp'>) => void
+  removeNotification: (id: string) => void
+  setLoading: (key: string, loading: boolean) => void
+  setError: (key: string, error: string | null) => void
+  clearErrors: () => void
+}
+
+export const useUIStore = create<UIStore>()(
   devtools(
     subscribeWithSelector(
       immer((set, get) => ({
