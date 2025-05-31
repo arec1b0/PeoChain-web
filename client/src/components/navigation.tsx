@@ -18,6 +18,8 @@ import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import brandmarkLogo from '@assets/brandmark-design.png';
 
+import brandmark_design from "@assets/brandmark-design.png";
+
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -139,7 +141,6 @@ export default function Navigation() {
           className="h-1 rounded-none bg-transparent"
         />
       </div>
-
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -162,7 +163,7 @@ export default function Navigation() {
               aria-label="PeoChain homepage"
             >
               <img 
-                src={brandmarkLogo} 
+                src={brandmark_design} 
                 alt="PeoChain Logo" 
                 className="w-8 h-8 object-contain"
               />
