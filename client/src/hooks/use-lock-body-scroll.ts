@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import React from 'react';
+const { useEffect } = React;
 
 export function useLockBodyScroll(locked: boolean) {
   useEffect(() => {

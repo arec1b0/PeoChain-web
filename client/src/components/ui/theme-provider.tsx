@@ -1,6 +1,7 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react"
+import React from "react"
+const { createContext, useContext, useEffect, useState, useCallback } = React
 
 type Theme = "dark" | "light" | "system"
 

@@ -1,5 +1,31 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import React from 'react';
+const { useRef, useState } = React;
+import { motion } from 'framer-motion';
+// Custom useInView hook for compatibility
+function useInView(ref: React.RefObject<any>, options: {once: boolean, margin: string}) {
+  const [isInView, setIsInView] = useState(false);
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+        if (entry.isIntersecting && options.once) {
+          observer.disconnect();
+        }
+      },
+      { rootMargin: options.margin }
+    );
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref, options.margin, options.once]);
+  return isInView;
+}
+
 import { 
   Workflow, 
   ShieldCheck, 
@@ -309,7 +335,7 @@ export default function TechStackSection() {
               <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg transform transition-all duration-300 hover:shadow-xl">
                 <Collapsible
                   open={expandedComponent === component.id}
-                  onOpenChange={(open) => setExpandedComponent(open ? component.id : null)}
+                  onOpenChange={(open: boolean) => setExpandedComponent(open ? component.id : null)}
                 >
                   <CollapsibleTrigger asChild>
                     <Button

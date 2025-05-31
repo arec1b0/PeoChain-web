@@ -1,4 +1,6 @@
-import { RefObject, useEffect } from 'react';
+import React from 'react';
+const { useEffect } = React;
+type RefObject<T> = React.RefObject<T>;
 
 export type ClickOutsideEvent = MouseEvent | TouchEvent;
 

@@ -1,23 +1,8 @@
-import { 
-  useState, 
-  useEffect, 
-  useRef, 
-  useCallback, 
-  forwardRef, 
-  type ReactNode,
-  type KeyboardEvent,
-  type MouseEvent,
-  type FormEvent,
-  type ChangeEvent,
-  type FC,
-  type ReactElement,
-  type SVGProps,
-  type ForwardedRef,
-  type ImgHTMLAttributes
-} from 'react';
+import React from 'react';
+const { useState, useEffect, useRef, useCallback } = React;
 import { Link, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Menu, X, Moon, Sun, ArrowRight, Zap, BookOpen, Home as HomeIcon } from 'lucide-react';
+import { Search, Menu, X, Moon, Sun, ArrowRight, Zap, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
@@ -25,79 +10,53 @@ import { useTheme } from '@/components/ui/theme-provider';
 import { cn } from '@/lib/utils';
 import { useOnClickOutside } from '@/hooks/use-click-outside';
 import { useLockBodyScroll } from '@/hooks/use-lock-body-scroll';
-import { useKeyPress, type KeyHandler } from '@/hooks/use-key-press';
+import { useKeyPress } from '@/hooks/use-key-press';
 
-type Theme = 'light' | 'dark' | 'system';
-type ClickHandler = (e: MouseEvent<HTMLElement>) => void;
-
-interface BrandmarkLogoProps extends ImgHTMLAttributes<HTMLImageElement> {
-  children?: ReactNode;
-}
-
-const BrandmarkLogo = forwardRef<HTMLImageElement, BrandmarkLogoProps>(
-  (props: BrandmarkLogoProps, ref: ForwardedRef<HTMLImageElement>) => {
-    const { children, ...rest } = props;
-    return (
-      <img
-        ref={ref}
-        className="h-8 w-auto"
-        src="/logo.png"
-        alt="PeoChain"
-        {...rest}
-      />
-    );
-  }
+// Using a placeholder for the logo - replace with your actual logo import
+const BrandmarkLogo = React.forwardRef<HTMLImageElement, React.ImgHTMLAttributes<HTMLImageElement>>(
+  (props: React.ImgHTMLAttributes<HTMLImageElement>, ref: React.Ref<HTMLImageElement>) => (
+    <img
+      ref={ref}
+      src="/logo.svg"
+      alt="PeoChain Logo"
+      width={32}
+      height={32}
+      loading="eager"
+      {...props}
+    />
+  )
 );
-
 BrandmarkLogo.displayName = 'BrandmarkLogo';
 
 interface NavItem {
-  label: string;
   href: string;
+  label: string;
+  icon?: React.ComponentType<{ className?: string }>;
   id: string;
-  icon: FC<SVGProps<SVGSVGElement>>;
 }
 
-const Navigation: FC = (): ReactElement => {
-  // Refs
+export const Navigation: React.FC = () => {
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const [activeSection, setActiveSection] = useState<string>('home');
+  
+  const { theme, setTheme } = useTheme();
+  const [location] = useLocation();
+  
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
   const lastFocusedElement = useRef<HTMLElement | null>(null);
-  
-  // State
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeSection, setActiveSection] = useState('home');
-  
-  // Hooks
-  const { theme, setTheme } = useTheme();
-  const [location] = useLocation();
-  
-  // Lock body scroll when menu or search is open
+
+  // Lock body scroll when mobile menu is open
   useLockBodyScroll(isMobileMenuOpen || isSearchOpen);
 
-  // Define handleKeyDown before it's used in useEffect
-  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLElement>, callback?: () => void): void => {
-    if (e.key === 'Escape') {
-      if (isSearchOpen) {
-        setIsSearchOpen(false);
-        searchButtonRef.current?.focus();
-      } else if (isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
-        menuButtonRef.current?.focus();
-      }
-    } else if ((e.key === 'Enter' || e.key === ' ') && callback) {
-      callback();
-    }
-  }, [isSearchOpen, isMobileMenuOpen]);
-
   // Close mobile menu when clicking outside
-  useOnClickOutside(mobileMenuRef, (): void => {
+  useOnClickOutside(mobileMenuRef, () => {
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
       menuButtonRef.current?.focus();
@@ -105,61 +64,62 @@ const Navigation: FC = (): ReactElement => {
   });
 
   // Close search when clicking outside
-  useOnClickOutside(
-    searchInputRef,
-    (): void => {
-      if (isSearchOpen) {
-        setIsSearchOpen(false);
-        searchButtonRef.current?.focus();
-      }
-    },
-    ['mousedown', 'touchstart']
-  );
-  
-  // Handle escape key
-  useEffect(() => {
-    const handleKeyPress = (e: globalThis.KeyboardEvent): void => {
-      if (e.key === 'Escape') {
-        handleKeyDown(e as unknown as KeyboardEvent<HTMLElement>);
-      }
-    };
-    
-    document.addEventListener('keydown', handleKeyPress);
-    return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [handleKeyDown]);
+  useOnClickOutside(searchInputRef, () => {
+    if (isSearchOpen) {
+      setIsSearchOpen(false);
+      searchButtonRef.current?.focus();
+    }
+  });
+
+  // Handle escape key to close modals
+  useKeyPress('Escape', () => {
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+      menuButtonRef.current?.focus();
+    } else if (isSearchOpen) {
+      setIsSearchOpen(false);
+      searchButtonRef.current?.focus();
+    }
+  });
 
   // Focus trap for mobile menu
   useEffect(() => {
-    if (isMobileMenuOpen || isSearchOpen) {
+    if (isMobileMenuOpen && mobileMenuRef.current) {
+      // Save the element that had focus before opening the menu
       lastFocusedElement.current = document.activeElement as HTMLElement;
-      const focusableElements = mobileMenuRef.current?.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      ) as NodeListOf<HTMLElement>;
       
-      if (focusableElements && focusableElements.length > 0) {
+      // Focus first focusable element in the menu
+      const focusableElements = mobileMenuRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      
+      if (focusableElements.length > 0) {
         focusableElements[0].focus();
       }
-      
+
       return () => {
+        // Restore focus to the element that had focus before opening the menu
         lastFocusedElement.current?.focus();
       };
     }
-    return undefined;
-  }, [isMobileMenuOpen, isSearchOpen]);
+  }, [isMobileMenuOpen]);
 
-  // Track scroll position for progress bar and header
+  // Focus search input when search is opened
   useEffect(() => {
-    const handleScroll = (): void => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = scrollTop > 10;
+    if (isSearchOpen && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [isSearchOpen]);
+
+  // Handle scroll events
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollY / windowHeight) * 100;
       
-      setIsScrolled(scrolled);
-      
-      if (windowHeight > 0) {
-        const progress = (scrollTop / windowHeight) * 100;
-        setScrollProgress(Math.min(progress, 100));
-      }
+      setScrollProgress(progress);
+      setIsScrolled(scrollY > 10);
       
       // Update active section based on scroll position
       const sections = document.querySelectorAll('section[id]');
@@ -170,128 +130,56 @@ const Navigation: FC = (): ReactElement => {
         }
       });
     };
-    
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  }, [theme, setTheme]);
+
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen((prev: boolean) => {
+      if (!prev) {
+        lastFocusedElement.current = document.activeElement as HTMLElement;
+      }
+      return !prev;
+    });
+  }, []);
+
+  const toggleSearch = useCallback(() => {
+    setIsSearchOpen((prev: boolean) => !prev);
+  }, []);
+
   const navItems: NavItem[] = [
-    { href: '/', label: 'Home', icon: HomeIcon, id: 'home' },
     { href: '/technology', label: 'Technology', icon: Zap, id: 'technology' },
     { href: '/whitepaper', label: 'Whitepaper', icon: BookOpen, id: 'whitepaper' },
   ];
 
-  const toggleMobileMenu = useCallback((): void => {
-    setIsMobileMenuOpen((prev: boolean) => !prev);
-  }, []);
-
-  const toggleSearch = useCallback((): void => {
-    setIsSearchOpen((prev: boolean) => !prev);
-    setTimeout(() => searchInputRef.current?.focus(), 0);
-  }, []);
-
-  const scrollToTop = useCallback((): void => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
-
-  const navigateToPage = useCallback((path: string): void => {
-    window.location.href = path;
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle search submission
     setIsMobileMenuOpen(false);
-  }, []);
+  };
 
-  const navigateToHome = useCallback((e?: KeyboardEvent<HTMLElement> | MouseEvent<HTMLElement>): void => {
+  const navigateToHome = useCallback((e?: React.KeyboardEvent | React.MouseEvent) => {
     if (e && 'key' in e && e.key !== 'Enter' && e.key !== ' ') {
       return;
     }
-    navigateToPage('/');
-  }, [navigateToPage]);
-
-  const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
-    setSearchQuery(e.target.value);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  const handleSearchSubmit = useCallback((e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      const matchingItem = navItems.find((item: NavItem) =>
-        item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.id.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      if (matchingItem) {
-        navigateToPage(matchingItem.href);
-      }
+  const handleKeyDown = (event: React.KeyboardEvent, action: () => void) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      action();
     }
-    setIsMobileMenuOpen(false);
-    setIsSearchOpen(false);
-  }, [searchQuery, navigateToPage, navItems]);
+  };
 
   return (
-    <div className="relative">
-      {/* Main Header */}
-      <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
-          <div className="flex gap-6 md:gap-10">
-            <Link href="/" className="flex items-center space-x-2">
-              <BrandmarkLogo />
-              <span className="inline-block font-bold">PeoChain</span>
-            </Link>
-            <nav className="hidden gap-6 md:flex">
-              {navItems.map((item) => (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  className="flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-          <div className="flex flex-1 items-center justify-end space-x-4">
-            <nav className="flex items-center space-x-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="h-9 w-9"
-              >
-                {theme === 'dark' ? (
-                  <Sun className="h-4 w-4" />
-                ) : (
-                  <Moon className="h-4 w-4" />
-                )}
-                <span className="sr-only">Toggle theme</span>
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9"
-                onClick={toggleSearch}
-                ref={searchButtonRef}
-              >
-                <Search className="h-4 w-4" />
-                <span className="sr-only">Search</span>
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9 md:hidden"
-                onClick={toggleMobileMenu}
-                ref={menuButtonRef}
-              >
-                {isMobileMenuOpen ? (
-                  <X className="h-4 w-4" />
-                ) : (
-                  <Menu className="h-4 w-4" />
-                )}
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </nav>
-          </div>
-        </div>
-      </header>
-      
-      {/* Progress Bar */}
+    <>
+      {/* Progress Bar - Accessible only when scrolled */}
       {isScrolled && (
         <div 
           className="fixed top-0 left-0 right-0 z-50" 
@@ -301,107 +189,11 @@ const Navigation: FC = (): ReactElement => {
           aria-valuemax={100}
           aria-label="Page scroll progress"
         >
-          <Progress value={scrollProgress} className="h-1" />
-        </div>
-      )}
-      
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            ref={mobileMenuRef}
-            className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm md:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-          >
-            <div className="fixed inset-x-0 top-0 z-50 min-h-screen w-full border-r bg-background px-6 pb-32 shadow-lg">
-              <div className="flex h-16 items-center justify-between">
-                <Link href="/" className="flex items-center">
-                  <BrandmarkLogo />
-                  <span className="ml-2 font-bold">PeoChain</span>
-                </Link>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9"
-                  onClick={toggleMobileMenu}
-                >
-                  <X className="h-4 w-4" />
-                  <span className="sr-only">Close menu</span>
-                </Button>
-              </div>
-              <nav className="mt-8 grid gap-6">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    className="flex items-center gap-2 text-lg font-medium hover:text-primary"
-                    onClick={() => navigateToPage(item.href)}
-                  >
-                    <item.icon className="h-5 w-5" />
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      
-      {/* Search Overlay */}
-      <AnimatePresence>
-        {isSearchOpen && (
-          <motion.div
-            className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-          >
-            <div className="container flex h-full items-center justify-center">
-              <div className="w-full max-w-lg">
-                <form onSubmit={handleSearchSubmit} className="relative">
-                  <Input
-                    ref={searchInputRef}
-                    type="text"
-                    placeholder="Search..."
-                    className="h-12 pr-12"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                  />
-                  <Button
-                    type="submit"
-                    size="icon"
-                    className="absolute right-0 top-0 h-12 w-12"
-                  >
-                    <ArrowRight className="h-4 w-4" />
-                    <span className="sr-only">Search</span>
-                  </Button>
-                </form>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-4 top-4 h-9 w-9"
-                  onClick={() => setIsSearchOpen(false)}
-                >
-                  <X className="h-4 w-4" />
-                  <span className="sr-only">Close search</span>
-                </Button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-          role="progressbar" 
-          aria-valuenow={Math.round(scrollProgress)} 
-          aria-valuemin={0} 
-          aria-valuemax={100}
-          aria-label="Page scroll progress"
-        >
-          <Progress value={scrollProgress} className="h-1" />
+          <Progress 
+            value={scrollProgress} 
+            className="h-1 rounded-none bg-transparent"
+            aria-hidden="true"
+          />
         </div>
       )}
       
@@ -418,115 +210,201 @@ const Navigation: FC = (): ReactElement => {
               href="/" 
               className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md p-1 -ml-1"
               aria-label="Go to homepage"
-              aria-current={window.location.pathname === '/' ? 'page' : undefined}
+              aria-current={location === '/' ? 'page' : undefined}
               onClick={navigateToHome}
-              onKeyDown={(e) => handleKeyDown(e, navigateToHome)}
-              href={item.href}
-              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                window.location.pathname.startsWith(item.href)
-                  ? 'text-foreground bg-primary/10'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
-              }`}
-              aria-current={window.location.pathname.startsWith(item.href) ? 'page' : undefined}
-              onKeyDown={(e) => handleKeyDown(e, index)}
+              onKeyDown={(e: React.KeyboardEvent) => handleKeyDown(e, navigateToHome)}
             >
-              {item.label}
+              <BrandmarkLogo className="h-8 w-auto" />
+              <span className="ml-2 text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                PeoChain
+              </span>
             </Link>
-          ))}
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="ml-2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            onClick={() => window.open('/app', '_blank')}
-          >
-            Launch App
-            <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-          </Button>
-        </div>
+          </div>
 
-        {/* Mobile menu and search buttons */}
-        <div className="flex md:hidden items-center space-x-1">
-          <button
-            ref={searchButtonRef}
-            type="button"
-            onClick={toggleSearch}
-            className="p-2 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
-            aria-label="Search"
-            aria-expanded={isSearchOpen}
-            aria-controls="search-dialog"
-          >
-            <Search className="h-5 w-5" aria-hidden="true" />
-          </button>
-          <button
-            ref={menuButtonRef}
-            type="button"
-            onClick={toggleMobileMenu}
-            className="p-2 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background lg:hidden"
-            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={isMobileMenuOpen}
-            aria-controls="mobile-menu"
-            aria-haspopup="true"
-          >
-            {isMobileMenuOpen ? (
-              <X className="h-5 w-5" aria-hidden="true" />
-            ) : (
-              <Menu className="h-5 w-5" aria-hidden="true" />
-            )}
-          </button>
-        </div>
-      </nav>
-                      placeholder="Search sections..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="pl-10 bg-background/50 border-sage/30 focus:border-sage"
-                      aria-label="Search website sections"
-                    />
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  </div>
-                </form>
-
-                {/* Home */}
-                <button
-                  onClick={scrollToTop}
-                  onKeyDown={(e) => handleKeyDown(e, scrollToTop)}
-                  className={`flex items-center space-x-3 w-full text-left py-3 px-3 rounded-lg font-raleway font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-sage ${
-                    activeSection === 'home' 
-                      ? 'text-sage bg-sage/10' 
-                      : 'text-foreground hover:text-sage hover:bg-sage/5'
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-1">
+            {navItems.map((item, index) => {
+              const Icon = item.icon || 'div';
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                    location.startsWith(item.href)
+                      ? 'text-foreground bg-primary/10'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
                   }`}
-                  role="menuitem"
+                  aria-current={location.startsWith(item.href) ? 'page' : undefined}
+                  onKeyDown={(e: React.KeyboardEvent) => handleKeyDown(e, () => window.location.href = item.href)}
                 >
-                  <Home className="h-5 w-5" />
-                  <span>Home</span>
-                </button>
+                  <div className="flex items-center">
+                    {item.icon && <Icon className="mr-2 h-4 w-4" />}
+                    {item.label}
+                  </div>
+                </Link>
+              );
+            })}
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="ml-2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              onClick={() => window.open('/app', '_blank')}
+            >
+              Launch App
+              <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+            </Button>
+          </div>
 
-                {/* Navigation Items */}
-                {navItems.map((item) => (
-                  <button
-                    key={item.href}
-                    onClick={() => navigateToPage(item.href)}
-                    onKeyDown={(e) => handleKeyDown(e, () => navigateToPage(item.href))}
-                    className={`flex items-center space-x-3 w-full text-left py-3 px-3 rounded-lg font-raleway font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-sage text-foreground hover:text-sage hover:bg-sage/5`}
-                    role="menuitem"
-                  >
-                    <item.icon className="h-5 w-5" />
-                    <span>{item.label}</span>
-                  </button>
-                ))}
+          {/* Mobile menu and search buttons */}
+          <div className="flex md:hidden items-center space-x-1">
+            <button
+              ref={searchButtonRef}
+              type="button"
+              onClick={toggleSearch}
+              className="p-2 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+              aria-label="Search"
+              aria-expanded={isSearchOpen}
+              aria-controls="search-dialog"
+            >
+              <Search className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <button
+              ref={menuButtonRef}
+              type="button"
+              onClick={toggleMobileMenu}
+              className="p-2 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+              aria-haspopup="true"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" aria-hidden="true" />
+              ) : (
+                <Menu className="h-5 w-5" aria-hidden="true" />
+              )}
+            </button>
+          </div>
+        </nav>
 
-                <div className="pt-4 border-t border-sage/20">
-                  <Button 
-                    onClick={() => window.location.href = '/validator-bonds'}
-                    className="w-full bg-sage hover:bg-medium-forest text-white font-raleway font-medium"
-                  >
-                    Validator Bonds
-                  </Button>
-                </div>
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              ref={mobileMenuRef}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2, ease: 'easeInOut' }}
+              className="fixed inset-x-0 top-16 bg-background shadow-lg md:hidden z-40 border-t border-border"
+              id="mobile-menu"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="mobile-menu-title"
+            >
+              <h2 id="mobile-menu-title" className="sr-only">Mobile Menu</h2>
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                {navItems.map((item) => {
+                  const Icon = item.icon || 'div';
+                  return (
+                    <Link
+                      key={item.id}
+                      href={item.href}
+                      className={cn(
+                        'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+                        location.startsWith(item.href)
+                          ? 'text-primary bg-accent font-semibold'
+                          : 'text-foreground hover:bg-accent hover:bg-opacity-50'
+                      )}
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        menuButtonRef.current?.focus();
+                      }}
+                      aria-current={location.startsWith(item.href) ? 'page' : undefined}
+                    >
+                      <div className="flex items-center">
+                        {item.icon && <Icon className="mr-2 h-4 w-4" />}
+                        {item.label}
+                        {location.startsWith(item.href) && (
+                          <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                        )}
+                      </div>
+                    </Link>
+                  );
+                })}
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full mt-2 justify-center"
+                  onClick={() => {
+                    window.open('/app', '_blank');
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  Launch App
+                  <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                </Button>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.nav>
+
+        {/* Search Overlay */}
+        <AnimatePresence>
+          {isSearchOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15, ease: 'easeInOut' }}
+              className="fixed inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Search dialog"
+            >
+              <div className="w-full max-w-2xl">
+                <form onSubmit={handleSearchSubmit} className="relative">
+                  <Search 
+                    className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground pointer-events-none" 
+                    aria-hidden="true"
+                  />
+                  <Input
+                    ref={searchInputRef}
+                    type="search"
+                    placeholder="Search..."
+                    className="w-full pl-10 pr-12 py-6 text-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    value={searchQuery}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                    autoFocus
+                    aria-label="Search"
+                    aria-describedby="search-instructions"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsSearchOpen(false);
+                      searchButtonRef.current?.focus();
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+                    aria-label="Close search"
+                  >
+                    <X className="h-5 w-5" aria-hidden="true" />
+                  </button>
+                </form>
+                <p 
+                  id="search-instructions" 
+                  className="mt-4 text-center text-sm text-muted-foreground"
+                >
+                  {searchQuery ? 'No results found' : 'Type to search'}
+                  <span className="block mt-1 text-xs opacity-70">Press Esc to close</span>
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
     </>
   );
-}
+};
+
+export default Navigation;
