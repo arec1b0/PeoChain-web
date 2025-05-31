@@ -100,6 +100,51 @@
     font-family: 'Raleway', sans-serif;
   }
 
+  /* Ensure all text elements inherit proper colors */
+  h1, h2, h3, h4, h5, h6, p, span, div, a, button {
+    color: hsl(var(--foreground));
+  }
+
+  /* Override any conflicting text colors */
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+  .dark p, .dark span, .dark div, .dark a, .dark button {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  /* Specific overrides for common text classes */
+  .dark .text-gray-600 {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+
+  .dark .text-gray-800 {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  .dark .text-black {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  /* Override Tailwind text color classes in dark mode */
+  .dark .text-foreground {
+    color: hsl(0 0% 98%) !important;
+  }
+
+  .dark .text-muted-foreground {
+    color: hsl(0 0% 65%) !important;
+  }
+
+  /* Ensure navigation text is visible */
+  .dark nav,
+  .dark nav * {
+    color: hsl(0 0% 98%) !important;
+  }
+
+  /* Override any inline styles or component-specific colors */
+  .dark [class*="text-"],
+  .dark [style*="color"] {
+    color: hsl(0 0% 98%) !important;
+  }
+
   .font-raleway {
     font-family: 'Raleway', sans-serif;
   }
