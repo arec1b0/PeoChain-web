@@ -59,7 +59,7 @@ export default function HeroSection() {
           <p className="text-lg sm:text-xl lg:text-2xl font-hammersmith text-forest/80 max-w-4xl mx-auto mb-12 leading-relaxed">
             PeoChain achieves unprecedented <strong className="text-sage">100,000 TPS</strong> with{' '}
             <strong className="text-medium-forest">1-second finality</strong> and true decentralization,{' '}
-            bringing DeFi to underbanked populations worldwide with ultra-low fees.
+            bringing DeFi to underbanked populations worldwide with <strong className="text-dark-sage">USD 0.04 fees</strong>.
           </p>
         </motion.div>
         
@@ -90,7 +90,7 @@ export default function HeroSection() {
           </Card>
           <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg">
             <CardContent className="p-4 lg:p-6 text-center">
-              <div className="text-2xl lg:text-3xl font-raleway font-semibold text-dark-sage mb-2">CHF 0.40</div>
+              <div className="text-2xl lg:text-3xl font-raleway font-semibold text-dark-sage mb-2">USD 0.04</div>
               <div className="text-sm lg:text-base font-hammersmith text-forest/70">Avg. Fees</div>
             </CardContent>
           </Card>

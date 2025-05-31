@@ -81,7 +81,7 @@ export default function FooterSection() {
           transition={{ duration: 0.8, delay: 0.6 }}
           viewport={{ once: true }}
         >
-          <p>&copy; 2024 PeoChain. Making DeFi accessible to all.</p>
+          <p>&copy; 2025 PeoChain. Making DeFi accessible to all.</p>
         </motion.div>
       </div>
     </section>
