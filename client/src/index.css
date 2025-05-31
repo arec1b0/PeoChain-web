@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Hammersmith+One&display=swap');
+
+:root {
+  --background: 142 23% 89%; /* #e1eae3 */
+  --foreground: 142 23% 26%; /* #38503f */
+  --muted: 142 10% 90%;
+  --muted-foreground: 142 10% 45%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 142 23% 26%;
+  --card: 0 0% 100%;
+  --card-foreground: 142 23% 26%;
+  --border: 142 15% 85%;
+  --input: 142 15% 85%;
+  --primary: 142 25% 51%; /* #6d9e79 sage */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 142 23% 89%;
+  --secondary-foreground: 142 23% 26%;
+  --accent: 142 20% 45%; /* #5b8466 medium-forest */
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 142 23% 26%;
+  --radius: 0.75rem;
+  
+  /* Custom PeoChain colors */
+  --mint: 142 23% 89%; /* #e1eae3 */
+  --forest: 142 23% 26%; /* #38503f */
+  --sage: 142 25% 51%; /* #6d9e79 */
+  --medium-forest: 142 20% 45%; /* #5b8466 */
+  --dark-sage: 142 20% 35%; /* #4a6a52 */
+}
+
+.dark {
+  --background: 142 23% 4%;
+  --foreground: 0 0% 98%;
+  --muted: 142 10% 15%;
+  --muted-foreground: 142 10% 65%;
+  --popover: 142 23% 4%;
+  --popover-foreground: 0 0% 98%;
+  --card: 142 23% 4%;
+  --card-foreground: 0 0% 98%;
+  --border: 142 10% 15%;
+  --input: 142 10% 15%;
+  --primary: 142 25% 51%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 142 10% 15%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 142 20% 45%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 142 10% 84%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Raleway', sans-serif;
+  }
+
+  .font-raleway {
+    font-family: 'Raleway', sans-serif;
+  }
+
+  .font-hammersmith {
+    font-family: 'Hammersmith One', sans-serif;
+  }
+}
+
+@layer utilities {
+  .bg-mint {
+    background-color: hsl(var(--mint));
+  }
+  
+  .bg-forest {
+    background-color: hsl(var(--forest));
+  }
+  
+  .bg-sage {
+    background-color: hsl(var(--sage));
+  }
+  
+  .bg-medium-forest {
+    background-color: hsl(var(--medium-forest));
+  }
+  
+  .bg-dark-sage {
+    background-color: hsl(var(--dark-sage));
+  }
+  
+  .text-mint {
+    color: hsl(var(--mint));
+  }
+  
+  .text-forest {
+    color: hsl(var(--forest));
+  }
+  
+  .text-sage {
+    color: hsl(var(--sage));
+  }
+  
+  .text-medium-forest {
+    color: hsl(var(--medium-forest));
+  }
+  
+  .text-dark-sage {
+    color: hsl(var(--dark-sage));
+  }
+  
+  .border-sage {
+    border-color: hsl(var(--sage));
+  }
+  
+  .border-medium-forest {
+    border-color: hsl(var(--medium-forest));
+  }
+  
+  .gradient-mint-white {
+    background: linear-gradient(135deg, hsl(var(--mint)) 0%, white 50%, hsl(var(--mint)) 100%);
+  }
+  
+  .gradient-sage-forest {
+    background: linear-gradient(135deg, hsl(var(--sage)) 0%, hsl(var(--medium-forest)) 100%);
+  }
+  
+  .gradient-forest-dark {
+    background: linear-gradient(135deg, hsl(var(--forest)) 0%, hsl(var(--dark-sage)) 100%);
+  }
+}
