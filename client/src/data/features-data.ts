@@ -45,7 +45,7 @@ export interface PerformanceBenchmarksProps extends AccessibleComponent {
   readonly description: string;
 }
 
-export const coreFeatures: CoreFeature[] = [
+export const coreFeatures: readonly CoreFeature[] = [
   {
     icon: 'Network',
     title: 'Proof of Synergy (PoSyg)',
@@ -120,7 +120,7 @@ export const coreFeatures: CoreFeature[] = [
   }
 ];
 
-export const performanceMetrics: PerformanceMetric[] = [
+export const performanceMetrics: readonly PerformanceMetric[] = [
   {
     label: 'Transaction Speed',
     value: 100,
@@ -147,7 +147,7 @@ export const performanceMetrics: PerformanceMetric[] = [
   }
 ];
 
-export const technicalHighlights: TechnicalHighlight[] = [
+export const technicalHighlights: readonly TechnicalHighlight[] = [
   {
     icon: 'Clock',
     title: 'Real-Time Processing',

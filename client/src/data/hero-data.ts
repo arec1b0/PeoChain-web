@@ -48,29 +48,33 @@ export interface HeroAction {
   readonly ariaLabel?: string;
 }
 
-export const heroMetrics: HeroMetric[] = [
+export const heroMetrics: readonly HeroMetric[] = [
   {
     value: 100000,
     label: "TPS",
-    className: "text-sage"
+    className: "text-sage",
+    ariaLabel: "Performance metric: 100,000 transactions per second"
   },
   {
     value: 1,
     label: "Second Finality",
-    className: "text-medium-forest"
+    className: "text-medium-forest",
+    ariaLabel: "Performance metric: 1 second transaction finality"
   },
   {
     value: 0.04,
     label: "Avg. Fees",
-    className: "text-dark-sage"
+    className: "text-dark-sage",
+    ariaLabel: "Performance metric: Average fees of 4 cents USD"
   },
   {
     value: 100,
     label: "Decentralized",
     suffix: "%",
-    className: "text-sage"
+    className: "text-sage",
+    ariaLabel: "Performance metric: 100% decentralized network"
   }
-];
+] as const;
 
 export const floatingNodesConfig: FloatingNode[] = [
   {
@@ -119,19 +123,22 @@ export const heroContent = {
       type: "primary" as const,
       label: "Join Validator Network",
       icon: "Workflow",
-      href: "/validator-bonds"
+      href: "/validator-bonds",
+      ariaLabel: "Navigate to validator bonds page to join the network"
     },
     {
       type: "secondary" as const,
       label: "Experience Testnet",
       icon: "TestTube",
-      href: "#"
+      href: "#",
+      ariaLabel: "Try the PeoChain testnet environment"
     },
     {
       type: "secondary" as const,
       label: "Read Whitepaper",
       icon: "BookOpen",
-      href: "/whitepaper"
+      href: "/whitepaper",
+      ariaLabel: "Read the technical whitepaper documentation"
     }
   ]
-};
+} as const;
