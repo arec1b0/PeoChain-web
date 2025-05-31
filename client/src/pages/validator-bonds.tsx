@@ -449,7 +449,7 @@ export default function ValidatorBonds() {
                 <h2 className="text-3xl font-raleway font-medium mb-4 text-[#33523e]">
                   Ready to Become a Validator?
                 </h2>
-                <p className="text-lg font-hammersmith mb-8 max-w-2xl mx-auto text-white/90">
+                <p className="text-lg font-hammersmith mb-8 max-w-2xl mx-auto text-[#33523e]">
                   Join the decentralized network securing the future of finance. 
                   Start with testnet validation and prepare for mainnet launch.
                 </p>
