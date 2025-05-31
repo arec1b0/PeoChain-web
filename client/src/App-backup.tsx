@@ -18,25 +18,14 @@ function Router() {
 }
 
 function App() {
-  try {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </QueryClientProvider>
-    );
-  } catch (error) {
-    console.error('App rendering error:', error);
-    return (
-      <div style={{ padding: '20px', color: 'red', fontFamily: 'Arial' }}>
-        <h1>Error loading application</h1>
-        <p>Please check the console for details</p>
-        <pre>{error instanceof Error ? error.message : 'Unknown error'}</pre>
-      </div>
-    );
-  }
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Router />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
 }
 
 export default App;
