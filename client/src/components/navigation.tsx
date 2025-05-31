@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'wouter';
 import { 
   Hexagon, 
   Menu, 
@@ -10,9 +11,7 @@ import {
   ChevronDown,
   Home,
   Sparkles,
-  Layers3,
-  Blocks,
-  MessageSquare
+  BookOpen
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -79,10 +78,8 @@ export default function Navigation() {
   }, []);
 
   const navItems = [
-    { href: '#technology', label: 'Technology', icon: Sparkles, id: 'technology' },
-    { href: '#ecosystem', label: 'Ecosystem', icon: Layers3, id: 'ecosystem' },
-    { href: '#features', label: 'Features', icon: Blocks, id: 'features' },
-    { href: '#community', label: 'Community', icon: MessageSquare, id: 'community' },
+    { href: '/technology', label: 'Technology', icon: Sparkles, id: 'technology' },
+    { href: '/whitepaper', label: 'Whitepaper', icon: BookOpen, id: 'whitepaper' },
   ];
 
   const toggleTheme = () => {
@@ -92,11 +89,8 @@ export default function Navigation() {
     localStorage.setItem('theme', newMode ? 'dark' : 'light');
   };
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const navigateToPage = (href: string) => {
+    window.location.href = href;
     setIsMobileMenuOpen(false);
   };
 
@@ -123,7 +117,7 @@ export default function Navigation() {
       );
       
       if (matchingSection) {
-        scrollToSection(matchingSection.href);
+        navigateToPage(matchingSection.href);
       }
       setSearchQuery('');
       setIsSearchOpen(false);
@@ -188,14 +182,10 @@ export default function Navigation() {
               {navItems.map((item) => (
                 <button
                   key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  onKeyDown={(e) => handleKeyDown(e, () => scrollToSection(item.href))}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-raleway font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-sage ${
-                    activeSection === item.id 
-                      ? 'text-sage bg-sage/10' 
-                      : 'text-foreground hover:text-sage hover:bg-sage/5'
-                  }`}
-                  aria-label={`Go to ${item.label} section`}
+                  onClick={() => navigateToPage(item.href)}
+                  onKeyDown={(e) => handleKeyDown(e, () => navigateToPage(item.href))}
+                  className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-raleway font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-sage text-foreground hover:text-sage hover:bg-sage/5`}
+                  aria-label={`Go to ${item.label} page`}
                 >
                   <item.icon className="h-4 w-4" />
                   <span>{item.label}</span>
@@ -343,13 +333,9 @@ export default function Navigation() {
                 {navItems.map((item) => (
                   <button
                     key={item.href}
-                    onClick={() => scrollToSection(item.href)}
-                    onKeyDown={(e) => handleKeyDown(e, () => scrollToSection(item.href))}
-                    className={`flex items-center space-x-3 w-full text-left py-3 px-3 rounded-lg font-raleway font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-sage ${
-                      activeSection === item.id 
-                        ? 'text-sage bg-sage/10' 
-                        : 'text-foreground hover:text-sage hover:bg-sage/5'
-                    }`}
+                    onClick={() => navigateToPage(item.href)}
+                    onKeyDown={(e) => handleKeyDown(e, () => navigateToPage(item.href))}
+                    className={`flex items-center space-x-3 w-full text-left py-3 px-3 rounded-lg font-raleway font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-sage text-foreground hover:text-sage hover:bg-sage/5`}
                     role="menuitem"
                   >
                     <item.icon className="h-5 w-5" />
