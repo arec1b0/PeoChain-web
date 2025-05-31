@@ -33,7 +33,6 @@ export default function Whitepaper() {
   return (
     <div className="min-h-screen bg-mint">
       <Navigation />
-      
       {/* Hero Section */}
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
@@ -166,7 +165,7 @@ export default function Whitepaper() {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <Card className="bg-gradient-to-br from-sage to-medium-forest text-white shadow-lg">
-              <CardContent className="p-8">
+              <CardContent className="p-8 text-[#33523e]">
                 <h2 className="text-2xl font-raleway font-bold mb-6 text-center">
                   Research Contributions
                 </h2>
