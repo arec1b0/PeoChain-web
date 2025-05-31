@@ -4,6 +4,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
+import Technology from "@/pages/technology";
+import Whitepaper from "@/pages/whitepaper";
 import ValidatorBonds from "@/pages/validator-bonds";
 import NotFound from "@/pages/not-found";
 
@@ -11,6 +13,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/technology" component={Technology} />
+      <Route path="/whitepaper" component={Whitepaper} />
       <Route path="/validator-bonds" component={ValidatorBonds} />
       <Route component={NotFound} />
     </Switch>
