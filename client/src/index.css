@@ -1,0 +1,249 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Hammersmith+One&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* System Colors */
+  --background: 142 23% 89%; /* #e1eae3 */
+  --foreground: 142 23% 26%; /* #38503f */
+  --muted: 142 10% 90%;
+  --muted-foreground: 142 10% 45%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 142 23% 26%;
+  --card: 0 0% 100%;
+  --card-foreground: 142 23% 26%;
+  --border: 142 15% 85%;
+  --input: 142 15% 85%;
+  --primary: 142 25% 51%; /* #6d9e79 sage */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 142 23% 89%;
+  --secondary-foreground: 142 23% 26%;
+  --accent: 142 20% 45%; /* #5b8466 medium-forest */
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 142 23% 26%;
+
+  /* Design System Tokens */
+  --radius: 8px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* Spacing Scale (power-of-two) */
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* PeoChain Brand Colors */
+  --mint: 142 23% 89%; /* #e1eae3 */
+  --forest: 142 23% 26%; /* #38503f */
+  --sage: 142 25% 51%; /* #6d9e79 */
+  --medium-forest: 142 20% 45%; /* #5b8466 */
+  --dark-sage: 142 20% 35%; /* #4a6a52 */
+
+  /* Semantic Colors */
+  --success: 120 60% 50%;
+  --warning: 45 100% 60%;
+  --error: 0 84% 60%;
+  --info: 210 100% 60%;
+
+  /* Animation Durations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+}
+
+.dark {
+  --background: 142 23% 4%; /* Very dark green background */
+  --foreground: 0 0% 98%; /* Almost white text */
+  --muted: 142 10% 8%; /* Slightly lighter than background */
+  --muted-foreground: 0 0% 65%; /* Light gray for muted text */
+  --popover: 142 15% 6%; /* Dark popover background */
+  --popover-foreground: 0 0% 95%; /* Light popover text */
+  --card: 142 15% 6%; /* Dark card background */
+  --card-foreground: 0 0% 95%; /* Light card text */
+  --border: 142 10% 18%; /* Visible border in dark mode */
+  --input: 142 10% 12%; /* Dark input background */
+  --primary: 142 35% 65%; /* Brighter sage for dark mode */
+  --primary-foreground: 142 23% 4%; /* Dark text on bright sage */
+  --secondary: 142 10% 12%; /* Dark secondary background */
+  --secondary-foreground: 0 0% 90%; /* Light secondary text */
+  --accent: 142 30% 60%; /* Brighter accent for visibility */
+  --accent-foreground: 142 23% 4%; /* Dark text on bright accent */
+  --destructive: 0 70% 60%; /* Brighter red for visibility */
+  --destructive-foreground: 0 0% 98%; /* White text on red */
+  --ring: 142 35% 65%; /* Bright ring color for focus */
+
+  /* Dark mode brand colors - brighter versions */
+  --mint: 142 30% 85%; /* Brighter mint for dark mode */
+  --forest: 0 0% 85%; /* Light text color */
+  --sage: 142 35% 65%; /* Brighter sage */
+  --medium-forest: 142 30% 55%; /* Brighter medium forest */
+  --dark-sage: 142 25% 45%; /* Lighter dark sage */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: "Raleway", sans-serif;
+  }
+
+  /* Ensure all text elements inherit proper colors */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  div,
+  a,
+  button {
+    color: hsl(var(--foreground));
+  }
+
+  /* Override any conflicting text colors */
+  .dark h1,
+  .dark h2,
+  .dark h3,
+  .dark h4,
+  .dark h5,
+  .dark h6,
+  .dark p,
+  .dark span,
+  .dark div,
+  .dark a,
+  .dark button {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  /* Specific overrides for common text classes */
+  .dark .text-gray-600 {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+
+  .dark .text-gray-800 {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  .dark .text-black {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  /* Override Tailwind text color classes in dark mode */
+  .dark .text-foreground {
+    color: hsl(0 0% 98%) !important;
+  }
+
+  .dark .text-muted-foreground {
+    color: hsl(0 0% 65%) !important;
+  }
+
+  /* Ensure navigation text is visible */
+  .dark nav,
+  .dark nav * {
+    color: hsl(0 0% 98%) !important;
+  }
+
+  /* Override any inline styles or component-specific colors */
+  .dark [class*="text-"],
+  .dark [style*="color"] {
+    color: hsl(0 0% 98%) !important;
+  }
+
+  .font-raleway {
+    font-family: "Raleway", sans-serif;
+  }
+
+  .font-hammersmith {
+    font-family: "Hammersmith One", sans-serif;
+  }
+}
+
+@layer utilities {
+  .bg-mint {
+    background-color: hsl(var(--mint));
+  }
+
+  .bg-forest {
+    background-color: hsl(var(--forest));
+  }
+
+  .bg-sage {
+    background-color: hsl(var(--sage));
+  }
+
+  .bg-medium-forest {
+    background-color: hsl(var(--medium-forest));
+  }
+
+  .bg-dark-sage {
+    background-color: hsl(var(--dark-sage));
+  }
+
+  .text-mint {
+    color: hsl(var(--mint));
+  }
+
+  .text-forest {
+    color: hsl(var(--forest));
+  }
+
+  .text-sage {
+    color: hsl(var(--sage));
+  }
+
+  .text-medium-forest {
+    color: hsl(var(--medium-forest));
+  }
+
+  .text-dark-sage {
+    color: hsl(var(--dark-sage));
+  }
+
+  .border-sage {
+    border-color: hsl(var(--sage));
+  }
+
+  .border-medium-forest {
+    border-color: hsl(var(--medium-forest));
+  }
+
+  .gradient-mint-white {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--mint)) 0%,
+      white 50%,
+      hsl(var(--mint)) 100%
+    );
+  }
+
+  .gradient-sage-forest {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--sage)) 0%,
+      hsl(var(--medium-forest)) 100%
+    );
+  }
+
+  .gradient-forest-dark {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--forest)) 0%,
+      hsl(var(--dark-sage)) 100%
+    );
+  }
+}
