@@ -1,0 +1,71 @@
+1. How do I become a PeoChain validator?
+
+    Anyone meeting technical requirements (x64 CPU, 16GB+ RAM, reliable internet, SSD) can participate. There is no centralized approval or gatekeeping.
+
+    Install the PeoChain node software, generate validator keys, and bond the required 500 PEO (testnet uses test-PEO; mainnet after launch). The bond is locked with a 14-day unbonding timelock.
+
+    Register via CLI or web interface. Subnet assignments are deterministic, with no admin interference.
+
+    Start your node, join the assigned subnet, and your validator will automatically participate in consensus and network governance
+
+    .
+
+2. What makes the PeoChain validator system non-custodial and permissionless?
+
+    No PeoChain team member or admin can approve, reject, or censor validator entries. Slashing, onboarding, and subnet assignment are all determined algorithmically and enforced cryptographically.
+
+    Slashing actions require proof from ≥2/3 of your subnet peers, making unilateral admin action impossible
+
+    .
+
+3. What are the key security best practices for validators?
+
+    Physical/Cloud Security: Use secure, dedicated hardware or a reputable cloud VPS. Harden your OS, use firewalls, disable password SSH, and regularly update all software.
+
+    Key Management: Keep validator keys offline when possible; use encrypted storage. Never share private keys or run the same key in multiple places.
+
+    Redundancy: Maintain regular backups of configuration and keys. Monitor uptime—downtime impacts rewards and may result in penalties.
+
+    Slashing Protection: Never double-sign blocks or run more than one validator instance per key. Always monitor for network or sync issues.
+
+4. What slashing conditions exist and how do I avoid them?
+
+    Double-signing (signing conflicting blocks/epochs), extended downtime, or malicious activity/collusion may result in slashing.
+
+    All slashing is executed by cryptographic proof (≥2/3 subnet) and logged transparently. No admin or arbitrary slashing.
+
+    Stay online, maintain one active instance per validator key, and watch logs for warnings.
+
+5. How do I troubleshoot if my node is stuck syncing or fails to join a subnet?
+
+    Confirm you’re running the latest node release.
+
+    Check system clock (NTP); desync leads to consensus failures.
+
+    Ensure correct bond and key configuration.
+
+    Verify network/firewall/NAT rules allow peer discovery.
+
+    Review logs for explicit errors (e.g., peer connectivity, assignment).
+
+    If your subnet is at capacity, your node will queue; wait for assignment.
+
+    Persistent issues: contact support@peochain.com or join the Telegram Validator Group.
+
+6. What if I get slashed or penalized unfairly?
+
+    All penalties include publicly-auditable cryptographic proof. Disputes can be filed through the dashboard—resolution is handled by on-chain consensus, not admin.
+
+    For escalation, email support@peochain.com.
+
+7. How do migration and mainnet onboarding work?
+
+    After the ICO, testnet validators can migrate to mainnet by:
+
+        Acquiring PEO and rebonding (Conversion Path).
+
+        “Grandfathering” if ranked as a top-performing testnet validator, with adjusted bond curves.
+
+    All instructions will be posted well in advance in official channels. Missing deadlines or improper migration = loss of mainnet slot
+
+.

@@ -18,7 +18,7 @@ export default function HeroSection() {
   }));
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-mint">
+    <section id="home" className="relative min-h-screen flex items-center justify-center pt-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-mint">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {floatingNodes.map((node) => (
