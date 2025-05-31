@@ -205,7 +205,7 @@ export default function TechStackSection() {
               
               <motion.text
                 x={subnet.x}
-                y={subnet.y + 35}
+                y={subnet.y + 60}
                 textAnchor="middle"
                 className="text-xs font-hammersmith fill-forest"
                 initial={{ opacity: 0 }}
