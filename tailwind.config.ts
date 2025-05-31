@@ -6,9 +6,24 @@ export default {
   theme: {
     extend: {
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "var(--radius-lg)",
+        md: "var(--radius-md)",
+        sm: "var(--radius-sm)",
+      },
+      spacing: {
+        '1': 'var(--space-1)',
+        '2': 'var(--space-2)', 
+        '3': 'var(--space-3)',
+        '4': 'var(--space-4)',
+        '5': 'var(--space-5)',
+        '6': 'var(--space-6)',
+        '7': 'var(--space-7)',
+        '8': 'var(--space-8)',
+      },
+      transitionDuration: {
+        'fast': 'var(--duration-fast)',
+        'normal': 'var(--duration-normal)',
+        'slow': 'var(--duration-slow)',
       },
       colors: {
         background: "hsl(var(--background))",
