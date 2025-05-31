@@ -222,31 +222,37 @@ export default function FeaturesSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 1.0 }}
         >
-          <Card className="bg-gradient-to-br from-sage to-medium-forest text-white shadow-lg">
+          <Card className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-sage/20 shadow-lg">
             <CardContent className="p-6 text-center">
-              <Clock className="h-12 w-12 mx-auto mb-4 opacity-90" />
-              <h4 className="text-xl font-raleway font-semibold mb-2">Real-Time Processing</h4>
-              <p className="font-hammersmith opacity-90">
+              <div className="w-16 h-16 bg-gradient-to-br from-sage to-medium-forest rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Clock className="h-8 w-8 text-white" />
+              </div>
+              <h4 className="text-xl font-raleway font-semibold mb-2 text-forest dark:text-white">Real-Time Processing</h4>
+              <p className="font-hammersmith text-forest/80 dark:text-gray-300">
                 Sub-second transaction confirmation with parallel execution
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-medium-forest to-dark-sage text-white shadow-lg">
+          <Card className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-sage/20 shadow-lg">
             <CardContent className="p-6 text-center">
-              <Shield className="h-12 w-12 mx-auto mb-4 opacity-90" />
-              <h4 className="text-xl font-raleway font-semibold mb-2">Enterprise Security</h4>
-              <p className="font-hammersmith opacity-90">
+              <div className="w-16 h-16 bg-gradient-to-br from-medium-forest to-dark-sage rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Shield className="h-8 w-8 text-white" />
+              </div>
+              <h4 className="text-xl font-raleway font-semibold mb-2 text-forest dark:text-white">Enterprise Security</h4>
+              <p className="font-hammersmith text-forest/80 dark:text-gray-300">
                 Military-grade encryption with formal verification protocols
               </p>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-dark-sage to-forest text-white shadow-lg">
+          <Card className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-sage/20 shadow-lg">
             <CardContent className="p-6 text-center">
-              <BarChart3 className="h-12 w-12 mx-auto mb-4 opacity-90" />
-              <h4 className="text-xl font-raleway font-semibold mb-2">Dynamic Scaling</h4>
-              <p className="font-hammersmith opacity-90">
+              <div className="w-16 h-16 bg-gradient-to-br from-dark-sage to-forest rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <BarChart3 className="h-8 w-8 text-white" />
+              </div>
+              <h4 className="text-xl font-raleway font-semibold mb-2 text-forest dark:text-white">Dynamic Scaling</h4>
+              <p className="font-hammersmith text-forest/80 dark:text-gray-300">
                 Automatic network capacity adjustment based on demand
               </p>
             </CardContent>
