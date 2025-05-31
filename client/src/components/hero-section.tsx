@@ -115,6 +115,7 @@ export default function HeroSection() {
         >
           <Button 
             size="lg"
+            onClick={() => window.location.href = '/validator-bonds'}
             className="bg-sage hover:bg-medium-forest text-white font-raleway font-medium text-lg px-8 py-4 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
           >
             <Network className="mr-2 h-5 w-5" />
