@@ -4,8 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { TechnicalHighlight } from '@/data/features-data';
 
 interface TechnicalHighlightsProps {
-  highlights: TechnicalHighlight[];
-  isInView: boolean;
+  readonly highlights: readonly TechnicalHighlight[];
+  readonly isInView: boolean;
 }
 
 const iconMap = {

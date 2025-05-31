@@ -5,8 +5,6 @@ import {
   Hexagon, 
   Menu, 
   X, 
-  Sun, 
-  Moon, 
   Search, 
   ChevronDown,
   Home,
@@ -16,6 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 import brandmarkLogo from '@assets/brandmark-design.png';
 
 import brandmark_design from "@assets/brandmark-design.png";
@@ -23,7 +22,6 @@ import brandmark_design from "@assets/brandmark-design.png";
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -70,27 +68,14 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    // Initialize theme from localStorage or system preference
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldBeDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
-    
-    setIsDarkMode(shouldBeDark);
-    document.documentElement.classList.toggle('dark', shouldBeDark);
-  }, []);
+
 
   const navItems = [
     { href: '/technology', label: 'Technology', icon: Zap, id: 'technology' },
     { href: '/whitepaper', label: 'Whitepaper', icon: BookOpen, id: 'whitepaper' },
   ];
 
-  const toggleTheme = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    document.documentElement.classList.toggle('dark', newMode);
-    localStorage.setItem('theme', newMode ? 'dark' : 'light');
-  };
+
 
   const navigateToPage = (href: string) => {
     window.location.href = href;
@@ -249,15 +234,7 @@ export default function Navigation() {
               </div>
 
               {/* Theme Toggle */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleTheme}
-                className="h-9 w-9 text-foreground hover:text-sage"
-                aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
-              >
-                {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </Button>
+              <ThemeToggle variant="dropdown" size="md" />
 
               {/* Launch App Button */}
               <Button 

@@ -5,11 +5,11 @@ import AnimatedCounter from '@/components/animated-counter';
 import { PerformanceMetric } from '@/data/features-data';
 
 interface PerformanceBenchmarksProps {
-  metrics: PerformanceMetric[];
-  isInView: boolean;
-  title: string;
-  highlight: string;
-  description: string;
+  readonly metrics: readonly PerformanceMetric[];
+  readonly isInView: boolean;
+  readonly title: string;
+  readonly highlight: string;
+  readonly description: string;
 }
 
 export default function PerformanceBenchmarks({ 
