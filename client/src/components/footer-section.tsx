@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion';
-import { Rocket, Book, Twitter, MessageCircle, Send, Github, Edit } from 'lucide-react';
+import { Rocket, Book, Twitter, MessageCircle, Send, Github, Edit, Mail, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function FooterSection() {
   const socialLinks = [
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: MessageCircle, href: '#', label: 'Discord' },
-    { icon: Send, href: '#', label: 'Telegram' },
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Edit, href: '#', label: 'Medium' },
+    { icon: Twitter, href: 'https://x.com/peochain?s=21', label: 'X (Twitter)' },
+    { icon: MessageCircle, href: 'https://discord.gg/ahAyh5pA', label: 'Discord' },
+    { icon: Github, href: 'https://github.com/peochain', label: 'GitHub' },
+    { icon: Mail, href: 'mailto:info@peochain.xyz', label: 'Email' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/peochain/', label: 'LinkedIn' },
   ];
 
   return (
