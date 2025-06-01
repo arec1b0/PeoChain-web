@@ -1,14 +1,4 @@
-import {
-  pgTable,
-  text,
-  serial,
-  integer,
-  boolean,
-  timestamp,
-  jsonb,
-  index,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, jsonb, index, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -30,13 +20,11 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const insertUserSchema = createInsertSchema(users)
-  .pick({
-    username: true,
-  })
-  .extend({
-    password: z.string().min(8, "Password must be at least 8 characters"),
-  });
+export const insertUserSchema = createInsertSchema(users).pick({
+  username: true,
+}).extend({
+  password: z.string().min(8, "Password must be at least 8 characters")
+});
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;

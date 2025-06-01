@@ -1,37 +1,35 @@
-import winston from "winston";
+import winston from 'winston';
 
-const isDevelopment = process.env.NODE_ENV === "development";
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 export const logger = winston.createLogger({
-  level: isDevelopment ? "debug" : "info",
+  level: isDevelopment ? 'debug' : 'info',
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.errors({ stack: true }),
-    winston.format.json(),
+    winston.format.json()
   ),
-  defaultMeta: { service: "peochain-api" },
+  defaultMeta: { service: 'peochain-api' },
   transports: [
-    new winston.transports.File({ filename: "logs/error.log", level: "error" }),
-    new winston.transports.File({ filename: "logs/combined.log" }),
+    new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'logs/combined.log' }),
   ],
 });
 
 if (isDevelopment) {
-  logger.add(
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.simple(),
-      ),
-    }),
-  );
+  logger.add(new winston.transports.Console({
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.simple()
+    )
+  }));
 }
 
 export function logError(error: Error, context?: string) {
   logger.error({
     message: error.message,
     stack: error.stack,
-    context,
+    context
   });
 }
 

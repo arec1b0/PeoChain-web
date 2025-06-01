@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Hammersmith+One&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Hammersmith+One&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -25,13 +25,13 @@
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
   --ring: 142 23% 26%;
-
+  
   /* Design System Tokens */
   --radius: 8px;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
-
+  
   /* Spacing Scale (power-of-two) */
   --space-1: 2px;
   --space-2: 4px;
@@ -41,20 +41,20 @@
   --space-6: 32px;
   --space-7: 48px;
   --space-8: 64px;
-
+  
   /* PeoChain Brand Colors */
   --mint: 142 23% 89%; /* #e1eae3 */
   --forest: 142 23% 26%; /* #38503f */
   --sage: 142 25% 51%; /* #6d9e79 */
   --medium-forest: 142 20% 45%; /* #5b8466 */
   --dark-sage: 142 20% 35%; /* #4a6a52 */
-
+  
   /* Semantic Colors */
   --success: 120 60% 50%;
   --warning: 45 100% 60%;
   --error: 0 84% 60%;
   --info: 210 100% 60%;
-
+  
   /* Animation Durations */
   --duration-fast: 150ms;
   --duration-normal: 300ms;
@@ -81,7 +81,7 @@
   --destructive: 0 70% 60%; /* Brighter red for visibility */
   --destructive-foreground: 0 0% 98%; /* White text on red */
   --ring: 142 35% 65%; /* Bright ring color for focus */
-
+  
   /* Dark mode brand colors - brighter versions */
   --mint: 142 30% 85%; /* Brighter mint for dark mode */
   --forest: 0 0% 85%; /* Light text color */
@@ -97,36 +97,17 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
-    font-family: "Raleway", sans-serif;
+    font-family: 'Raleway', sans-serif;
   }
 
   /* Ensure all text elements inherit proper colors */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  span,
-  div,
-  a,
-  button {
+  h1, h2, h3, h4, h5, h6, p, span, div, a, button {
     color: hsl(var(--foreground));
   }
 
   /* Override any conflicting text colors */
-  .dark h1,
-  .dark h2,
-  .dark h3,
-  .dark h4,
-  .dark h5,
-  .dark h6,
-  .dark p,
-  .dark span,
-  .dark div,
-  .dark a,
-  .dark button {
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+  .dark p, .dark span, .dark div, .dark a, .dark button {
     color: hsl(var(--foreground)) !important;
   }
 
@@ -165,11 +146,11 @@
   }
 
   .font-raleway {
-    font-family: "Raleway", sans-serif;
+    font-family: 'Raleway', sans-serif;
   }
 
   .font-hammersmith {
-    font-family: "Hammersmith One", sans-serif;
+    font-family: 'Hammersmith One', sans-serif;
   }
 }
 
@@ -177,73 +158,60 @@
   .bg-mint {
     background-color: hsl(var(--mint));
   }
-
+  
   .bg-forest {
     background-color: hsl(var(--forest));
   }
-
+  
   .bg-sage {
     background-color: hsl(var(--sage));
   }
-
+  
   .bg-medium-forest {
     background-color: hsl(var(--medium-forest));
   }
-
+  
   .bg-dark-sage {
     background-color: hsl(var(--dark-sage));
   }
-
+  
   .text-mint {
     color: hsl(var(--mint));
   }
-
+  
   .text-forest {
     color: hsl(var(--forest));
   }
-
+  
   .text-sage {
     color: hsl(var(--sage));
   }
-
+  
   .text-medium-forest {
     color: hsl(var(--medium-forest));
   }
-
+  
   .text-dark-sage {
     color: hsl(var(--dark-sage));
   }
-
+  
   .border-sage {
     border-color: hsl(var(--sage));
   }
-
+  
   .border-medium-forest {
     border-color: hsl(var(--medium-forest));
   }
-
+  
   .gradient-mint-white {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--mint)) 0%,
-      white 50%,
-      hsl(var(--mint)) 100%
-    );
+    background: linear-gradient(135deg, hsl(var(--mint)) 0%, white 50%, hsl(var(--mint)) 100%);
   }
-
+  
   .gradient-sage-forest {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--sage)) 0%,
-      hsl(var(--medium-forest)) 100%
-    );
+    background: linear-gradient(135deg, hsl(var(--sage)) 0%, hsl(var(--medium-forest)) 100%);
   }
-
+  
   .gradient-forest-dark {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--forest)) 0%,
-      hsl(var(--dark-sage)) 100%
-    );
+    background: linear-gradient(135deg, hsl(var(--forest)) 0%, hsl(var(--dark-sage)) 100%);
   }
 }

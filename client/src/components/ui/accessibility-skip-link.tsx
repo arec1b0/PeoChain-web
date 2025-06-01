@@ -1,5 +1,5 @@
-import { memo } from "react";
-import { useSkipLink } from "@/hooks/use-accessibility";
+import { memo } from 'react';
+import { useSkipLink } from '@/hooks/use-accessibility';
 
 interface SkipLinkProps {
   readonly targetId: string;
@@ -22,6 +22,6 @@ const AccessibilitySkipLink = memo<SkipLinkProps>(({ targetId, label }) => {
   );
 });
 
-AccessibilitySkipLink.displayName = "AccessibilitySkipLink";
+AccessibilitySkipLink.displayName = 'AccessibilitySkipLink';
 
 export default AccessibilitySkipLink;

@@ -1,7 +1,7 @@
-import React from "react";
-import { AlertTriangle, RefreshCw, Home } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React from 'react';
+import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -23,10 +23,7 @@ interface ErrorFallbackProps {
   errorInfo?: React.ErrorInfo;
 }
 
-export class ErrorBoundaryEnhanced extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class ErrorBoundaryEnhanced extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   private resetTimeoutId: number | null = null;
 
   constructor(props: ErrorBoundaryProps) {
@@ -37,16 +34,16 @@ export class ErrorBoundaryEnhanced extends React.Component<
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return {
       hasError: true,
-      error,
+      error
     };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("ErrorBoundary caught an error:", error, errorInfo);
-
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    
     this.setState({
       error,
-      errorInfo,
+      errorInfo
     });
 
     if (this.props.onError) {
@@ -69,12 +66,12 @@ export class ErrorBoundaryEnhanced extends React.Component<
     if (this.resetTimeoutId) {
       clearTimeout(this.resetTimeoutId);
     }
-
+    
     this.resetTimeoutId = window.setTimeout(() => {
       this.setState({
         hasError: false,
         error: undefined,
-        errorInfo: undefined,
+        errorInfo: undefined
       });
     }, 100);
   };
@@ -101,10 +98,7 @@ export class ErrorBoundaryEnhanced extends React.Component<
   }
 }
 
-export function DefaultErrorFallback({
-  error,
-  resetError,
-}: ErrorFallbackProps) {
+export function DefaultErrorFallback({ error, resetError }: ErrorFallbackProps) {
   const isDevelopment = import.meta.env.DEV;
 
   return (
@@ -114,15 +108,13 @@ export function DefaultErrorFallback({
           <div className="mx-auto w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mb-4">
             <AlertTriangle className="w-6 h-6 text-destructive" />
           </div>
-          <CardTitle className="text-destructive">
-            Something went wrong
-          </CardTitle>
+          <CardTitle className="text-destructive">Something went wrong</CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-4">
           <p className="text-muted-foreground">
             We encountered an unexpected error. Please try refreshing the page.
           </p>
-
+          
           {isDevelopment && error && (
             <details className="text-left bg-muted p-4 rounded-md text-sm">
               <summary className="cursor-pointer font-medium mb-2">
@@ -134,15 +126,15 @@ export function DefaultErrorFallback({
               </pre>
             </details>
           )}
-
+          
           <div className="flex flex-col sm:flex-row gap-2 justify-center">
             <Button onClick={resetError} variant="outline" size="sm">
               <RefreshCw className="w-4 h-4 mr-2" />
               Try Again
             </Button>
-            <Button
-              onClick={() => (window.location.href = "/")}
-              variant="default"
+            <Button 
+              onClick={() => window.location.href = '/'} 
+              variant="default" 
               size="sm"
             >
               <Home className="w-4 h-4 mr-2" />
@@ -155,10 +147,7 @@ export function DefaultErrorFallback({
   );
 }
 
-export function SectionErrorFallback({
-  error,
-  resetError,
-}: ErrorFallbackProps) {
+export function SectionErrorFallback({ error, resetError }: ErrorFallbackProps) {
   return (
     <div className="py-8 px-4">
       <div className="max-w-md mx-auto text-center">

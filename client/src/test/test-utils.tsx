@@ -1,8 +1,8 @@
-import { render, RenderOptions } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { ErrorBoundaryEnhanced } from "@/components/ui/error-boundary-enhanced";
-import { ReactElement, ReactNode } from "react";
+import { render, RenderOptions } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { ErrorBoundaryEnhanced } from '@/components/ui/error-boundary-enhanced';
+import { ReactElement, ReactNode } from 'react';
 
 // Custom render function with providers
 function createTestQueryClient(): QueryClient {
@@ -16,32 +16,39 @@ function createTestQueryClient(): QueryClient {
   });
 }
 
-interface CustomRenderOptions extends Omit<RenderOptions, "wrapper"> {
+interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   queryClient?: QueryClient;
 }
 
-function CustomWrapper({
-  children,
-  queryClient = createTestQueryClient(),
-}: {
+function CustomWrapper({ 
+  children, 
+  queryClient = createTestQueryClient() 
+}: { 
   children: ReactNode;
   queryClient?: QueryClient;
 }) {
   return (
     <ErrorBoundaryEnhanced>
       <QueryClientProvider client={queryClient}>
-        <TooltipProvider>{children}</TooltipProvider>
+        <TooltipProvider>
+          {children}
+        </TooltipProvider>
       </QueryClientProvider>
     </ErrorBoundaryEnhanced>
   );
 }
 
-function customRender(ui: ReactElement, options: CustomRenderOptions = {}) {
+function customRender(
+  ui: ReactElement,
+  options: CustomRenderOptions = {}
+) {
   const { queryClient, ...renderOptions } = options;
-
+  
   return render(ui, {
     wrapper: ({ children }) => (
-      <CustomWrapper queryClient={queryClient}>{children}</CustomWrapper>
+      <CustomWrapper queryClient={queryClient}>
+        {children}
+      </CustomWrapper>
     ),
     ...renderOptions,
   });
@@ -51,11 +58,11 @@ function customRender(ui: ReactElement, options: CustomRenderOptions = {}) {
 export function createAxeConfig() {
   return {
     rules: {
-      "color-contrast": { enabled: true },
-      "keyboard-navigation": { enabled: true },
-      "focus-management": { enabled: true },
-      "aria-labels": { enabled: true },
-    },
+      'color-contrast': { enabled: true },
+      'keyboard-navigation': { enabled: true },
+      'focus-management': { enabled: true },
+      'aria-labels': { enabled: true }
+    }
   };
 }
 
@@ -63,13 +70,13 @@ export function createAxeConfig() {
 export function mockPerformanceObserver() {
   const observe = vi.fn();
   const disconnect = vi.fn();
-
+  
   global.PerformanceObserver = vi.fn().mockImplementation((callback) => ({
     observe,
     disconnect,
     takeRecords: vi.fn(() => []),
   }));
-
+  
   return { observe, disconnect };
 }
 
@@ -77,7 +84,7 @@ export function mockPerformanceObserver() {
 export function createErrorComponent(shouldError = true) {
   return function ErrorComponent() {
     if (shouldError) {
-      throw new Error("Test error");
+      throw new Error('Test error');
     }
     return <div data-testid="success">Success</div>;
   };
@@ -85,12 +92,10 @@ export function createErrorComponent(shouldError = true) {
 
 // Animation testing utilities
 export function mockFramerMotion() {
-  vi.mock("framer-motion", () => ({
+  vi.mock('framer-motion', () => ({
     motion: {
       div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-      section: ({ children, ...props }: any) => (
-        <section {...props}>{children}</section>
-      ),
+      section: ({ children, ...props }: any) => <section {...props}>{children}</section>,
       h1: ({ children, ...props }: any) => <h1 {...props}>{children}</h1>,
       p: ({ children, ...props }: any) => <p {...props}>{children}</p>,
     },
@@ -100,8 +105,8 @@ export function mockFramerMotion() {
 }
 
 // Export everything
-export * from "@testing-library/react";
+export * from '@testing-library/react';
 export { customRender as render };
-export { userEvent } from "@testing-library/user-event";
+export { userEvent } from '@testing-library/user-event';
 
-import { vi } from "vitest";
+import { vi } from 'vitest';

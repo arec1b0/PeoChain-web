@@ -47,16 +47,14 @@ export async function setupVite(app: Express, server: Server) {
 
     try {
       const clientTemplate = path.resolve(
-        path.dirname(import.meta.url.replace("file:", "")),
+        path.dirname(import.meta.url.replace('file:', '')),
         "..",
         "client",
         "index.html",
       );
 
       // always reload the index.html file from disk incase it changes
-      let template = await fs.promises.readFile(clientTemplate, {
-        encoding: "utf-8",
-      });
+      let template = await fs.promises.readFile(clientTemplate, { encoding: "utf-8" });
       template = template.replace(
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`,
@@ -71,10 +69,7 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(
-    path.dirname(import.meta.url.replace("file:", "")),
-    "public",
-  );
+  const distPath = path.resolve(path.dirname(import.meta.url.replace('file:', '')), "public");
 
   if (!fs.existsSync(distPath)) {
     throw new Error(

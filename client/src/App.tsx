@@ -4,10 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import {
-  ErrorBoundaryEnhanced,
-  DefaultErrorFallback,
-} from "@/components/ui/error-boundary-enhanced";
+import { ErrorBoundaryEnhanced, DefaultErrorFallback } from "@/components/ui/error-boundary-enhanced";
 import { FloatingLoader } from "@/components/ui/loading-states";
 import Home from "@/pages/home";
 import Technology from "@/pages/technology";
@@ -38,10 +35,10 @@ function AppRouter() {
 
 function App() {
   return (
-    <ErrorBoundaryEnhanced
+    <ErrorBoundaryEnhanced 
       fallback={DefaultErrorFallback}
       onError={(error, errorInfo) => {
-        console.error("Application error:", error, errorInfo);
+        console.error('Application error:', error, errorInfo);
       }}
     >
       <ThemeProvider defaultTheme="system" storageKey="peochain-ui-theme">

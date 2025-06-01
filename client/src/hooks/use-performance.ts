@@ -1,5 +1,5 @@
-import { useEffect, useCallback, useMemo, useState, useRef } from "react";
-import { PerformanceMetrics } from "@/types";
+import { useEffect, useCallback, useMemo, useState, useRef } from 'react';
+import { PerformanceMetrics } from '@/types';
 
 interface PerformanceEventTiming extends PerformanceEntry {
   processingStart: number;
@@ -16,50 +16,46 @@ export function usePerformanceMonitor(): {
   readonly recordMetric: (name: string, value: number) => void;
 } {
   const metrics = useMemo<PerformanceMetrics | null>(() => {
-    if (typeof window === "undefined" || !("performance" in window)) {
+    if (typeof window === 'undefined' || !('performance' in window)) {
       return null;
     }
 
-    const navigation = performance.getEntriesByType(
-      "navigation",
-    )[0] as PerformanceNavigationTiming;
-    const paint = performance.getEntriesByType("paint");
-
-    const fcp =
-      paint.find((entry) => entry.name === "first-contentful-paint")
-        ?.startTime ?? 0;
-
+    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+    const paint = performance.getEntriesByType('paint');
+    
+    const fcp = paint.find(entry => entry.name === 'first-contentful-paint')?.startTime ?? 0;
+    
     return {
       fcp,
       lcp: 0, // Will be updated by observer
       fid: 0, // Will be updated by observer
       cls: 0, // Will be updated by observer
-      ttfb: navigation ? navigation.responseStart - navigation.requestStart : 0,
+      ttfb: navigation ? navigation.responseStart - navigation.requestStart : 0
     };
   }, []);
 
   const recordMetric = useCallback((name: string, value: number): void => {
-    if (typeof window !== "undefined" && "performance" in window) {
+    if (typeof window !== 'undefined' && 'performance' in window) {
       performance.mark(`${name}-${value}`);
     }
   }, []);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
 
     // Largest Contentful Paint observer
     const lcpObserver = new PerformanceObserver((list) => {
       const entries = list.getEntries();
       const lastEntry = entries[entries.length - 1];
-      recordMetric("lcp", lastEntry.startTime);
+      recordMetric('lcp', lastEntry.startTime);
     });
 
-    // First Input Delay observer
+    // First Input Delay observer  
     const fidObserver = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         const eventEntry = entry as PerformanceEventTiming;
         const fid = eventEntry.processingStart - eventEntry.startTime;
-        recordMetric("fid", fid);
+        recordMetric('fid', fid);
       }
     });
 
@@ -72,15 +68,15 @@ export function usePerformanceMonitor(): {
           clsValue += layoutEntry.value;
         }
       }
-      recordMetric("cls", clsValue);
+      recordMetric('cls', clsValue);
     });
 
     try {
-      lcpObserver.observe({ entryTypes: ["largest-contentful-paint"] });
-      fidObserver.observe({ entryTypes: ["first-input"] });
-      clsObserver.observe({ entryTypes: ["layout-shift"] });
+      lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+      fidObserver.observe({ entryTypes: ['first-input'] });
+      clsObserver.observe({ entryTypes: ['layout-shift'] });
     } catch (error) {
-      console.warn("Performance observers not supported:", error);
+      console.warn('Performance observers not supported:', error);
     }
 
     return () => {
@@ -113,7 +109,7 @@ export function useDebounce<T>(value: T, delay: number): T {
 // Throttle hook for high-frequency events
 export function useThrottle<T extends (...args: unknown[]) => unknown>(
   callback: T,
-  delay: number,
+  delay: number
 ): T {
   const lastRun = useRef<number>(Date.now());
 
@@ -124,6 +120,6 @@ export function useThrottle<T extends (...args: unknown[]) => unknown>(
         lastRun.current = Date.now();
       }
     }) as T,
-    [callback, delay],
+    [callback, delay]
   );
 }

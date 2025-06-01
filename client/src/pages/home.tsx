@@ -1,39 +1,31 @@
-import { Suspense } from "react";
-import {
-  ErrorBoundaryEnhanced,
-  DefaultErrorFallback,
-} from "@/components/ui/error-boundary-enhanced";
-import { SectionLoadingSkeleton } from "@/components/ui/loading-states";
-import Navigation from "@/components/navigation";
-import HeroSection from "@/components/hero-section";
-import TrilemmaSection from "@/components/trilemma-section";
-import FeaturesSection from "@/components/features-section";
-import FooterSection from "@/components/footer-section";
+import React from 'react';
+import MainLayout from '@/components/layout/main-layout';
+import { ErrorBoundaryEnhanced, DefaultErrorFallback } from '@/components/ui/error-boundary-enhanced';
+import { SectionLoadingSkeleton } from '@/components/ui/loading-states';
+import Navigation from '@/components/navigation';
+import HeroSection from '@/components/hero-section';
+import TrilemmaSection from '@/components/trilemma-section';
+import FeaturesSection from '@/components/features-section';
+import FooterSection from '@/components/footer-section';
 
-export default function Home() {
+const Home: React.FC = () => {
+  const { Suspense } = React;
+
   return (
-    <ErrorBoundaryEnhanced fallback={DefaultErrorFallback}>
-      <div className="min-h-screen">
-        <ErrorBoundaryEnhanced>
-          <Navigation />
-        </ErrorBoundaryEnhanced>
-
-        <HeroSection />
-
-        <ErrorBoundaryEnhanced>
+    <MainLayout>
+      <HeroSection />
+      
+      <ErrorBoundaryEnhanced 
+        children={() => (
           <Suspense fallback={<SectionLoadingSkeleton />}>
             <TrilemmaSection />
           </Suspense>
-        </ErrorBoundaryEnhanced>
-
-        <FeaturesSection />
-
-        <ErrorBoundaryEnhanced>
-          <Suspense fallback={<SectionLoadingSkeleton />}>
-            <FooterSection />
-          </Suspense>
-        </ErrorBoundaryEnhanced>
-      </div>
-    </ErrorBoundaryEnhanced>
+        )}
+      />
+      
+      <FeaturesSection />
+    </MainLayout>
   );
-}
+};
+
+export default Home;

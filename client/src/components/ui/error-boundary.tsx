@@ -1,13 +1,7 @@
-import React from "react";
-import { AlertTriangle, RefreshCw } from "lucide-react";
-import { Button } from "./button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "./card";
+import React from 'react';
+import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { Button } from './button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -19,10 +13,7 @@ interface ErrorBoundaryProps {
   fallback?: React.ComponentType<{ error?: Error; resetError: () => void }>;
 }
 
-export class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
@@ -33,7 +24,7 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("Error Boundary caught an error:", error, errorInfo);
+    console.error('Error Boundary caught an error:', error, errorInfo);
   }
 
   resetError = () => {
@@ -44,20 +35,10 @@ export class ErrorBoundary extends React.Component<
     if (this.state.hasError) {
       if (this.props.fallback) {
         const FallbackComponent = this.props.fallback;
-        return (
-          <FallbackComponent
-            error={this.state.error}
-            resetError={this.resetError}
-          />
-        );
+        return <FallbackComponent error={this.state.error} resetError={this.resetError} />;
       }
 
-      return (
-        <DefaultErrorFallback
-          error={this.state.error}
-          resetError={this.resetError}
-        />
-      );
+      return <DefaultErrorFallback error={this.state.error} resetError={this.resetError} />;
     }
 
     return this.props.children;
@@ -69,10 +50,7 @@ interface ErrorFallbackProps {
   resetError: () => void;
 }
 
-export function DefaultErrorFallback({
-  error,
-  resetError,
-}: ErrorFallbackProps) {
+export function DefaultErrorFallback({ error, resetError }: ErrorFallbackProps) {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
@@ -80,9 +58,7 @@ export function DefaultErrorFallback({
           <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
             <AlertTriangle className="h-6 w-6 text-destructive" />
           </div>
-          <CardTitle className="text-destructive">
-            Something went wrong
-          </CardTitle>
+          <CardTitle className="text-destructive">Something went wrong</CardTitle>
           <CardDescription>
             An unexpected error occurred. Please try refreshing the page.
           </CardDescription>
@@ -103,9 +79,9 @@ export function DefaultErrorFallback({
               <RefreshCw className="h-4 w-4 mr-2" />
               Try again
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => window.location.reload()}
+            <Button 
+              variant="outline" 
+              onClick={() => window.location.reload()} 
               className="flex-1"
             >
               Reload page

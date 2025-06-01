@@ -1,4 +1,4 @@
-import { AnimatedComponent, AccessibleComponent } from "@/types";
+import { AnimatedComponent, AccessibleComponent } from '@/types';
 
 export interface HeroMetric {
   readonly value: number;
@@ -41,7 +41,7 @@ export interface HeroDescriptionProps extends AccessibleComponent {
 }
 
 export interface HeroAction {
-  readonly type: "primary" | "secondary";
+  readonly type: 'primary' | 'secondary';
   readonly label: string;
   readonly icon: string;
   readonly href: string;
@@ -53,54 +53,54 @@ export const heroMetrics: readonly HeroMetric[] = [
     value: 100000,
     label: "TPS",
     className: "text-sage",
-    ariaLabel: "Performance metric: 100,000 transactions per second",
+    ariaLabel: "Performance metric: 100,000 transactions per second"
   },
   {
     value: 1,
     label: "Second Finality",
     className: "text-medium-forest",
-    ariaLabel: "Performance metric: 1 second transaction finality",
+    ariaLabel: "Performance metric: 1 second transaction finality"
   },
   {
     value: 0.04,
     label: "Avg. Fees",
     className: "text-dark-sage",
-    ariaLabel: "Performance metric: Average fees of 4 cents USD",
+    ariaLabel: "Performance metric: Average fees of 4 cents USD"
   },
   {
     value: 100,
     label: "Decentralized",
     suffix: "%",
     className: "text-sage",
-    ariaLabel: "Performance metric: 100% decentralized network",
-  },
+    ariaLabel: "Performance metric: 100% decentralized network"
+  }
 ] as const;
 
 export const floatingNodesConfig: FloatingNode[] = [
   {
     id: 0,
     size: 16,
-    position: { top: "20%", left: "10%" },
-    delay: 0,
+    position: { top: '20%', left: '10%' },
+    delay: 0
   },
   {
     id: 1,
     size: 20,
-    position: { top: "40%", right: "20%" },
-    delay: 2,
+    position: { top: '40%', right: '20%' },
+    delay: 2
   },
   {
     id: 2,
     size: 24,
-    position: { bottom: "40%", left: "25%" },
-    delay: 4,
+    position: { bottom: '40%', left: '25%' },
+    delay: 4
   },
   {
     id: 3,
     size: 12,
-    position: { bottom: "20%", right: "33%" },
-    delay: 6,
-  },
+    position: { bottom: '20%', right: '33%' },
+    delay: 6
+  }
 ];
 
 export const heroContent = {
@@ -109,15 +109,14 @@ export const heroContent = {
     highlight: "Blockchain Trilemma",
     secondary: "Making",
     secondaryHighlight: "DeFi Accessible",
-    suffix: "to All.",
+    suffix: "to All."
   },
   description: {
     text: "PeoChain achieves unprecedented",
     tps: "100,000 TPS",
     finality: "1-second finality",
-    accessibility:
-      "true decentralization, bringing DeFi to underbanked populations worldwide with",
-    fees: "USD 0.04 fees",
+    accessibility: "true decentralization, bringing DeFi to underbanked populations worldwide with",
+    fees: "USD 0.04 fees"
   },
   actions: [
     {
@@ -125,21 +124,21 @@ export const heroContent = {
       label: "Join Validator Network",
       icon: "Workflow",
       href: "/validator-bonds",
-      ariaLabel: "Navigate to validator bonds page to join the network",
+      ariaLabel: "Navigate to validator bonds page to join the network"
     },
     {
       type: "secondary" as const,
       label: "Experience Testnet",
       icon: "TestTube",
       href: "#",
-      ariaLabel: "Try the PeoChain testnet environment",
+      ariaLabel: "Try the PeoChain testnet environment"
     },
     {
       type: "secondary" as const,
       label: "Read Whitepaper",
       icon: "BookOpen",
       href: "/whitepaper",
-      ariaLabel: "Read the technical whitepaper documentation",
-    },
-  ],
+      ariaLabel: "Read the technical whitepaper documentation"
+    }
+  ]
 } as const;

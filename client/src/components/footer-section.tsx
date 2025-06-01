@@ -1,43 +1,18 @@
-import { motion } from "framer-motion";
-import {
-  Rocket,
-  Book,
-  Twitter,
-  MessageCircle,
-  Send,
-  Github,
-  Edit,
-  Mail,
-  Linkedin,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { motion } from 'framer-motion';
+import { Rocket, Book, Twitter, MessageCircle, Send, Github, Edit, Mail, Linkedin } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function FooterSection() {
   const socialLinks = [
-    {
-      icon: Twitter,
-      href: "https://x.com/peochain?s=21",
-      label: "X (Twitter)",
-    },
-    {
-      icon: MessageCircle,
-      href: "https://discord.gg/ahAyh5pA",
-      label: "Discord",
-    },
-    { icon: Github, href: "https://github.com/peochain", label: "GitHub" },
-    { icon: Mail, href: "mailto:info@peochain.xyz", label: "Email" },
-    {
-      icon: Linkedin,
-      href: "https://www.linkedin.com/company/peochain/",
-      label: "LinkedIn",
-    },
+    { icon: Twitter, href: 'https://x.com/peochain?s=21', label: 'X (Twitter)' },
+    { icon: MessageCircle, href: 'https://discord.gg/ahAyh5pA', label: 'Discord' },
+    { icon: Github, href: 'https://github.com/peochain', label: 'GitHub' },
+    { icon: Mail, href: 'mailto:info@peochain.xyz', label: 'Email' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/peochain/', label: 'LinkedIn' },
   ];
 
   return (
-    <section
-      id="community"
-      className="py-20 px-4 sm:px-6 lg:px-8 gradient-forest-dark"
-    >
+    <section id="community" className="py-20 px-4 sm:px-6 lg:px-8 gradient-forest-dark">
       <div className="max-w-4xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -49,26 +24,25 @@ export default function FooterSection() {
             Join the <span className="text-sage">DeFi Revolution</span>
           </h2>
           <p className="text-lg sm:text-xl font-hammersmith text-white/80 mb-12 max-w-2xl mx-auto">
-            Be part of the blockchain that's making decentralized finance
-            accessible to everyone, everywhere.
+            Be part of the blockchain that's making decentralized finance accessible to everyone, everywhere.
           </p>
         </motion.div>
-
-        <motion.div
+        
+        <motion.div 
           className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <Button
+          <Button 
             size="lg"
             className="bg-sage hover:bg-medium-forest text-white px-8 py-4 rounded-2xl font-raleway font-medium text-lg transform transition-all duration-300 hover:scale-105 shadow-lg"
           >
             <Rocket className="mr-2 h-5 w-5" />
             Start Building Today
           </Button>
-          <Button
+          <Button 
             variant="outline"
             size="lg"
             className="border-2 border-sage text-sage hover:bg-sage hover:text-white px-8 py-4 rounded-2xl font-raleway font-medium text-lg transform transition-all duration-300 hover:scale-105"
@@ -77,9 +51,9 @@ export default function FooterSection() {
             View Documentation
           </Button>
         </motion.div>
-
+        
         {/* Social Links */}
-        <motion.div
+        <motion.div 
           className="flex items-center justify-center space-x-6"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

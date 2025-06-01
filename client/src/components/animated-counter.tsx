@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 interface AnimatedCounterProps {
   from?: number;
@@ -10,17 +10,17 @@ interface AnimatedCounterProps {
   prefix?: string;
 }
 
-export default function AnimatedCounter({
-  from = 0,
-  to,
-  duration = 2000,
+export default function AnimatedCounter({ 
+  from = 0, 
+  to, 
+  duration = 2000, 
   className = "",
   suffix = "",
-  prefix = "",
+  prefix = ""
 }: AnimatedCounterProps) {
   const [count, setCount] = useState(from);
   const countRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(countRef, { once: true, margin: "-100px" });
+  const isInView = useInView(countRef, { once: true, margin: '-100px' });
 
   useEffect(() => {
     if (!isInView) return;
@@ -31,11 +31,11 @@ export default function AnimatedCounter({
     const updateCounter = () => {
       const now = Date.now();
       const progress = Math.min((now - startTime) / duration, 1);
-
+      
       // Easing function for smooth animation
       const easeOut = 1 - Math.pow(1 - progress, 3);
       const currentCount = Math.floor(from + (to - from) * easeOut);
-
+      
       setCount(currentCount);
 
       if (now < endTime) {
@@ -58,9 +58,7 @@ export default function AnimatedCounter({
       transition={{ duration: 0.5 }}
       className={className}
     >
-      {prefix}
-      {formatNumber(count)}
-      {suffix}
+      {prefix}{formatNumber(count)}{suffix}
     </motion.div>
   );
 }

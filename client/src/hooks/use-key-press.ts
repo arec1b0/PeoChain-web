@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 const { useEffect } = React;
 
 export type KeyHandler = (event: KeyboardEvent) => void;
@@ -11,9 +11,9 @@ export function useKeyPress(key: string, handler: KeyHandler) {
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [key, handler]);
 }
