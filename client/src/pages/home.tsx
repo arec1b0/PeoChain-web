@@ -15,11 +15,13 @@ const Home: React.FC = () => {
     <MainLayout>
       <HeroSection />
       
-      <ErrorBoundaryEnhanced>
-        <Suspense fallback={<SectionLoadingSkeleton />}>
-          <TrilemmaSection />
-        </Suspense>
-      </ErrorBoundaryEnhanced>
+      <ErrorBoundaryEnhanced 
+        children={() => (
+          <Suspense fallback={<SectionLoadingSkeleton />}>
+            <TrilemmaSection />
+          </Suspense>
+        )}
+      />
       
       <FeaturesSection />
     </MainLayout>

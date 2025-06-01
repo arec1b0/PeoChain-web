@@ -1,4 +1,5 @@
 import React from 'react';
+const { Suspense } = React;
 import { ErrorBoundaryEnhanced, DefaultErrorFallback } from '@/components/ui/error-boundary-enhanced';
 import Navigation from '@/components/navigation';
 import FooterSection from '@/components/footer-section';
@@ -16,34 +17,48 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   showFooter = true,
   className = ''
 }: MainLayoutProps) => {
-  const { Suspense } = React;
+  // Properly structure the JSX to provide the children props correctly
+  // Create the children elements before using them in JSX to make TypeScript happy
+  const mainContent = (
+    <div className={`min-h-screen flex flex-col ${className}`}>
+      <ErrorBoundaryEnhanced children={<Navigation />} />
+      
+      <main className="flex-grow">
+        {children}
+      </main>
+      
+      {showFooter && (
+        <ErrorBoundaryEnhanced children={
+          <Suspense fallback={<SectionLoadingSkeleton />}>
+            <FooterSection />
+          </Suspense>
+        } />
+      )}
+    </div>
+  );
 
   return (
     <ThemeProvider 
       defaultTheme="light" 
       storageKey="peochain-theme"
-    >
-      <ErrorBoundaryEnhanced fallback={DefaultErrorFallback}>
-        <div className={`min-h-screen flex flex-col ${className}`}>
-          <ErrorBoundaryEnhanced>
-            <Navigation />
-          </ErrorBoundaryEnhanced>
-          
-          <main className="flex-grow">
-            {children}
-          </main>
-          
-          {showFooter && (
-            <ErrorBoundaryEnhanced>
-              <Suspense fallback={<SectionLoadingSkeleton />}>
-                <FooterSection />
-              </Suspense>
-            </ErrorBoundaryEnhanced>
+      children={
+        <ErrorBoundaryEnhanced 
+          fallback={({ 
+            error, 
+            resetError, 
+            errorInfo 
+          }: { 
+            error: Error; 
+            resetError: () => void; 
+            errorInfo: React.ErrorInfo | null 
+          }) => (
+            <DefaultErrorFallback error={error} resetError={resetError} errorInfo={errorInfo} />
           )}
-        </div>
-      </ErrorBoundaryEnhanced>
-    </ThemeProvider>
-  );
+          children={mainContent}
+        />
+      }
+    />
+  )
 };
 
 export default MainLayout;

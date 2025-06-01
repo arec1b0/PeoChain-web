@@ -78,7 +78,87 @@ declare module 'react-hook-form' {
 }
 
 declare module 'react' {
-  import * as React from 'react';
+  // Extend React namespace to properly support Component class
+  interface ComponentClass<P = {}, S = {}> {
+    new(props: P, context?: any): Component<P, S>;
+    contextType?: Context<any>;
+    displayName?: string;
+    defaultProps?: Partial<P>;
+  }
+
+  interface Component<P = {}, S = {}> {
+    constructor(props: P, context?: any);
+    setState<K extends keyof S>(
+      state: ((prevState: Readonly<S>, props: Readonly<P>) => (Pick<S, K> | S | null)) | (Pick<S, K> | S | null),
+      callback?: () => void
+    ): void;
+    forceUpdate(callback?: () => void): void;
+    render(): ReactNode;
+    readonly props: Readonly<P> & Readonly<{ children?: ReactNode }>;
+    state: Readonly<S>;
+    context: any;
+    refs: {
+      [key: string]: ReactInstance
+    };
+  }
+
+  // Ensure the Component class is properly exported
+  export class Component<P = {}, S = {}> {
+    constructor(props: P, context?: any);
+    setState<K extends keyof S>(
+      state: ((prevState: Readonly<S>, props: Readonly<P>) => (Pick<S, K> | S | null)) | (Pick<S, K> | S | null),
+      callback?: () => void
+    ): void;
+    forceUpdate(callback?: () => void): void;
+    render(): ReactNode;
+    readonly props: Readonly<P> & Readonly<{ children?: ReactNode }>;
+    state: Readonly<S>;
+    context: any;
+    refs: {
+      [key: string]: ReactInstance
+    };
+  }
+
+  // Add missing type definitions
+  type ReactInstance = Component<any> | Element;
+  type ReactNode = Element | string | number | boolean | null | undefined | ReactNodeArray;
+  interface ReactNodeArray extends Array<ReactNode> {}
+  type ElementType<P = any> = string | ComponentType<P>;
+  type ComponentType<P = {}> = ComponentClass<P> | FunctionComponent<P>;
+  interface FunctionComponent<P = {}> {
+    (props: P & { children?: ReactNode }): ReactElement | null;
+    displayName?: string;
+    defaultProps?: Partial<P>;
+  }
+  interface ReactElement<P = any, T extends string | JSXElementConstructor<any> = string | JSXElementConstructor<any>> {
+    type: T;
+    props: P;
+    key: Key | null;
+  }
+  type JSXElementConstructor<P> = ((props: P) => ReactElement | null) | (new (props: P) => Component<P, any>);
+  type Key = string | number;
+  interface Context<T> {
+    Provider: Provider<T>;
+    Consumer: Consumer<T>;
+    displayName?: string;
+  }
+  interface Provider<T> {
+    (props: ProviderProps<T>): ReactElement | null;
+  }
+  interface Consumer<T> {
+    (props: ConsumerProps<T>): ReactElement | null;
+  }
+  interface ProviderProps<T> {
+    value: T;
+    children?: ReactNode;
+  }
+  interface ConsumerProps<T> {
+    children: (value: T) => ReactNode;
+  }
+  interface ErrorInfo {
+    componentStack: string;
+  }
+
   export = React;
   export as namespace React;
 }
@@ -136,22 +216,32 @@ declare module 'framer-motion' {
 declare module 'lucide-react' {
   import * as React from 'react';
 
-  interface IconProps extends React.SVGProps<SVGSVGElement> {
+  export interface IconProps {
     size?: string | number;
     color?: string;
     strokeWidth?: string | number;
+    className?: string;
   }
 
-  type Icon = React.FC<IconProps>;
+  export type Icon = React.FC<IconProps>;
 
+  // Common icons used in the project
   export const Search: Icon;
   export const Menu: Icon;
   export const X: Icon;
   export const Moon: Icon;
-  export const Sun: Icon;
+  export const AlertTriangle: Icon;
   export const ArrowRight: Icon;
-  export const ArrowLeft: Icon;
+  export const RefreshCw: Icon;
+  export const ChevronRight: Icon;
+  export const Gauge: Icon;
+  export const DollarSign: Icon;
   export const Zap: Icon;
+  export const Award: Icon;
+  export const Smartphone: Icon;
+  export const Link2: Icon;
+  export const Sun: Icon;
+  export const ArrowLeft: Icon;
   export const BookOpen: Icon;
   export const ExternalLink: Icon;
   export const Info: Icon;
