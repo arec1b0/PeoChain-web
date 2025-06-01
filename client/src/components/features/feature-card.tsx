@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight, Gauge, DollarSign, Zap, Award, Smartphone, Link2 } from 'lucide-react';
 import { TouchableCard, CardContent } from '@/components/ui/card';

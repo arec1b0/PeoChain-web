@@ -1,4 +1,5 @@
 import React from 'react';
+const { Suspense } = React;
 import { ErrorBoundaryEnhanced, DefaultErrorFallback } from '@/components/ui/error-boundary-enhanced';
 import Navigation from '@/components/navigation';
 import FooterSection from '@/components/footer-section';
@@ -16,50 +17,48 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   showFooter = true,
   className = ''
 }: MainLayoutProps) => {
-  // Destructure React.Suspense to use within component
-  const { Suspense } = React;
-
-  // Define the render functions separately for better TypeScript inferencing
-  const themeRenderFn = (themeProps: React.PropsWithChildren<unknown>): React.ReactElement => {
-    const errorBoundaryRenderFn = (errorProps: React.PropsWithChildren<unknown>): React.ReactElement => {
-      const navigationRenderFn = (): React.ReactElement => <Navigation />;
+  // Properly structure the JSX to provide the children props correctly
+  // Create the children elements before using them in JSX to make TypeScript happy
+  const mainContent = (
+    <div className={`min-h-screen flex flex-col ${className}`}>
+      <ErrorBoundaryEnhanced children={<Navigation />} />
       
-      const footerRenderFn = (): React.ReactElement => (
-        <Suspense fallback={<SectionLoadingSkeleton />}>
-          <FooterSection />
-        </Suspense>
-      );
+      <main className="flex-grow">
+        {children}
+      </main>
       
-      return (
-        <div className={`min-h-screen flex flex-col ${className}`}>
-          <ErrorBoundaryEnhanced children={navigationRenderFn} />
-          
-          <main className="flex-grow">
-            {children}
-          </main>
-          
-          {showFooter && (
-            <ErrorBoundaryEnhanced children={footerRenderFn} />
-          )}
-        </div>
-      );
-    };
-    
-    return (
-      <ErrorBoundaryEnhanced 
-        fallback={DefaultErrorFallback}
-        children={errorBoundaryRenderFn}
-      />
-    );
-  };
+      {showFooter && (
+        <ErrorBoundaryEnhanced children={
+          <Suspense fallback={<SectionLoadingSkeleton />}>
+            <FooterSection />
+          </Suspense>
+        } />
+      )}
+    </div>
+  );
 
   return (
     <ThemeProvider 
       defaultTheme="light" 
       storageKey="peochain-theme"
-      children={themeRenderFn}
+      children={
+        <ErrorBoundaryEnhanced 
+          fallback={({ 
+            error, 
+            resetError, 
+            errorInfo 
+          }: { 
+            error: Error; 
+            resetError: () => void; 
+            errorInfo: React.ErrorInfo | null 
+          }) => (
+            <DefaultErrorFallback error={error} resetError={resetError} errorInfo={errorInfo} />
+          )}
+          children={mainContent}
+        />
+      }
     />
-  );
+  )
 };
 
 export default MainLayout;

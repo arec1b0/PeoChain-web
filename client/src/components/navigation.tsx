@@ -340,11 +340,11 @@ export const Navigation: React.FC = () => {
                   size="sm" 
                   className="w-full mt-4 justify-center py-3 text-base"
                   onClick={() => {
-                    window.open('/app', '_blank');
+                    window.open('/validator-bonds', '_blank');
                     setIsMobileMenuOpen(false);
                   }}
                 >
-                  Launch App
+                  To Bonds
                   <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                 </Button>
               </div>
