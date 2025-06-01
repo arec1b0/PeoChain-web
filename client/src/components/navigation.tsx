@@ -1,20 +1,35 @@
-import React from 'react';
+import React from "react";
 const { useState, useEffect, useRef, useCallback } = React;
-import { Link, useLocation } from 'wouter';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Menu, X, Moon, Sun, ArrowRight, Zap, BookOpen } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Progress } from '@/components/ui/progress';
-import { useTheme } from '@/components/ui/theme-provider';
-import { cn } from '@/lib/utils';
-import { useOnClickOutside } from '@/hooks/use-click-outside';
-import { useLockBodyScroll } from '@/hooks/use-lock-body-scroll';
-import { useKeyPress } from '@/hooks/use-key-press';
+import { Link, useLocation } from "wouter";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search,
+  Menu,
+  X,
+  Moon,
+  Sun,
+  ArrowRight,
+  Zap,
+  BookOpen,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import { useTheme } from "@/components/ui/theme-provider";
+import { cn } from "@/lib/utils";
+import { useOnClickOutside } from "@/hooks/use-click-outside";
+import { useLockBodyScroll } from "@/hooks/use-lock-body-scroll";
+import { useKeyPress } from "@/hooks/use-key-press";
 
 // Using a placeholder for the logo - replace with your actual logo import
-const BrandmarkLogo = React.forwardRef<HTMLImageElement, React.ImgHTMLAttributes<HTMLImageElement>>(
-  (props: React.ImgHTMLAttributes<HTMLImageElement>, ref: React.Ref<HTMLImageElement>) => (
+const BrandmarkLogo = React.forwardRef<
+  HTMLImageElement,
+  React.ImgHTMLAttributes<HTMLImageElement>
+>(
+  (
+    props: React.ImgHTMLAttributes<HTMLImageElement>,
+    ref: React.Ref<HTMLImageElement>,
+  ) => (
     <img
       ref={ref}
       src="/logo.svg"
@@ -24,9 +39,9 @@ const BrandmarkLogo = React.forwardRef<HTMLImageElement, React.ImgHTMLAttributes
       loading="eager"
       {...props}
     />
-  )
+  ),
 );
-BrandmarkLogo.displayName = 'BrandmarkLogo';
+BrandmarkLogo.displayName = "BrandmarkLogo";
 
 interface NavItem {
   href: string;
@@ -39,13 +54,13 @@ export const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [scrollProgress, setScrollProgress] = useState<number>(0);
-  const [activeSection, setActiveSection] = useState<string>('home');
-  
+  const [activeSection, setActiveSection] = useState<string>("home");
+
   const { theme, setTheme } = useTheme();
   const [location] = useLocation();
-  
+
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -72,7 +87,7 @@ export const Navigation: React.FC = () => {
   });
 
   // Handle escape key to close modals
-  useKeyPress('Escape', () => {
+  useKeyPress("Escape", () => {
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
       menuButtonRef.current?.focus();
@@ -87,12 +102,13 @@ export const Navigation: React.FC = () => {
     if (isMobileMenuOpen && mobileMenuRef.current) {
       // Save the element that had focus before opening the menu
       lastFocusedElement.current = document.activeElement as HTMLElement;
-      
+
       // Focus first focusable element in the menu
-      const focusableElements = mobileMenuRef.current.querySelectorAll<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      
+      const focusableElements =
+        mobileMenuRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+
       if (focusableElements.length > 0) {
         focusableElements[0].focus();
       }
@@ -115,14 +131,15 @@ export const Navigation: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const windowHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
       const progress = (scrollY / windowHeight) * 100;
-      
+
       setScrollProgress(progress);
       setIsScrolled(scrollY > 10);
-      
+
       // Update active section based on scroll position
-      const sections = document.querySelectorAll('section[id]');
+      const sections = document.querySelectorAll("section[id]");
       sections.forEach((section) => {
         const sectionTop = section.getBoundingClientRect().top;
         if (sectionTop <= 100) {
@@ -131,12 +148,12 @@ export const Navigation: React.FC = () => {
       });
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const toggleTheme = useCallback(() => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme(theme === "dark" ? "light" : "dark");
   }, [theme, setTheme]);
 
   const toggleMobileMenu = useCallback(() => {
@@ -153,8 +170,13 @@ export const Navigation: React.FC = () => {
   }, []);
 
   const navItems: NavItem[] = [
-    { href: '/technology', label: 'Technology', icon: Zap, id: 'technology' },
-    { href: '/whitepaper', label: 'Whitepaper', icon: BookOpen, id: 'whitepaper' },
+    { href: "/technology", label: "Technology", icon: Zap, id: "technology" },
+    {
+      href: "/whitepaper",
+      label: "Whitepaper",
+      icon: BookOpen,
+      id: "whitepaper",
+    },
   ];
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -163,15 +185,18 @@ export const Navigation: React.FC = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const navigateToHome = useCallback((e?: React.KeyboardEvent | React.MouseEvent) => {
-    if (e && 'key' in e && e.key !== 'Enter' && e.key !== ' ') {
-      return;
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  const navigateToHome = useCallback(
+    (e?: React.KeyboardEvent | React.MouseEvent) => {
+      if (e && "key" in e && e.key !== "Enter" && e.key !== " ") {
+        return;
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [],
+  );
 
   const handleKeyDown = (event: React.KeyboardEvent, action: () => void) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       action();
     }
@@ -181,42 +206,46 @@ export const Navigation: React.FC = () => {
     <>
       {/* Progress Bar - Accessible only when scrolled */}
       {isScrolled && (
-        <div 
-          className="fixed top-0 left-0 right-0 z-50" 
-          role="progressbar" 
-          aria-valuenow={Math.round(scrollProgress)} 
-          aria-valuemin={0} 
+        <div
+          className="fixed top-0 left-0 right-0 z-50"
+          role="progressbar"
+          aria-valuenow={Math.round(scrollProgress)}
+          aria-valuemin={0}
           aria-valuemax={100}
           aria-label="Page scroll progress"
         >
-          <Progress 
-            value={scrollProgress} 
+          <Progress
+            value={scrollProgress}
             className="h-1 rounded-none bg-transparent"
             aria-hidden="true"
           />
         </div>
       )}
-      
+
       <header className="fixed top-0 left-0 right-0 z-40 transition-all duration-300">
-        <nav 
+        <nav
           className={cn(
-            'flex items-center justify-between px-4 py-3 transition-all duration-300',
-            isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
+            "flex items-center justify-between px-4 py-3 transition-all duration-300",
+            isScrolled
+              ? "bg-background/80 backdrop-blur-md shadow-sm"
+              : "bg-transparent",
           )}
           aria-label="Main navigation"
         >
           <div className="flex items-center space-x-2">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md p-1 -ml-1"
               aria-label="Go to homepage"
-              aria-current={location === '/' ? 'page' : undefined}
+              aria-current={location === "/" ? "page" : undefined}
               onClick={navigateToHome}
-              onKeyDown={(e: React.KeyboardEvent) => handleKeyDown(e, navigateToHome)}
+              onKeyDown={(e: React.KeyboardEvent) =>
+                handleKeyDown(e, navigateToHome)
+              }
             >
               <BrandmarkLogo className="h-8 w-auto" />
               <span className="ml-2 text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                PeoChain
+                PEOCHAIN
               </span>
             </Link>
           </div>
@@ -224,18 +253,22 @@ export const Navigation: React.FC = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item, index) => {
-              const Icon = item.icon || 'div';
+              const Icon = item.icon || "div";
               return (
                 <Link
                   key={item.id}
                   href={item.href}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
                     location.startsWith(item.href)
-                      ? 'text-foreground bg-primary/10'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      ? "text-foreground bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                   }`}
-                  aria-current={location.startsWith(item.href) ? 'page' : undefined}
-                  onKeyDown={(e: React.KeyboardEvent) => handleKeyDown(e, () => window.location.href = item.href)}
+                  aria-current={
+                    location.startsWith(item.href) ? "page" : undefined
+                  }
+                  onKeyDown={(e: React.KeyboardEvent) =>
+                    handleKeyDown(e, () => (window.location.href = item.href))
+                  }
                 >
                   <div className="flex items-center">
                     {item.icon && <Icon className="mr-2 h-4 w-4" />}
@@ -244,13 +277,13 @@ export const Navigation: React.FC = () => {
                 </Link>
               );
             })}
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               className="ml-2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              onClick={() => window.open('/app', '_blank')}
+              onClick={() => window.open("/validator-bonds", "_blank")}
             >
-              Launch App
+              To Validator Bonds
               <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
             </Button>
           </div>
@@ -273,7 +306,7 @@ export const Navigation: React.FC = () => {
               type="button"
               onClick={toggleMobileMenu}
               className="p-2 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
-              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
               aria-haspopup="true"
@@ -295,53 +328,60 @@ export const Navigation: React.FC = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2, ease: 'easeInOut' }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
               className="fixed inset-x-0 top-16 bg-background shadow-lg md:hidden z-40 border-t border-border"
               id="mobile-menu"
               role="dialog"
               aria-modal="true"
               aria-labelledby="mobile-menu-title"
             >
-              <h2 id="mobile-menu-title" className="sr-only">Mobile Menu</h2>
+              <h2 id="mobile-menu-title" className="sr-only">
+                Mobile Menu
+              </h2>
               <div className="px-2 pt-2 pb-3 space-y-1">
                 {navItems.map((item) => {
-                  const Icon = item.icon || 'div';
+                  const Icon = item.icon || "div";
                   return (
                     <Link
                       key={item.id}
                       href={item.href}
                       className={cn(
-                        'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+                        "block px-3 py-2 rounded-md text-base font-medium transition-colors",
                         location.startsWith(item.href)
-                          ? 'text-primary bg-accent font-semibold'
-                          : 'text-foreground hover:bg-accent hover:bg-opacity-50'
+                          ? "text-primary bg-accent font-semibold"
+                          : "text-foreground hover:bg-accent hover:bg-opacity-50",
                       )}
                       onClick={() => {
                         setIsMobileMenuOpen(false);
                         menuButtonRef.current?.focus();
                       }}
-                      aria-current={location.startsWith(item.href) ? 'page' : undefined}
+                      aria-current={
+                        location.startsWith(item.href) ? "page" : undefined
+                      }
                     >
                       <div className="flex items-center">
                         {item.icon && <Icon className="mr-2 h-4 w-4" />}
                         {item.label}
                         {location.startsWith(item.href) && (
-                          <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                          <ArrowRight
+                            className="ml-2 h-4 w-4"
+                            aria-hidden="true"
+                          />
                         )}
                       </div>
                     </Link>
                   );
                 })}
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="w-full mt-2 justify-center"
                   onClick={() => {
-                    window.open('/app', '_blank');
+                    window.open("/validator-bonds", "_blank");
                     setIsMobileMenuOpen(false);
                   }}
                 >
-                  Launch App
+                  To Validator Bonds
                   <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                 </Button>
               </div>
@@ -356,7 +396,7 @@ export const Navigation: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.15, ease: 'easeInOut' }}
+              transition={{ duration: 0.15, ease: "easeInOut" }}
               className="fixed inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center p-4"
               role="dialog"
               aria-modal="true"
@@ -364,8 +404,8 @@ export const Navigation: React.FC = () => {
             >
               <div className="w-full max-w-2xl">
                 <form onSubmit={handleSearchSubmit} className="relative">
-                  <Search 
-                    className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground pointer-events-none" 
+                  <Search
+                    className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground pointer-events-none"
                     aria-hidden="true"
                   />
                   <Input
@@ -374,7 +414,9 @@ export const Navigation: React.FC = () => {
                     placeholder="Search..."
                     className="w-full pl-10 pr-12 py-6 text-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     value={searchQuery}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setSearchQuery(e.target.value)
+                    }
                     autoFocus
                     aria-label="Search"
                     aria-describedby="search-instructions"
@@ -391,12 +433,14 @@ export const Navigation: React.FC = () => {
                     <X className="h-5 w-5" aria-hidden="true" />
                   </button>
                 </form>
-                <p 
-                  id="search-instructions" 
+                <p
+                  id="search-instructions"
                   className="mt-4 text-center text-sm text-muted-foreground"
                 >
-                  {searchQuery ? 'No results found' : 'Type to search'}
-                  <span className="block mt-1 text-xs opacity-70">Press Esc to close</span>
+                  {searchQuery ? "No results found" : "Type to search"}
+                  <span className="block mt-1 text-xs opacity-70">
+                    Press Esc to close
+                  </span>
                 </p>
               </div>
             </motion.div>
