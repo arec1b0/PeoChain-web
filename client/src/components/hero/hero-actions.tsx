@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { memo, useCallback, useMemo } from 'react';
+import React from 'react';
+const { memo, useCallback, useMemo } = React;
 import { Workflow, TestTube, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { HeroAction } from '@/data/hero-data';
@@ -16,12 +17,14 @@ const iconMap = {
   BookOpen
 } as const;
 
-const ActionButton = memo<{
+interface ActionButtonProps {
   readonly action: HeroAction;
   readonly index: number;
   readonly onClick: (href: string) => void;
   readonly prefersReducedMotion: boolean;
-}>(({ action, index, onClick, prefersReducedMotion }) => {
+}
+
+const ActionButton = memo<ActionButtonProps>(({ action, index, onClick, prefersReducedMotion }: ActionButtonProps) => {
   const IconComponent = iconMap[action.icon as keyof typeof iconMap];
   
   const handleClick = useCallback(() => {
@@ -42,13 +45,26 @@ const ActionButton = memo<{
       onKeyDown={onKeyDown}
       className={
         action.type === 'primary' 
-          ? "bg-sage hover:bg-medium-forest text-white font-raleway font-medium text-lg px-8 py-4 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl focus:ring-2 focus:ring-sage focus:ring-offset-2"
-          : "border-2 border-sage text-forest hover:bg-sage hover:text-white font-raleway font-medium text-lg px-8 py-4 rounded-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-xl focus:ring-2 focus:ring-sage focus:ring-offset-2"
+          ? "bg-sage hover:bg-medium-forest active:bg-dark-forest text-white font-raleway font-medium text-base sm:text-lg" + 
+            " px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-lg" + 
+            " transform transition-all duration-300 hover:scale-105 hover:shadow-xl" +
+            " focus:ring-2 focus:ring-sage focus:ring-offset-2" +
+            " touch-action-manipulation active:scale-[0.98] active:shadow-md" + 
+            " min-h-[56px] min-w-[120px] w-full sm:w-auto" +
+            " select-none tap-highlight-transparent"
+          : "border-2 border-sage text-forest hover:bg-sage hover:text-white active:bg-medium-forest" + 
+            " font-raleway font-medium text-base sm:text-lg px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl" + 
+            " transform transition-all duration-300 hover:scale-105 hover:shadow-xl" +
+            " focus:ring-2 focus:ring-sage focus:ring-offset-2" +
+            " touch-action-manipulation active:scale-[0.98]" +
+            " min-h-[56px] min-w-[120px] w-full sm:w-auto" +
+            " select-none tap-highlight-transparent"
       }
+      mobileOptimized={true}
       aria-label={ariaLabel}
       tabIndex={0}
     >
-      {IconComponent && <IconComponent className="mr-2 h-5 w-5" aria-hidden="true" />}
+      {IconComponent && <IconComponent className="mr-2 h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />}
       {action.label}
     </Button>
   );
@@ -56,7 +72,7 @@ const ActionButton = memo<{
 
 ActionButton.displayName = 'ActionButton';
 
-const HeroActions = memo<HeroActionsProps>(({ actions }) => {
+const HeroActions = memo<HeroActionsProps>(({ actions }: HeroActionsProps) => {
   const prefersReducedMotion = useReducedMotion();
   
   const handleActionClick = useCallback((href: string): void => {
@@ -76,7 +92,7 @@ const HeroActions = memo<HeroActionsProps>(({ actions }) => {
       };
 
   const memoizedActions = useMemo(() => 
-    actions.map((action, index) => (
+    actions.map((action: HeroAction, index: number) => (
       <ActionButton
         key={`${action.label}-${index}`}
         action={action}
@@ -90,7 +106,7 @@ const HeroActions = memo<HeroActionsProps>(({ actions }) => {
 
   return (
     <motion.div 
-      className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6"
+      className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 px-4 sm:px-0 w-full sm:w-auto"
       {...animationProps}
       role="group"
       aria-label="Primary actions"

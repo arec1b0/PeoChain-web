@@ -16,33 +16,49 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   showFooter = true,
   className = ''
 }: MainLayoutProps) => {
+  // Destructure React.Suspense to use within component
   const { Suspense } = React;
 
-  return (
-    <ThemeProvider 
-      defaultTheme="light" 
-      storageKey="peochain-theme"
-    >
-      <ErrorBoundaryEnhanced fallback={DefaultErrorFallback}>
+  // Define the render functions separately for better TypeScript inferencing
+  const themeRenderFn = (themeProps: React.PropsWithChildren<unknown>): React.ReactElement => {
+    const errorBoundaryRenderFn = (errorProps: React.PropsWithChildren<unknown>): React.ReactElement => {
+      const navigationRenderFn = (): React.ReactElement => <Navigation />;
+      
+      const footerRenderFn = (): React.ReactElement => (
+        <Suspense fallback={<SectionLoadingSkeleton />}>
+          <FooterSection />
+        </Suspense>
+      );
+      
+      return (
         <div className={`min-h-screen flex flex-col ${className}`}>
-          <ErrorBoundaryEnhanced>
-            <Navigation />
-          </ErrorBoundaryEnhanced>
+          <ErrorBoundaryEnhanced children={navigationRenderFn} />
           
           <main className="flex-grow">
             {children}
           </main>
           
           {showFooter && (
-            <ErrorBoundaryEnhanced>
-              <Suspense fallback={<SectionLoadingSkeleton />}>
-                <FooterSection />
-              </Suspense>
-            </ErrorBoundaryEnhanced>
+            <ErrorBoundaryEnhanced children={footerRenderFn} />
           )}
         </div>
-      </ErrorBoundaryEnhanced>
-    </ThemeProvider>
+      );
+    };
+    
+    return (
+      <ErrorBoundaryEnhanced 
+        fallback={DefaultErrorFallback}
+        children={errorBoundaryRenderFn}
+      />
+    );
+  };
+
+  return (
+    <ThemeProvider 
+      defaultTheme="light" 
+      storageKey="peochain-theme"
+      children={themeRenderFn}
+    />
   );
 };
 

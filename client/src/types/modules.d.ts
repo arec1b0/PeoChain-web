@@ -1,5 +1,82 @@
 // Type declarations for external modules that don't have types available
 
+declare module '@radix-ui/react-slot' {
+  import * as React from 'react';
+  
+  export interface SlotProps extends React.HTMLAttributes<HTMLElement> {
+    children?: React.ReactNode;
+    asChild?: boolean;
+  }
+
+  export const Slot: React.ForwardRefExoticComponent<
+    SlotProps & React.RefAttributes<HTMLElement>
+  >;
+}
+
+declare module 'react-hook-form' {
+  import * as React from 'react';
+  
+  export type FieldValues = Record<string, any>;
+  export type FieldPath<TFieldValues extends FieldValues> = string;
+  
+  export interface ControllerProps<
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  > {
+    name: TName;
+    control?: any;
+    defaultValue?: any;
+    rules?: any;
+    render: ({
+      field,
+      fieldState,
+      formState,
+    }: {
+      field: any;
+      fieldState: any;
+      formState: any;
+    }) => React.ReactElement;
+  }
+  
+  export interface UseFormReturn<TFieldValues extends FieldValues = FieldValues> {
+    control: any;
+    handleSubmit: (onSubmit: (data: TFieldValues) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+    formState: {
+      errors: Record<string, any>;
+      isSubmitting: boolean;
+      isDirty: boolean;
+      isValid: boolean;
+      dirtyFields: Record<string, boolean>;
+      touchedFields: Record<string, boolean>;
+    };
+    register: (name: string, options?: any) => any;
+    watch: (name?: string) => any;
+    setValue: (name: string, value: any, options?: any) => void;
+    getValues: (payload?: any) => any;
+    reset: (values?: any, options?: any) => void;
+    getFieldState: (name: string, formState?: any) => {
+      invalid: boolean;
+      isDirty: boolean;
+      isTouched: boolean;
+      error?: any;
+    };
+  }
+
+  export function useForm<TFieldValues extends FieldValues = FieldValues>(options?: any): UseFormReturn<TFieldValues>;
+  
+  export function Controller<
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  >(props: ControllerProps<TFieldValues, TName>): React.ReactElement;
+
+  export function FormProvider<TFieldValues extends FieldValues = FieldValues>(props: {
+    children: React.ReactNode;
+    [key: string]: any;
+  }): React.ReactElement;
+  
+  export function useFormContext<TFieldValues extends FieldValues = FieldValues>(): UseFormReturn<TFieldValues>;
+}
+
 declare module 'react' {
   import * as React from 'react';
   export = React;
@@ -104,4 +181,18 @@ declare module 'lucide-react' {
   export const HardDrive: Icon;
   export const Layers3: Icon;
   export const Lock: Icon;
+  
+  // Added icons for mobile UI optimization
+  export const Gauge: Icon;
+  export const Award: Icon;
+  export const Link2: Icon;
+  export const Smartphone: Icon;
+  export const TestTube: Icon;
+  export const Rocket: Icon;
+  export const Book: Icon;
+  export const Twitter: Icon;
+  export const MessageCircle: Icon;
+  export const Github: Icon;
+  export const Mail: Icon;
+  export const Linkedin: Icon;
 }
