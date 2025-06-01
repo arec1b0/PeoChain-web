@@ -1,5 +1,6 @@
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Zap, ShieldCheck, Network } from 'lucide-react';
+import { Zap, ShieldCheck, Gauge } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default function TrilemmaSection() {
@@ -17,7 +18,7 @@ export default function TrilemmaSection() {
       gradient: 'bg-medium-forest'
     },
     {
-      icon: Network,
+      icon: Gauge,
       title: 'Decentralization',
       description: '10,000+ global validators with low barriers',
       gradient: 'bg-dark-sage'
@@ -25,7 +26,7 @@ export default function TrilemmaSection() {
   ];
 
   return (
-    <section id="technology" className="gradient-mint-white py-20 px-4 sm:px-6 lg:px-8">
+    <section id="technology" className="gradient-mint-white py-12 sm:py-16 lg:py-20 px-3 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <motion.div 
           className="text-center mb-16"
@@ -34,18 +35,18 @@ export default function TrilemmaSection() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-raleway font-medium text-forest mb-6">
+          <h2 className="text-2xl sm:text-3xl lg:text-5xl font-raleway font-medium text-forest mb-4 sm:mb-6">
             The <span className="text-sage">Blockchain Trilemma</span> Solved
           </h2>
-          <p className="text-lg sm:text-xl font-hammersmith text-forest/80 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg lg:text-xl font-hammersmith text-forest/80 max-w-3xl mx-auto leading-relaxed">
             Traditional blockchains struggle to balance scalability, security, and decentralization. 
             PeoChain's innovative architecture achieves all three simultaneously.
           </p>
         </motion.div>
         
         {/* Interactive Trilemma Diagram */}
-        <div className="relative max-w-4xl mx-auto">
-          <div className="flex flex-col lg:flex-row items-center justify-center space-y-8 lg:space-y-0 lg:space-x-12">
+        <div className="relative max-w-4xl mx-auto px-2">
+          <div className="flex flex-col lg:flex-row items-center justify-center space-y-6 sm:space-y-8 lg:space-y-0 lg:space-x-12">
             {trilemmaPoints.map((point, index) => (
               <motion.div
                 key={point.title}
@@ -54,10 +55,10 @@ export default function TrilemmaSection() {
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05 }}
-                className="group cursor-pointer"
+                className="group cursor-pointer touch-action-manipulation w-full sm:w-auto"
               >
                 <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg transform transition-all duration-500 group-hover:shadow-2xl">
-                  <CardContent className="p-8 text-center">
+                  <CardContent className="p-5 sm:p-8 text-center">
                     <div className={`w-16 h-16 ${point.gradient} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse`}>
                       <point.icon className="text-white h-8 w-8" />
                     </div>

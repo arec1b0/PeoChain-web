@@ -1,25 +1,32 @@
 import { motion } from 'framer-motion';
-import { ChevronRight, Network, DollarSign, Zap, Star, Smartphone, Link } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { ChevronRight, Gauge, DollarSign, Zap, Award, Smartphone, Link2 } from 'lucide-react';
+import { TouchableCard, CardContent } from '@/components/ui/card';
+import { useTouch } from '@/hooks';
 import { CoreFeature } from '@/data/features-data';
 
 interface FeatureCardProps {
   feature: CoreFeature;
   index: number;
   isInView: boolean;
+  // React internal props not needed in interface
 }
 
 const iconMap = {
-  Network,
+  Network: Gauge, // Replace Network with Gauge
   DollarSign,
   Zap,
-  Star,
+  Star: Award, // Replace Star with Award
   Smartphone,
-  Link
+  Link: Link2 // Replace Link with Link2
 };
 
 export default function FeatureCard({ feature, index, isInView }: FeatureCardProps) {
   const IconComponent = iconMap[feature.icon as keyof typeof iconMap];
+  const touchHandlers = useTouch({
+    provideFeedback: true,
+    feedbackDuration: 200,
+    activeClass: "touch-active"
+  });
 
   return (
     <motion.div
@@ -27,10 +34,20 @@ export default function FeatureCard({ feature, index, isInView }: FeatureCardPro
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       whileHover={{ scale: 1.02 }}
-      className="group cursor-pointer"
+      className="group touch-action-manipulation select-none"
+      aria-label={`Feature: ${feature.title}`}
     >
-      <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg transform transition-all duration-500 group-hover:shadow-2xl group-hover:border-sage/40 h-full">
-        <CardContent className="p-8">
+      <TouchableCard 
+        className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg transform transition-all duration-500 group-hover:shadow-2xl group-hover:border-sage/40 h-full"
+        provideFeedback={true}
+        actionable={true}
+        role="button"
+        aria-label={feature.title}
+        onTouchStart={touchHandlers.onTouchStart}
+        onTouchEnd={touchHandlers.onTouchEnd}
+        onTouchCancel={touchHandlers.onTouchCancel}
+      >
+        <CardContent className="p-5 sm:p-6 md:p-8">
           {/* Icon and Metric */}
           <div className="flex items-start justify-between mb-6">
             <div className={`w-16 h-16 ${feature.gradient} rounded-2xl flex items-center justify-center group-hover:animate-pulse transition-all duration-300`}>
@@ -60,7 +77,7 @@ export default function FeatureCard({ feature, index, isInView }: FeatureCardPro
             ))}
           </div>
         </CardContent>
-      </Card>
+      </TouchableCard>
     </motion.div>
   );
 }

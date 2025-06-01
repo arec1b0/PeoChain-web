@@ -197,10 +197,10 @@ export const Navigation: React.FC = () => {
         </div>
       )}
       
-      <header className="fixed top-0 left-0 right-0 z-40 transition-all duration-300">
+      <header className="fixed top-0 left-0 right-0 z-40 transition-all duration-300" style={{ maxHeight: '100vh' }}>
         <nav 
           className={cn(
-            'flex items-center justify-between px-4 py-3 transition-all duration-300',
+            'flex items-center justify-between px-4 py-2 sm:py-3 transition-all duration-300',
             isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
           )}
           aria-label="Main navigation"
@@ -261,27 +261,28 @@ export const Navigation: React.FC = () => {
               ref={searchButtonRef}
               type="button"
               onClick={toggleSearch}
-              className="p-2 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+              className="p-3 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
               aria-label="Search"
               aria-expanded={isSearchOpen}
               aria-controls="search-dialog"
             >
-              <Search className="h-5 w-5" aria-hidden="true" />
+              <Search className="h-6 w-6" aria-hidden="true" />
             </button>
             <button
               ref={menuButtonRef}
               type="button"
               onClick={toggleMobileMenu}
-              className="p-2 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+              className="p-3 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
               aria-haspopup="true"
+              style={{ touchAction: 'manipulation' }}
             >
               {isMobileMenuOpen ? (
-                <X className="h-5 w-5" aria-hidden="true" />
+                <X className="h-6 w-6" aria-hidden="true" />
               ) : (
-                <Menu className="h-5 w-5" aria-hidden="true" />
+                <Menu className="h-6 w-6" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -296,14 +297,14 @@ export const Navigation: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.2, ease: 'easeInOut' }}
-              className="fixed inset-x-0 top-16 bg-background shadow-lg md:hidden z-40 border-t border-border"
+              className="fixed inset-x-0 top-16 bottom-0 overflow-y-auto bg-background shadow-lg md:hidden z-40 border-t border-border max-h-[calc(100vh-4rem)]"
               id="mobile-menu"
               role="dialog"
               aria-modal="true"
               aria-labelledby="mobile-menu-title"
             >
               <h2 id="mobile-menu-title" className="sr-only">Mobile Menu</h2>
-              <div className="px-2 pt-2 pb-3 space-y-1">
+              <div className="px-4 pt-4 pb-6 space-y-3">
                 {navItems.map((item) => {
                   const Icon = item.icon || 'div';
                   return (
@@ -311,7 +312,9 @@ export const Navigation: React.FC = () => {
                       key={item.id}
                       href={item.href}
                       className={cn(
-                        'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+                        'block px-4 py-3 rounded-md text-base font-medium transition-colors',
+                        'touch-action-manipulation tap-highlight-transparent',
+                        'focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
                         location.startsWith(item.href)
                           ? 'text-primary bg-accent font-semibold'
                           : 'text-foreground hover:bg-accent hover:bg-opacity-50'
@@ -335,7 +338,7 @@ export const Navigation: React.FC = () => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="w-full mt-2 justify-center"
+                  className="w-full mt-4 justify-center py-3 text-base"
                   onClick={() => {
                     window.open('/app', '_blank');
                     setIsMobileMenuOpen(false);
