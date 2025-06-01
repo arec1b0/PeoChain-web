@@ -1,11 +1,26 @@
+import React from 'react';
 import { motion } from 'framer-motion';
-import Navigation from '@/components/navigation';
+import MainLayout from '@/components/layout/main-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Download, FileText, Users, Calendar, ChevronRight } from 'lucide-react';
+import { ErrorBoundaryEnhanced } from '@/components/ui/error-boundary-enhanced';
 
-export default function Whitepaper() {
+interface WhitepaperSection {
+  title: string;
+  content?: string;
+}
+
+interface WhitepaperData {
+  title: string;
+  authors: string[];
+  date: string;
+  abstract: string;
+  sections: string[];
+  keyFeatures: string[];
+}
+
+const Whitepaper: React.FC = () => {
   const whitepaperData = {
     title: "PeoChain - A Decentralized Financial Ecosystem for Global Inclusion",
     authors: ["Dan Otieno", "Daniil Krizhanovskyi"],
@@ -31,8 +46,7 @@ export default function Whitepaper() {
   };
 
   return (
-    <div className="min-h-screen bg-mint">
-      <Navigation />
+    <MainLayout className="bg-mint">
       {/* Hero Section */}
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
@@ -98,7 +112,7 @@ export default function Whitepaper() {
                     Authors
                   </h3>
                   <div className="grid md:grid-cols-2 gap-4">
-                    {whitepaperData.authors.map((author: string, index: number) => (
+                    {whitepaperData.authors.map((author, index) => (
                       <div key={index} className="text-center p-4 bg-sage/10 rounded-lg">
                         <div className="flex items-center justify-center mb-2">
                           <Users className="h-5 w-5 text-sage" />
@@ -115,7 +129,7 @@ export default function Whitepaper() {
                     Table of Contents
                   </h3>
                   <div className="space-y-3">
-                    {whitepaperData.sections.map((section: string, index: number) => (
+                    {whitepaperData.sections.map((section, index) => (
                       <div key={index} className="flex items-center justify-between p-3 bg-sage/5 rounded-lg hover:bg-sage/10 transition-colors">
                         <div className="flex items-center space-x-3">
                           <div className="w-8 h-8 bg-sage/20 rounded-full flex items-center justify-center">
@@ -147,7 +161,7 @@ export default function Whitepaper() {
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-4">
-                  {whitepaperData.keyFeatures.map((feature: string, index: number) => (
+                  {whitepaperData.keyFeatures.map((feature, index) => (
                     <div key={index} className="flex items-start space-x-3 p-3 bg-sage/5 rounded-lg">
                       <div className="w-2 h-2 bg-sage rounded-full mt-2 flex-shrink-0"></div>
                       <span className="font-hammersmith text-forest/80">{feature}</span>
@@ -203,6 +217,8 @@ export default function Whitepaper() {
           </motion.div>
         </div>
       </section>
-    </div>
+    </MainLayout>
   );
-}
+};
+
+export default Whitepaper;

@@ -73,8 +73,25 @@ declare module 'lucide-react' {
   export const Moon: Icon;
   export const Sun: Icon;
   export const ArrowRight: Icon;
+  export const ArrowLeft: Icon;
   export const Zap: Icon;
   export const BookOpen: Icon;
+  export const ExternalLink: Icon;
+  export const Info: Icon;
+  export const Download: Icon;
+  export const FileText: Icon;
+  export const Users: Icon;
+  export const Calendar: Icon;
+  export const ChevronRight: Icon;
+  export const MoreHorizontal: Icon;
+  export const Shield: Icon;
+  export const Key: Icon;
+  export const Clock: Icon;
+  export const Terminal: Icon;
+  export const Globe: Icon;
+  export const CheckCircle: Icon;
+  export const AlertCircle: Icon;
+  export const DollarSign: Icon;
   
   // Additional icons used in tech-stack-section.tsx
   export const Workflow: Icon;
