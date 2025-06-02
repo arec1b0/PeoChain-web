@@ -4,7 +4,8 @@ import rateLimit from "express-rate-limit";
 import session from "express-session";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { logger, logError, logInfo } from "./utils/logger";
+import { logger, logError, logInfo, logWarn } from "./utils/logger";
+import { csrfTokenGenerator } from "./middleware/csrf";
 
 const app = express();
 
@@ -91,6 +92,9 @@ app.use(
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: false, limit: "10mb" }));
+
+// CSRF token generation middleware
+app.use(csrfTokenGenerator);
 
 // Request logging middleware
 app.use((req, res, next) => {

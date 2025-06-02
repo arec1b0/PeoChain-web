@@ -21,31 +21,43 @@ export function validateCSRFToken(sessionToken: string, requestToken: string): b
 
 // Middleware to generate and attach CSRF token to session
 export function csrfTokenGenerator(
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) {
-  if (!req.session.csrfToken) {
-    req.session.csrfToken = generateCSRFToken();
+  const session = (req as any).session;
+  if (session && !session.csrfToken) {
+    session.csrfToken = generateCSRFToken();
   }
   next();
 }
 
+// Extended request interface for CSRF
+interface RequestWithSession extends Request {
+  session: any;
+  method: string;
+  headers: any;
+  body: any;
+  query: any;
+}
+
 // Middleware to validate CSRF token on state-changing requests
 export function csrfProtection(
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) {
+  const reqWithSession = req as RequestWithSession;
+  
   // Skip CSRF validation for GET, HEAD, OPTIONS requests
-  if (['GET', 'HEAD', 'OPTIONS'].includes(req.method || '')) {
+  if (['GET', 'HEAD', 'OPTIONS'].includes(reqWithSession.method || '')) {
     return next();
   }
 
-  const sessionToken = req.session.csrfToken;
-  const requestToken = (req.headers && req.headers['x-csrf-token'] as string) || 
-                      (req.body && req.body._csrf) || 
-                      (req.query && req.query._csrf as string);
+  const sessionToken = reqWithSession.session?.csrfToken;
+  const requestToken = reqWithSession.headers['x-csrf-token'] as string || 
+                      reqWithSession.body?._csrf || 
+                      reqWithSession.query?._csrf as string;
 
   if (!sessionToken || !requestToken || !validateCSRFToken(sessionToken, requestToken)) {
     return res.status(403).json({
@@ -60,11 +72,14 @@ export function csrfProtection(
 
 // Endpoint to get CSRF token for frontend
 export function getCSRFToken(
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
 ) {
-  const token = req.session.csrfToken || generateCSRFToken();
-  req.session.csrfToken = token;
+  const session = (req as any).session;
+  const token = session?.csrfToken || generateCSRFToken();
+  if (session) {
+    session.csrfToken = token;
+  }
   
   res.json({
     csrfToken: token,
@@ -75,6 +90,8 @@ export function getCSRFToken(
 // Declare module augmentation for session
 declare module "express-session" {
   interface SessionData {
+    userId?: number;
+    username?: string;
     csrfToken?: string;
   }
 }

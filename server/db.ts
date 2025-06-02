@@ -26,33 +26,54 @@ const poolConfig = {
 // Connection pool with monitoring
 export const pool = new Pool(poolConfig);
 
-// Pool event monitoring for performance tracking
+// Sanitize connection string for logging
+function sanitizeConnectionString(connectionString: string): string {
+  try {
+    const url = new URL(connectionString);
+    return `${url.protocol}//${url.hostname}:${url.port}${url.pathname}`;
+  } catch {
+    return '[REDACTED]';
+  }
+}
+
+// Pool event monitoring for performance tracking (sanitized)
 pool.on('connect', (client) => {
-  logInfo('Database client connected', {
-    totalCount: pool.totalCount,
-    idleCount: pool.idleCount,
-    waitingCount: pool.waitingCount
-  });
+  if (process.env.NODE_ENV === 'development') {
+    logInfo('Database client connected', {
+      totalCount: pool.totalCount,
+      idleCount: pool.idleCount,
+      waitingCount: pool.waitingCount,
+      host: sanitizeConnectionString(process.env.DATABASE_URL || '')
+    });
+  }
 });
 
 pool.on('acquire', (client) => {
-  logInfo('Database client acquired', {
-    totalCount: pool.totalCount,
-    idleCount: pool.idleCount,
-    waitingCount: pool.waitingCount
-  });
+  // Only log in development to reduce noise
+  if (process.env.NODE_ENV === 'development') {
+    logInfo('Database client acquired', {
+      totalCount: pool.totalCount,
+      idleCount: pool.idleCount,
+      waitingCount: pool.waitingCount
+    });
+  }
 });
 
 pool.on('error', (err, client) => {
-  logError(err, 'Database pool error');
+  // Always log errors but sanitize sensitive info
+  const sanitizedError = new Error(err.message);
+  sanitizedError.name = err.name;
+  logError(sanitizedError, 'Database pool error');
 });
 
 pool.on('remove', (client) => {
-  logInfo('Database client removed from pool', {
-    totalCount: pool.totalCount,
-    idleCount: pool.idleCount,
-    waitingCount: pool.waitingCount
-  });
+  if (process.env.NODE_ENV === 'development') {
+    logInfo('Database client removed from pool', {
+      totalCount: pool.totalCount,
+      idleCount: pool.idleCount,
+      waitingCount: pool.waitingCount
+    });
+  }
 });
 
 // Pool health monitoring
@@ -80,7 +101,7 @@ export function checkPoolSaturation() {
   }
   
   if (health.utilizationPercentage > 95) {
-    logError(new Error('Database pool near saturation'), 'Pool utilization critical', health);
+    logError(new Error('Database pool near saturation'), 'Pool utilization critical');
   }
   
   return health;

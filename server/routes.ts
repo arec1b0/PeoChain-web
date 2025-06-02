@@ -12,12 +12,17 @@ import {
   verifyPassword,
   type AuthenticatedRequest,
 } from "./middleware/auth";
+import { csrfProtection, getCSRFToken } from "./middleware/csrf";
 import { logError } from "./utils/logger";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // CSRF token endpoint
+  app.get("/api/auth/csrf-token", getCSRFToken);
+
   // Authentication Routes
   app.post(
     "/api/auth/register",
+    csrfProtection,
     userValidation,
     handleValidationErrors,
     async (req: Request, res: Response) => {
