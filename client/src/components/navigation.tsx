@@ -1,206 +1,25 @@
 import React from "react";
-const { useState, useEffect, useRef, useCallback } = React;
-import { Link, useLocation } from "wouter";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Search,
-  Menu,
-  X,
-  Moon,
-  Sun,
-  ArrowRight,
-  Zap,
-  BookOpen,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
-import { useTheme } from "@/components/ui/theme-provider";
 import { cn } from "@/lib/utils";
-import { useOnClickOutside } from "@/hooks/use-click-outside";
-import { useLockBodyScroll } from "@/hooks/use-lock-body-scroll";
-import { useKeyPress } from "@/hooks/use-key-press";
-
-// Using a placeholder for the logo - replace with your actual logo import
-const BrandmarkLogo = React.forwardRef<
-  HTMLImageElement,
-  React.ImgHTMLAttributes<HTMLImageElement>
->(
-  (
-    props: React.ImgHTMLAttributes<HTMLImageElement>,
-    ref: React.Ref<HTMLImageElement>,
-  ) => (
-    <img
-      ref={ref}
-      src="/logo.svg"
-      alt="PeoChain Logo"
-      width={32}
-      height={32}
-      loading="eager"
-      {...props}
-    />
-  ),
-);
-BrandmarkLogo.displayName = "BrandmarkLogo";
-
-interface NavItem {
-  href: string;
-  label: string;
-  icon?: React.ComponentType<{ className?: string }>;
-  id: string;
-}
+import { NavigationLogo } from "./navigation/navigation-logo";
+import { NavigationProgress } from "./navigation/navigation-progress";
+import { DesktopNavigation } from "./navigation/desktop-navigation";
+import { MobileNavigation } from "./navigation/mobile-navigation";
+import { useNavigationState } from "./navigation/use-navigation-state";
 
 export const Navigation: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
-  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [scrollProgress, setScrollProgress] = useState<number>(0);
-  const [activeSection, setActiveSection] = useState<string>("home");
-
-  const { theme, setTheme } = useTheme();
-  const [location] = useLocation();
-
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const searchButtonRef = useRef<HTMLButtonElement>(null);
-  const lastFocusedElement = useRef<HTMLElement | null>(null);
-
-  // Lock body scroll when mobile menu is open
-  useLockBodyScroll(isMobileMenuOpen || isSearchOpen);
-
-  // Close mobile menu when clicking outside
-  useOnClickOutside(mobileMenuRef, () => {
-    if (isMobileMenuOpen) {
-      setIsMobileMenuOpen(false);
-      menuButtonRef.current?.focus();
-    }
-  });
-
-  // Close search when clicking outside
-  useOnClickOutside(searchInputRef, () => {
-    if (isSearchOpen) {
-      setIsSearchOpen(false);
-      searchButtonRef.current?.focus();
-    }
-  });
-
-  // Handle escape key to close modals
-  useKeyPress("Escape", () => {
-    if (isMobileMenuOpen) {
-      setIsMobileMenuOpen(false);
-      menuButtonRef.current?.focus();
-    } else if (isSearchOpen) {
-      setIsSearchOpen(false);
-      searchButtonRef.current?.focus();
-    }
-  });
-
-  // Focus trap for mobile menu
-  useEffect(() => {
-    if (isMobileMenuOpen && mobileMenuRef.current) {
-      // Save the element that had focus before opening the menu
-      lastFocusedElement.current = document.activeElement as HTMLElement;
-
-      // Focus first focusable element in the menu
-      const focusableElements =
-        mobileMenuRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-        );
-
-      if (focusableElements.length > 0) {
-        focusableElements[0].focus();
-      }
-
-      return () => {
-        // Restore focus to the element that had focus before opening the menu
-        lastFocusedElement.current?.focus();
-      };
-    }
-  }, [isMobileMenuOpen]);
-
-  // Focus search input when search is opened
-  useEffect(() => {
-    if (isSearchOpen && searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [isSearchOpen]);
-
-  // Handle scroll events
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const windowHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollY / windowHeight) * 100;
-
-      setScrollProgress(progress);
-      setIsScrolled(scrollY > 10);
-
-      // Update active section based on scroll position
-      const sections = document.querySelectorAll("section[id]");
-      sections.forEach((section) => {
-        const sectionTop = section.getBoundingClientRect().top;
-        if (sectionTop <= 100) {
-          setActiveSection(section.id);
-        }
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const toggleTheme = useCallback(() => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  }, [theme, setTheme]);
-
-  const toggleMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen((prev: boolean) => {
-      if (!prev) {
-        lastFocusedElement.current = document.activeElement as HTMLElement;
-      }
-      return !prev;
-    });
-  }, []);
-
-  const toggleSearch = useCallback(() => {
-    setIsSearchOpen((prev: boolean) => !prev);
-  }, []);
-
-  const navItems: NavItem[] = [
-    { href: "/technology", label: "Technology", icon: Zap, id: "technology" },
-    {
-      href: "/whitepaper",
-      label: "Whitepaper",
-      icon: BookOpen,
-      id: "whitepaper",
-    },
-  ];
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle search submission
-    setIsMobileMenuOpen(false);
-  };
-
-  const navigateToHome = useCallback(
-    (e?: React.KeyboardEvent | React.MouseEvent) => {
-      if (e && "key" in e && e.key !== "Enter" && e.key !== " ") {
-        return;
-      }
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    },
-    [],
-  );
-
-  const handleKeyDown = (event: React.KeyboardEvent, action: () => void) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      action();
-    }
-  };
+  const {
+    isScrolled,
+    isMobileMenuOpen,
+    isSearchOpen,
+    searchQuery,
+    scrollProgress,
+    activeSection,
+    setSearchQuery,
+    toggleMobileMenu,
+    toggleSearch,
+    handleSearchSubmit,
+    navigateToHome,
+  } = useNavigationState();
 
   return (
     <>
