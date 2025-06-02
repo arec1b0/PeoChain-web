@@ -1,5 +1,5 @@
 import React from "react";
-const { Suspense, useRef } = React;
+const { Suspense, useRef, useMemo, useCallback, memo } = React;
 import {
   ErrorBoundaryEnhanced,
   SectionErrorFallback,
@@ -15,30 +15,37 @@ import {
   heroMetrics,
   floatingNodesConfig,
 } from "@/data/hero-data";
+const HeroSection = memo(function HeroSection() {
+  // Memoize expensive data transformations
+  const memoizedFloatingNodes = useMemo(() => floatingNodesConfig, []);
+  const memoizedHeroContent = useMemo(() => heroContent, []);
+  const memoizedMetrics = useMemo(() => heroMetrics, []);
 
-export default function HeroSection() {
-  const errorBoundaryContent = () => (
+  // Memoize error boundary content to prevent unnecessary re-renders
+  const errorBoundaryContent = useCallback(() => (
     <Suspense fallback={<HeroSectionSkeleton />}>
       <section
         id="home"
         className="relative min-h-[100svh] flex items-center justify-center pt-14 sm:pt-16 px-3 sm:px-6 lg:px-8 overflow-hidden bg-mint"
       >
-        <FloatingBackground nodes={floatingNodesConfig} />
+        <FloatingBackground nodes={memoizedFloatingNodes} />
 
         <div className="max-w-6xl mx-auto text-center relative z-10 py-10 sm:py-0">
-          <HeroTitle title={heroContent.title} />
-          <HeroDescription description={heroContent.description} />
-          <MetricsGrid metrics={heroMetrics} />
-          <HeroActions actions={heroContent.actions} />
+          <HeroTitle title={memoizedHeroContent.title} />
+          <HeroDescription description={memoizedHeroContent.description} />
+          <MetricsGrid metrics={memoizedMetrics} />
+          <HeroActions actions={memoizedHeroContent.actions} />
         </div>
       </section>
     </Suspense>
-  );
+  ), [memoizedFloatingNodes, memoizedHeroContent, memoizedMetrics]);
 
   return (
     <ErrorBoundaryEnhanced
       fallback={SectionErrorFallback}
       children={errorBoundaryContent}
-    ></ErrorBoundaryEnhanced>
+    />
   );
-}
+});
+
+export default HeroSection;
