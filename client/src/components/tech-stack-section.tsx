@@ -1,64 +1,61 @@
 import React from "react";
-const { useRef, useState } = React;
 import { motion } from "framer-motion";
-// Custom useInView hook for compatibility
-function useInView(
-  ref: React.RefObject<any>,
-  options: { once: boolean; margin: string },
-) {
-  const [isInView, setIsInView] = useState(false);
-  React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-        if (entry.isIntersecting && options.once) {
-          observer.disconnect();
-        }
-      },
-      { rootMargin: options.margin },
-    );
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [ref, options.margin, options.once]);
-  return isInView;
-}
-
-import {
-  Workflow,
-  ShieldCheck,
-  KeyRound,
-  AlertTriangle,
-  ChevronDown,
-  ChevronUp,
-  Brain,
-  HardDrive,
-  Layers3,
-  Lock,
-} from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { useInView } from "@/hooks/use-in-view";
+import TechComponentCard from "@/components/tech-stack/tech-component-card";
+import { techComponents } from "@/components/tech-stack/tech-data";
 
 export default function TechStackSection() {
-  const sectionRef = useRef(null);
+  const sectionRef = React.useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-  const [expandedComponent, setExpandedComponent] = useState<string | null>(
+  const [expandedComponent, setExpandedComponent] = React.useState<string | null>(
     null,
   );
 
-  const techComponents = [
-    {
-      id: "subnet",
+  const handleToggle = React.useCallback((id: string) => {
+    setExpandedComponent(prev => prev === id ? null : id);
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="py-20 bg-gradient-to-br from-mint/30 via-white to-sage/20 relative overflow-hidden"
+      aria-labelledby="tech-stack-heading"
+    >
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2
+            id="tech-stack-heading"
+            className="text-4xl md:text-5xl font-bold text-dark-forest mb-6 font-raleway"
+          >
+            Technology Stack
+          </h2>
+          <p className="text-xl text-forest/80 max-w-3xl mx-auto leading-relaxed">
+            Cutting-edge blockchain technology powering the future of
+            decentralized applications
+          </p>
+        </motion.div>
+
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {techComponents.map((component, index) => (
+            <TechComponentCard
+              key={component.id}
+              {...component}
+              isExpanded={expandedComponent === component.id}
+              onToggle={handleToggle}
+              index={index}
+              isInView={isInView}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
       icon: Workflow,
       title: "Subnet Validator Network",
       subtitle: "Distributed Architecture",
