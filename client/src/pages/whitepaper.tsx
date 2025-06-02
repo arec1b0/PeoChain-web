@@ -14,7 +14,7 @@ import { ErrorBoundaryEnhanced } from "@/components/ui/error-boundary-enhanced";
 
 interface WhitepaperSection {
   title: string;
-  content?: string;
+  summary: string;
 }
 
 interface WhitepaperData {
@@ -22,7 +22,7 @@ interface WhitepaperData {
   authors: string[];
   date: string;
   abstract: string;
-  sections: string[];
+  sections: WhitepaperSection[];
   keyFeatures: string[];
 }
 
@@ -35,13 +35,34 @@ const Whitepaper: React.FC = () => {
     abstract:
       "PeoChain is an innovative blockchain platform designed to deliver scalable, secure, and accessible decentralized financial services, with a mission to empower underbanked populations globally. Leveraging its novel Proof of Synergy (PoSyg) consensus mechanism and Dynamic Contribution Scoring (DCS) system, PeoChain achieves exceptional scalability, supporting up to 100,000 transactions per second with 1-second finality, while ensuring robust security and economic stability.",
     sections: [
-      "Introduction",
-      "Proof of Synergy (PoSyg): A Unique Consensus Model",
-      "Technical Architecture",
-      "Economic Model (Tokenomics)",
-      "Financial Model and Projections",
-      "Roadmap",
-      "Conclusion",
+      {
+        title: "Introduction",
+        summary: "Overview of global financial inclusion challenges and PeoChain's innovative solution to bridge the gap for underbanked populations worldwide."
+      },
+      {
+        title: "Proof of Synergy (PoSyg): A Unique Consensus Model",
+        summary: "Revolutionary consensus mechanism that combines validator performance, network contribution, and stake weight to achieve optimal scalability and security."
+      },
+      {
+        title: "Technical Architecture",
+        summary: "Comprehensive system design including subnet architecture, cross-chain interoperability, and zero-knowledge proof implementations."
+      },
+      {
+        title: "Economic Model (Tokenomics)",
+        summary: "Token distribution, validator rewards, transaction fee structure, and economic incentives driving network sustainability."
+      },
+      {
+        title: "Financial Model and Projections",
+        summary: "Revenue streams, market analysis, adoption forecasts, and long-term financial sustainability projections for the PeoChain ecosystem."
+      },
+      {
+        title: "Roadmap",
+        summary: "Development phases from testnet launch through mainnet deployment, including key milestones and timeline for global expansion."
+      },
+      {
+        title: "Conclusion",
+        summary: "Summary of PeoChain's potential impact on global financial inclusion and the future of decentralized finance."
+      },
     ],
     keyFeatures: [
       "Ultra-low transaction fees (as low as CHF 0.40)",
@@ -153,19 +174,24 @@ const Whitepaper: React.FC = () => {
                     {whitepaperData.sections.map((section, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-3 bg-sage/5 rounded-lg hover:bg-sage/10 transition-colors"
+                        className="p-4 bg-sage/5 rounded-lg hover:bg-sage/10 transition-colors border border-sage/10"
                       >
-                        <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 bg-sage/20 rounded-full flex items-center justify-center">
+                        <div className="flex items-start space-x-3">
+                          <div className="w-8 h-8 bg-sage/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                             <span className="text-sage font-raleway font-semibold text-sm">
                               {index + 1}
                             </span>
                           </div>
-                          <span className="font-hammersmith text-forest">
-                            {section}
-                          </span>
+                          <div className="flex-1">
+                            <h4 className="font-raleway font-semibold text-forest mb-2">
+                              {section.title}
+                            </h4>
+                            <p className="font-hammersmith text-forest/70 text-sm leading-relaxed">
+                              {section.summary}
+                            </p>
+                          </div>
+                          <ChevronRight className="h-4 w-4 text-sage mt-2 flex-shrink-0" />
                         </div>
-                        <ChevronRight className="h-4 w-4 text-sage" />
                       </div>
                     ))}
                   </div>
