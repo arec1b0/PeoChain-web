@@ -11,6 +11,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { ErrorBoundaryEnhanced } from "@/components/ui/error-boundary-enhanced";
+import { EXTERNAL_URLS } from "@shared/config";
+import { CARD_STYLES, BUTTON_STYLES, LAYOUT_STYLES } from "@shared/styles";
 
 interface WhitepaperSection {
   title: string;
@@ -131,7 +133,7 @@ const Whitepaper: React.FC = () => {
                     className="bg-sage hover:bg-medium-forest text-white font-raleway font-medium px-8 py-4"
                     onClick={() => {
                       const link = document.createElement('a');
-                      link.href = '/PEOCHAIN_White_Paper.pdf';
+                      link.href = EXTERNAL_URLS.WHITEPAPER_PDF;
                       link.download = 'PEOCHAIN_White_Paper.pdf';
                       document.body.appendChild(link);
                       link.click();
