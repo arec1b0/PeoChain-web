@@ -131,7 +131,7 @@ export const heroContent = {
       type: "secondary" as const,
       label: "Experience Testnet",
       icon: "TestTube",
-      href: "#",
+      href: "https://testnet.peochain.xyz",
       ariaLabel: "Try the PeoChain testnet environment",
     },
     {

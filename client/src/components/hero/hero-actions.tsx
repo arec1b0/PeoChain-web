@@ -88,8 +88,8 @@ const HeroActions = memo<HeroActionsProps>(({ actions }: HeroActionsProps) => {
   const prefersReducedMotion = useReducedMotion();
 
   const handleActionClick = useCallback((href: string): void => {
-    if (href === "#") {
-      console.log("Testnet action clicked");
+    if (href.startsWith("http")) {
+      window.open(href, "_blank");
       return;
     }
     window.location.href = href;

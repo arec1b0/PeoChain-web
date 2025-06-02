@@ -108,6 +108,7 @@ const Whitepaper: React.FC = () => {
                   <Button
                     size="lg"
                     className="bg-sage hover:bg-medium-forest text-white font-raleway font-medium px-8 py-4"
+                    onClick={() => window.open("https://docs.peochain.xyz/whitepaper.pdf", "_blank")}
                   >
                     <Download className="mr-2 h-5 w-5" />
                     Download PDF
