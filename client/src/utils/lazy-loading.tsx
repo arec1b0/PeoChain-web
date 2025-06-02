@@ -1,15 +1,27 @@
-import { lazy, Suspense, ComponentType, memo, useState, useRef, useEffect } from 'react';
-import { ErrorBoundaryEnhanced } from '@/components/ui/error-boundary-enhanced';
-import { SpinnerLoader } from '@/components/ui/loading-states';
-import { LazyComponentProps } from '@/types';
+import {
+  lazy,
+  Suspense,
+  ComponentType,
+  memo,
+  useState,
+  useRef,
+  useEffect,
+} from "react";
+import { ErrorBoundaryEnhanced } from "@/components/ui/error-boundary-enhanced";
+import { SpinnerLoader } from "@/components/ui/loading-states";
+import { LazyComponentProps } from "@/types";
 
 // Generic lazy component wrapper with error boundaries and fallbacks
 export function createLazyComponent<T extends Record<string, unknown>>(
   importFn: () => Promise<{ default: ComponentType<T> }>,
-  options: LazyComponentProps = {}
+  options: LazyComponentProps = {},
 ): ComponentType<T> {
   const LazyComponent = lazy(importFn);
-  const { fallback: FallbackComponent = SpinnerLoader, timeout = 10000, retry = 3 } = options;
+  const {
+    fallback: FallbackComponent = SpinnerLoader,
+    timeout = 10000,
+    retry = 3,
+  } = options;
 
   const WrappedComponent = memo((props: T) => {
     return (
@@ -34,7 +46,7 @@ export function createLazyComponent<T extends Record<string, unknown>>(
     );
   });
 
-  WrappedComponent.displayName = `LazyComponent(${LazyComponent.displayName || 'Unknown'})`;
+  WrappedComponent.displayName = `LazyComponent(${LazyComponent.displayName || "Unknown"})`;
 
   return WrappedComponent;
 }
@@ -48,12 +60,15 @@ export function preloadComponent(importFn: () => Promise<unknown>): void {
 }
 
 // Image lazy loading with intersection observer
-export function useLazyImage(src: string, placeholder?: string): {
+export function useLazyImage(
+  src: string,
+  placeholder?: string,
+): {
   readonly imageSrc: string;
   readonly isLoaded: boolean;
   readonly imageRef: React.RefObject<HTMLImageElement>;
 } {
-  const [imageSrc, setImageSrc] = useState(placeholder || '');
+  const [imageSrc, setImageSrc] = useState(placeholder || "");
   const [isLoaded, setIsLoaded] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -71,7 +86,7 @@ export function useLazyImage(src: string, placeholder?: string): {
               setIsLoaded(true);
             };
             img.onerror = () => {
-              setImageSrc(placeholder || '');
+              setImageSrc(placeholder || "");
               setIsLoaded(false);
             };
             img.src = src;
@@ -79,7 +94,7 @@ export function useLazyImage(src: string, placeholder?: string): {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     observer.observe(imageElement);
@@ -96,23 +111,26 @@ export function useLazyImage(src: string, placeholder?: string): {
 export async function dynamicImportWithRetry<T>(
   importFn: () => Promise<T>,
   retries = 3,
-  delay = 1000
+  delay = 1000,
 ): Promise<T> {
   for (let i = 0; i < retries; i++) {
     try {
       return await importFn();
     } catch (error) {
       if (i === retries - 1) throw error;
-      await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
+      await new Promise((resolve) =>
+        setTimeout(resolve, delay * Math.pow(2, i)),
+      );
     }
   }
-  throw new Error('Failed to import after retries');
+  throw new Error("Failed to import after retries");
 }
 
 // Code splitting helper for route-based components
 export const createRouteComponent = <T extends Record<string, unknown>>(
-  importFn: () => Promise<{ default: ComponentType<T> }>
-) => createLazyComponent(importFn, {
-  timeout: 15000,
-  retry: 2
-});
+  importFn: () => Promise<{ default: ComponentType<T> }>,
+) =>
+  createLazyComponent(importFn, {
+    timeout: 15000,
+    retry: 2,
+  });

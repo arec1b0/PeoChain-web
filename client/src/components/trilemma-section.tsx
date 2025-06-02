@@ -1,34 +1,37 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Zap, ShieldCheck, Gauge } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import React from "react";
+import { motion } from "framer-motion";
+import { Zap, ShieldCheck, Gauge } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function TrilemmaSection() {
   const trilemmaPoints = [
     {
       icon: Zap,
-      title: 'Scalability',
-      description: '100,000+ TPS with sharding and parallel processing',
-      gradient: 'gradient-sage-forest'
+      title: "Scalability",
+      description: "100,000+ TPS with sharding and parallel processing",
+      gradient: "gradient-sage-forest",
     },
     {
       icon: ShieldCheck,
-      title: 'Security',
-      description: 'Cryptographic proofs with validator slashing',
-      gradient: 'bg-medium-forest'
+      title: "Security",
+      description: "Cryptographic proofs with validator slashing",
+      gradient: "bg-medium-forest",
     },
     {
       icon: Gauge,
-      title: 'Decentralization',
-      description: '10,000+ global validators with low barriers',
-      gradient: 'bg-dark-sage'
-    }
+      title: "Decentralization",
+      description: "10,000+ global validators with low barriers",
+      gradient: "bg-dark-sage",
+    },
   ];
 
   return (
-    <section id="technology" className="gradient-mint-white py-12 sm:py-16 lg:py-20 px-3 sm:px-6 lg:px-8">
+    <section
+      id="technology"
+      className="gradient-mint-white py-12 sm:py-16 lg:py-20 px-3 sm:px-6 lg:px-8"
+    >
       <div className="max-w-6xl mx-auto">
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -39,11 +42,12 @@ export default function TrilemmaSection() {
             The <span className="text-sage">Blockchain Trilemma</span> Solved
           </h2>
           <p className="text-base sm:text-lg lg:text-xl font-hammersmith text-forest/80 max-w-3xl mx-auto leading-relaxed">
-            Traditional blockchains struggle to balance scalability, security, and decentralization. 
-            PeoChain's innovative architecture achieves all three simultaneously.
+            Traditional blockchains struggle to balance scalability, security,
+            and decentralization. PeoChain's innovative architecture achieves
+            all three simultaneously.
           </p>
         </motion.div>
-        
+
         {/* Interactive Trilemma Diagram */}
         <div className="relative max-w-4xl mx-auto px-2">
           <div className="flex flex-col lg:flex-row items-center justify-center space-y-6 sm:space-y-8 lg:space-y-0 lg:space-x-12">
@@ -59,17 +63,23 @@ export default function TrilemmaSection() {
               >
                 <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg transform transition-all duration-500 group-hover:shadow-2xl">
                   <CardContent className="p-5 sm:p-8 text-center">
-                    <div className={`w-16 h-16 ${point.gradient} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse`}>
+                    <div
+                      className={`w-16 h-16 ${point.gradient} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse`}
+                    >
                       <point.icon className="text-white h-8 w-8" />
                     </div>
-                    <h3 className="text-xl font-raleway font-semibold text-forest mb-2">{point.title}</h3>
-                    <p className="text-forest/70 font-hammersmith">{point.description}</p>
+                    <h3 className="text-xl font-raleway font-semibold text-forest mb-2">
+                      {point.title}
+                    </h3>
+                    <p className="text-forest/70 font-hammersmith">
+                      {point.description}
+                    </p>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
           </div>
-          
+
           {/* Connecting Lines - Hidden on Mobile */}
           <div className="hidden lg:block absolute inset-0 pointer-events-none">
             <svg className="w-full h-full">

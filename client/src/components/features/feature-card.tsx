@@ -1,9 +1,17 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ChevronRight, Gauge, DollarSign, Zap, Award, Smartphone, Link2 } from 'lucide-react';
-import { TouchableCard, CardContent } from '@/components/ui/card';
-import { useTouch } from '@/hooks';
-import { CoreFeature } from '@/data/features-data';
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  ChevronRight,
+  Gauge,
+  DollarSign,
+  Zap,
+  Award,
+  Smartphone,
+  Link2,
+} from "lucide-react";
+import { TouchableCard, CardContent } from "@/components/ui/card";
+import { useTouch } from "@/hooks";
+import { CoreFeature } from "@/data/features-data";
 
 interface FeatureCardProps {
   feature: CoreFeature;
@@ -18,15 +26,19 @@ const iconMap = {
   Zap,
   Star: Award, // Replace Star with Award
   Smartphone,
-  Link: Link2 // Replace Link with Link2
+  Link: Link2, // Replace Link with Link2
 };
 
-export default function FeatureCard({ feature, index, isInView }: FeatureCardProps) {
+export default function FeatureCard({
+  feature,
+  index,
+  isInView,
+}: FeatureCardProps) {
   const IconComponent = iconMap[feature.icon as keyof typeof iconMap];
   const touchHandlers = useTouch({
     provideFeedback: true,
     feedbackDuration: 200,
-    activeClass: "touch-active"
+    activeClass: "touch-active",
   });
 
   return (
@@ -38,7 +50,7 @@ export default function FeatureCard({ feature, index, isInView }: FeatureCardPro
       className="group touch-action-manipulation select-none"
       aria-label={`Feature: ${feature.title}`}
     >
-      <TouchableCard 
+      <TouchableCard
         className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg transform transition-all duration-500 group-hover:shadow-2xl group-hover:border-sage/40 h-full"
         provideFeedback={true}
         actionable={true}
@@ -51,12 +63,20 @@ export default function FeatureCard({ feature, index, isInView }: FeatureCardPro
         <CardContent className="p-5 sm:p-6 md:p-8">
           {/* Icon and Metric */}
           <div className="flex items-start justify-between mb-6">
-            <div className={`w-16 h-16 ${feature.gradient} rounded-2xl flex items-center justify-center group-hover:animate-pulse transition-all duration-300`}>
-              {IconComponent && <IconComponent className="text-white h-8 w-8" />}
+            <div
+              className={`w-16 h-16 ${feature.gradient} rounded-2xl flex items-center justify-center group-hover:animate-pulse transition-all duration-300`}
+            >
+              {IconComponent && (
+                <IconComponent className="text-white h-8 w-8" />
+              )}
             </div>
             <div className="text-right">
-              <div className="text-lg font-raleway font-bold text-sage">{feature.metric}</div>
-              <div className="text-xs text-forest/60 font-hammersmith">Performance</div>
+              <div className="text-lg font-raleway font-bold text-sage">
+                {feature.metric}
+              </div>
+              <div className="text-xs text-forest/60 font-hammersmith">
+                Performance
+              </div>
             </div>
           </div>
 
@@ -71,7 +91,10 @@ export default function FeatureCard({ feature, index, isInView }: FeatureCardPro
           {/* Feature Details */}
           <div className="space-y-2">
             {feature.details.map((detail, idx) => (
-              <div key={idx} className="flex items-center text-sm text-forest/60">
+              <div
+                key={idx}
+                className="flex items-center text-sm text-forest/60"
+              >
                 <ChevronRight className="h-4 w-4 text-sage mr-2 flex-shrink-0" />
                 <span className="font-hammersmith">{detail.text}</span>
               </div>

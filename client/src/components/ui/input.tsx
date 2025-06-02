@@ -1,5 +1,5 @@
-import React from "react"
-import { cn } from "@/lib/utils"
+import React from "react";
+import { cn } from "@/lib/utils";
 
 // Define explicit props to work with the project's TypeScript configuration
 type InputProps = {
@@ -17,22 +17,22 @@ type InputProps = {
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   [key: string]: any; // For any other HTML input attributes
-}
+};
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (props: InputProps, ref: React.Ref<HTMLInputElement>) => {
-    const { 
+    const {
       className,
       type = "text",
       mobileOptimized = true,
       onFocus,
       onBlur,
-      ...otherProps 
+      ...otherProps
     } = props;
-    
+
     // Handle focus state for better touch feedback
     const [isFocused, setIsFocused] = React.useState(false);
-    
+
     return (
       <input
         type={type}
@@ -60,7 +60,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           // iOS Safari specific optimizations
           "appearance-none",
           // Apply custom class
-          className
+          className,
         )}
         ref={ref}
         onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
@@ -74,9 +74,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         // Add all remaining props
         {...otherProps}
       />
-    )
-  }
-)
-Input.displayName = "Input"
+    );
+  },
+);
+Input.displayName = "Input";
 
-export { Input }
+export { Input };

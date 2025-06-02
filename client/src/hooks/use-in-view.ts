@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 const { useEffect, useState, useRef } = React;
 
 export interface InViewOptions {
@@ -13,18 +13,18 @@ export interface InViewOptions {
  */
 export function useInView(
   ref: React.RefObject<Element>,
-  options: InViewOptions = {}
+  options: InViewOptions = {},
 ): boolean {
   const [isInView, setIsInView] = useState(false);
-  const { once = false, margin = '0px', threshold = 0 } = options;
+  const { once = false, margin = "0px", threshold = 0 } = options;
 
   useEffect(() => {
     if (!ref.current) return;
-    
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
-        
+
         // If once is true and the element is in view, disconnect the observer
         if (entry.isIntersecting && once) {
           observer.disconnect();
@@ -33,18 +33,18 @@ export function useInView(
       {
         rootMargin: margin,
         threshold,
-      }
+      },
     );
-    
+
     observer.observe(ref.current);
-    
+
     return () => {
       if (ref.current) {
         observer.unobserve(ref.current);
       }
     };
   }, [ref, once, margin, threshold]);
-  
+
   return isInView;
 }
 

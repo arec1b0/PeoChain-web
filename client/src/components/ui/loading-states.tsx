@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion';
-import { Loader2 } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function HeroSectionSkeleton() {
   return (
@@ -12,17 +12,20 @@ export function HeroSectionSkeleton() {
           <Skeleton className="h-16 w-3/4 mx-auto mb-4" />
           <Skeleton className="h-16 w-2/3 mx-auto" />
         </div>
-        
+
         {/* Description Skeleton */}
         <div className="mb-12">
           <Skeleton className="h-6 w-full max-w-4xl mx-auto mb-2" />
           <Skeleton className="h-6 w-3/4 max-w-4xl mx-auto" />
         </div>
-        
+
         {/* Metrics Grid Skeleton */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-12">
           {Array.from({ length: 4 }).map((_, i) => (
-            <Card key={i} className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg">
+            <Card
+              key={i}
+              className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg"
+            >
               <CardContent className="p-4 lg:p-6 text-center">
                 <Skeleton className="h-8 w-16 mx-auto mb-2" />
                 <Skeleton className="h-4 w-12 mx-auto" />
@@ -30,7 +33,7 @@ export function HeroSectionSkeleton() {
             </Card>
           ))}
         </div>
-        
+
         {/* Buttons Skeleton */}
         <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
           {Array.from({ length: 3 }).map((_, i) => (
@@ -55,7 +58,10 @@ export function FeaturesSectionSkeleton() {
         {/* Features Grid Skeleton */}
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 mb-16">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Card key={i} className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg">
+            <Card
+              key={i}
+              className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg"
+            >
               <CardContent className="p-8">
                 <div className="flex items-start justify-between mb-6">
                   <Skeleton className="w-16 h-16 rounded-2xl" />
@@ -125,14 +131,17 @@ export function SectionLoadingSkeleton() {
   );
 }
 
-export function SpinnerLoader({ size = "default", className = "" }: { 
+export function SpinnerLoader({
+  size = "default",
+  className = "",
+}: {
   size?: "sm" | "default" | "lg";
   className?: string;
 }) {
   const sizeClasses = {
     sm: "w-4 h-4",
     default: "w-6 h-6",
-    lg: "w-8 h-8"
+    lg: "w-8 h-8",
   };
 
   return (

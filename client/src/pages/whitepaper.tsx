@@ -1,10 +1,16 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import MainLayout from '@/components/layout/main-layout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Download, FileText, Users, Calendar, ChevronRight } from 'lucide-react';
-import { ErrorBoundaryEnhanced } from '@/components/ui/error-boundary-enhanced';
+import React from "react";
+import { motion } from "framer-motion";
+import MainLayout from "@/components/layout/main-layout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Download,
+  FileText,
+  Users,
+  Calendar,
+  ChevronRight,
+} from "lucide-react";
+import { ErrorBoundaryEnhanced } from "@/components/ui/error-boundary-enhanced";
 
 interface WhitepaperSection {
   title: string;
@@ -22,18 +28,20 @@ interface WhitepaperData {
 
 const Whitepaper: React.FC = () => {
   const whitepaperData = {
-    title: "PeoChain - A Decentralized Financial Ecosystem for Global Inclusion",
+    title:
+      "PeoChain - A Decentralized Financial Ecosystem for Global Inclusion",
     authors: ["Dan Otieno", "Daniil Krizhanovskyi"],
     date: "March 2025",
-    abstract: "PeoChain is an innovative blockchain platform designed to deliver scalable, secure, and accessible decentralized financial services, with a mission to empower underbanked populations globally. Leveraging its novel Proof of Synergy (PoSyg) consensus mechanism and Dynamic Contribution Scoring (DCS) system, PeoChain achieves exceptional scalability, supporting up to 100,000 transactions per second with 1-second finality, while ensuring robust security and economic stability.",
+    abstract:
+      "PeoChain is an innovative blockchain platform designed to deliver scalable, secure, and accessible decentralized financial services, with a mission to empower underbanked populations globally. Leveraging its novel Proof of Synergy (PoSyg) consensus mechanism and Dynamic Contribution Scoring (DCS) system, PeoChain achieves exceptional scalability, supporting up to 100,000 transactions per second with 1-second finality, while ensuring robust security and economic stability.",
     sections: [
       "Introduction",
       "Proof of Synergy (PoSyg): A Unique Consensus Model",
-      "Technical Architecture", 
+      "Technical Architecture",
       "Economic Model (Tokenomics)",
       "Financial Model and Projections",
       "Roadmap",
-      "Conclusion"
+      "Conclusion",
     ],
     keyFeatures: [
       "Ultra-low transaction fees (as low as CHF 0.40)",
@@ -41,8 +49,8 @@ const Whitepaper: React.FC = () => {
       "Novel Proof of Synergy consensus mechanism",
       "Dynamic Contribution Scoring system",
       "Mobile integration with M-Pesa and GCash",
-      "Localized stablecoins for price stability"
-    ]
+      "Localized stablecoins for price stability",
+    ],
   };
 
   return (
@@ -88,7 +96,7 @@ const Whitepaper: React.FC = () => {
                   </div>
                 </div>
               </CardHeader>
-              
+
               <CardContent>
                 <div className="text-center mb-8">
                   <p className="text-forest/80 font-hammersmith leading-relaxed max-w-2xl mx-auto">
@@ -97,7 +105,7 @@ const Whitepaper: React.FC = () => {
                 </div>
 
                 <div className="flex justify-center items-center space-x-4 mb-8">
-                  <Button 
+                  <Button
                     size="lg"
                     className="bg-sage hover:bg-medium-forest text-white font-raleway font-medium px-8 py-4"
                   >
@@ -113,11 +121,16 @@ const Whitepaper: React.FC = () => {
                   </h3>
                   <div className="grid md:grid-cols-2 gap-4">
                     {whitepaperData.authors.map((author, index) => (
-                      <div key={index} className="text-center p-4 bg-sage/10 rounded-lg">
+                      <div
+                        key={index}
+                        className="text-center p-4 bg-sage/10 rounded-lg"
+                      >
                         <div className="flex items-center justify-center mb-2">
                           <Users className="h-5 w-5 text-sage" />
                         </div>
-                        <p className="font-hammersmith text-forest/80 text-sm">{author}</p>
+                        <p className="font-hammersmith text-forest/80 text-sm">
+                          {author}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -130,12 +143,19 @@ const Whitepaper: React.FC = () => {
                   </h3>
                   <div className="space-y-3">
                     {whitepaperData.sections.map((section, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-sage/5 rounded-lg hover:bg-sage/10 transition-colors">
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-3 bg-sage/5 rounded-lg hover:bg-sage/10 transition-colors"
+                      >
                         <div className="flex items-center space-x-3">
                           <div className="w-8 h-8 bg-sage/20 rounded-full flex items-center justify-center">
-                            <span className="text-sage font-raleway font-semibold text-sm">{index + 1}</span>
+                            <span className="text-sage font-raleway font-semibold text-sm">
+                              {index + 1}
+                            </span>
                           </div>
-                          <span className="font-hammersmith text-forest">{section}</span>
+                          <span className="font-hammersmith text-forest">
+                            {section}
+                          </span>
                         </div>
                         <ChevronRight className="h-4 w-4 text-sage" />
                       </div>
@@ -162,9 +182,14 @@ const Whitepaper: React.FC = () => {
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-4">
                   {whitepaperData.keyFeatures.map((feature, index) => (
-                    <div key={index} className="flex items-start space-x-3 p-3 bg-sage/5 rounded-lg">
+                    <div
+                      key={index}
+                      className="flex items-start space-x-3 p-3 bg-sage/5 rounded-lg"
+                    >
                       <div className="w-2 h-2 bg-sage rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="font-hammersmith text-forest/80">{feature}</span>
+                      <span className="font-hammersmith text-forest/80">
+                        {feature}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -188,25 +213,33 @@ const Whitepaper: React.FC = () => {
                     <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
                       <FileText className="h-6 w-6 text-white" />
                     </div>
-                    <h3 className="font-raleway font-semibold mb-2">Proof of Synergy</h3>
+                    <h3 className="font-raleway font-semibold mb-2">
+                      Proof of Synergy
+                    </h3>
                     <p className="font-hammersmith text-sm opacity-90">
-                      Novel consensus mechanism combining PoS efficiency with multi-dimensional scoring
+                      Novel consensus mechanism combining PoS efficiency with
+                      multi-dimensional scoring
                     </p>
                   </div>
                   <div className="text-center">
                     <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
                       <Users className="h-6 w-6 text-white" />
                     </div>
-                    <h3 className="font-raleway font-semibold mb-2">Financial Inclusion</h3>
+                    <h3 className="font-raleway font-semibold mb-2">
+                      Financial Inclusion
+                    </h3>
                     <p className="font-hammersmith text-sm opacity-90">
-                      Mobile integration with M-Pesa and GCash for underbanked populations
+                      Mobile integration with M-Pesa and GCash for underbanked
+                      populations
                     </p>
                   </div>
                   <div className="text-center">
                     <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
                       <Download className="h-6 w-6 text-white" />
                     </div>
-                    <h3 className="font-raleway font-semibold mb-2">Scalability</h3>
+                    <h3 className="font-raleway font-semibold mb-2">
+                      Scalability
+                    </h3>
                     <p className="font-hammersmith text-sm opacity-90">
                       100,000+ TPS with 1-second finality and ultra-low fees
                     </p>

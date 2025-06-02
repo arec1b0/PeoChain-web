@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 interface FeaturesHeaderProps {
   title: string;
@@ -7,9 +7,14 @@ interface FeaturesHeaderProps {
   isInView: boolean;
 }
 
-export default function FeaturesHeader({ title, highlight, description, isInView }: FeaturesHeaderProps) {
+export default function FeaturesHeader({
+  title,
+  highlight,
+  description,
+  isInView,
+}: FeaturesHeaderProps) {
   return (
-    <motion.div 
+    <motion.div
       className="text-center mb-16"
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}

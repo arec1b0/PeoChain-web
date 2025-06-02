@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import React from "react"
-import { Slot } from "./slot"
+import React from "react";
+import { Slot } from "./slot";
 import {
   Controller,
   FormProvider,
@@ -9,34 +9,34 @@ import {
   type ControllerProps,
   type FieldPath,
   type FieldValues,
-} from "react-hook-form"
+} from "react-hook-form";
 
-import { cn } from "@/lib/utils"
-import { Label } from "@/components/ui/label"
-import { useIsMobile, useTouch } from "@/hooks"
+import { cn } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
+import { useIsMobile, useTouch } from "@/hooks";
 
 // Simplified version of LabelPrimitive for TypeScript compatibility
 const LabelPrimitive = {
   Root: Label,
-  displayName: "Label"
-}
+  displayName: "Label",
+};
 
-const Form = FormProvider
+const Form = FormProvider;
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
-  name: TName
-}
+  name: TName;
+};
 
 const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue
-)
+  {} as FormFieldContextValue,
+);
 
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   ...props
 }: ControllerProps<TFieldValues, TName>) => {
@@ -44,21 +44,21 @@ const FormField = <
     <FormFieldContext.Provider value={{ name: props.name }}>
       <Controller {...props} />
     </FormFieldContext.Provider>
-  )
-}
+  );
+};
 
 const useFormField = () => {
-  const fieldContext = React.useContext(FormFieldContext)
-  const itemContext = React.useContext(FormItemContext)
-  const { getFieldState, formState } = useFormContext()
+  const fieldContext = React.useContext(FormFieldContext);
+  const itemContext = React.useContext(FormItemContext);
+  const { getFieldState, formState } = useFormContext();
 
-  const fieldState = getFieldState(fieldContext.name, formState)
+  const fieldState = getFieldState(fieldContext.name, formState);
 
   if (!fieldContext) {
-    throw new Error("useFormField should be used within <FormField>")
+    throw new Error("useFormField should be used within <FormField>");
   }
 
-  const { id } = itemContext
+  const { id } = itemContext;
 
   return {
     id,
@@ -67,16 +67,16 @@ const useFormField = () => {
     formDescriptionId: `${id}-form-item-description`,
     formMessageId: `${id}-form-item-message`,
     ...fieldState,
-  }
-}
+  };
+};
 
 type FormItemContextValue = {
-  id: string
-}
+  id: string;
+};
 
 const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue
-)
+  {} as FormItemContextValue,
+);
 
 interface FormItemProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -90,26 +90,30 @@ interface FormItemProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
-  ({ className, mobileOptimized = true, ...props }: FormItemProps, ref: React.Ref<HTMLDivElement>) => {
-    const id = React.useId()
-    const isMobile = useIsMobile()
-    
+  (
+    { className, mobileOptimized = true, ...props }: FormItemProps,
+    ref: React.Ref<HTMLDivElement>,
+  ) => {
+    const id = React.useId();
+    const isMobile = useIsMobile();
+
     return (
       <FormItemContext.Provider value={{ id }}>
-        <div 
-          ref={ref} 
+        <div
+          ref={ref}
           className={cn(
-            "space-y-2", 
+            "space-y-2",
             // Increase spacing on mobile for better touch targets
             mobileOptimized && isMobile && "space-y-3 mb-4",
-            className
-          )} 
-          {...props} 
+            className,
+          )}
+          {...props}
         />
       </FormItemContext.Provider>
-    )
-})
-FormItem.displayName = "FormItem"
+    );
+  },
+);
+FormItem.displayName = "FormItem";
 
 interface FormLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   /**
@@ -123,30 +127,35 @@ interface FormLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
 }
 
 const FormLabel = React.forwardRef<HTMLLabelElement, FormLabelProps>(
-  ({ className, mobileOptimized = true, ...props }: FormLabelProps, ref: React.Ref<HTMLLabelElement>) => {
-    const { error, formItemId } = useFormField()
-    const isMobile = useIsMobile()
+  (
+    { className, mobileOptimized = true, ...props }: FormLabelProps,
+    ref: React.Ref<HTMLLabelElement>,
+  ) => {
+    const { error, formItemId } = useFormField();
+    const isMobile = useIsMobile();
 
     return (
       <Label
         ref={ref}
         className={cn(
           // Error state
-          error && "text-destructive", 
+          error && "text-destructive",
           // Mobile optimizations
-          mobileOptimized && isMobile && "text-base py-1 mb-1 min-h-[32px] inline-block touch-action-manipulation",
+          mobileOptimized &&
+            isMobile &&
+            "text-base py-1 mb-1 min-h-[32px] inline-block touch-action-manipulation",
           // Additional touch optimization
           "tap-highlight-transparent select-none",
-          className
+          className,
         )}
         mobileOptimized={mobileOptimized}
         htmlFor={formItemId}
         {...props}
       />
-    )
-  }
-)
-FormLabel.displayName = "FormLabel"
+    );
+  },
+);
+FormLabel.displayName = "FormLabel";
 
 interface FormControlProps extends React.ComponentPropsWithoutRef<typeof Slot> {
   /**
@@ -155,27 +164,37 @@ interface FormControlProps extends React.ComponentPropsWithoutRef<typeof Slot> {
   mobileOptimized?: boolean;
 }
 
-const FormControl = React.forwardRef<React.ElementRef<typeof Slot>, FormControlProps>(
-  ({ mobileOptimized = true, ...props }: FormControlProps, ref: React.Ref<React.ElementRef<typeof Slot>>) => {
-    const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
-    const isMobile = useIsMobile()
+const FormControl = React.forwardRef<
+  React.ElementRef<typeof Slot>,
+  FormControlProps
+>(
+  (
+    { mobileOptimized = true, ...props }: FormControlProps,
+    ref: React.Ref<React.ElementRef<typeof Slot>>,
+  ) => {
+    const { error, formItemId, formDescriptionId, formMessageId } =
+      useFormField();
+    const isMobile = useIsMobile();
     const touchHandlers = useTouch({
       provideFeedback: true,
       feedbackDuration: 150,
-      onlyOnMobile: true
-    })
-    
+      onlyOnMobile: true,
+    });
+
     // Only add touch handlers if we're on mobile and want mobile optimization
-    const mobileProps = (mobileOptimized && isMobile) ? {
-      onTouchStart: touchHandlers.onTouchStart,
-      onTouchEnd: touchHandlers.onTouchEnd,
-      onTouchCancel: touchHandlers.onTouchCancel,
-      className: cn(
-        touchHandlers.className,
-        "touch-action-manipulation tap-highlight-transparent"
-      )
-    } : {}
-    
+    const mobileProps =
+      mobileOptimized && isMobile
+        ? {
+            onTouchStart: touchHandlers.onTouchStart,
+            onTouchEnd: touchHandlers.onTouchEnd,
+            onTouchCancel: touchHandlers.onTouchCancel,
+            className: cn(
+              touchHandlers.className,
+              "touch-action-manipulation tap-highlight-transparent",
+            ),
+          }
+        : {};
+
     return (
       <Slot
         ref={ref}
@@ -189,10 +208,10 @@ const FormControl = React.forwardRef<React.ElementRef<typeof Slot>, FormControlP
         {...mobileProps}
         {...props}
       />
-    )
-  }
-)
-FormControl.displayName = "FormControl"
+    );
+  },
+);
+FormControl.displayName = "FormControl";
 
 interface FormTextProps extends React.HTMLAttributes<HTMLParagraphElement> {
   /**
@@ -210,9 +229,12 @@ interface FormTextProps extends React.HTMLAttributes<HTMLParagraphElement> {
 }
 
 const FormDescription = React.forwardRef<HTMLParagraphElement, FormTextProps>(
-  ({ className, mobileOptimized = true, ...props }: FormTextProps, ref: React.Ref<HTMLParagraphElement>) => {
-    const { formDescriptionId } = useFormField()
-    const isMobile = useIsMobile()
+  (
+    { className, mobileOptimized = true, ...props }: FormTextProps,
+    ref: React.Ref<HTMLParagraphElement>,
+  ) => {
+    const { formDescriptionId } = useFormField();
+    const isMobile = useIsMobile();
 
     return (
       <p
@@ -220,28 +242,38 @@ const FormDescription = React.forwardRef<HTMLParagraphElement, FormTextProps>(
         id={formDescriptionId}
         className={cn(
           // Base styles
-          "text-sm text-muted-foreground", 
+          "text-sm text-muted-foreground",
           // Mobile optimizations for better readability
-          mobileOptimized && isMobile && "text-base sm:text-sm leading-relaxed py-1",
+          mobileOptimized &&
+            isMobile &&
+            "text-base sm:text-sm leading-relaxed py-1",
           // Additional touch optimization
           "tap-highlight-transparent select-none",
-          className
+          className,
         )}
         {...props}
       />
-    )
-  }
-)
-FormDescription.displayName = "FormDescription"
+    );
+  },
+);
+FormDescription.displayName = "FormDescription";
 
 const FormMessage = React.forwardRef<HTMLParagraphElement, FormTextProps>(
-  ({ className, children, mobileOptimized = true, ...props }: FormTextProps & { children?: React.ReactNode }, ref: React.Ref<HTMLParagraphElement>) => {
-    const { error, formMessageId } = useFormField()
-    const body = error ? String(error?.message ?? "") : children
-    const isMobile = useIsMobile()
+  (
+    {
+      className,
+      children,
+      mobileOptimized = true,
+      ...props
+    }: FormTextProps & { children?: React.ReactNode },
+    ref: React.Ref<HTMLParagraphElement>,
+  ) => {
+    const { error, formMessageId } = useFormField();
+    const body = error ? String(error?.message ?? "") : children;
+    const isMobile = useIsMobile();
 
     if (!body) {
-      return null
+      return null;
     }
 
     return (
@@ -250,14 +282,16 @@ const FormMessage = React.forwardRef<HTMLParagraphElement, FormTextProps>(
         id={formMessageId}
         className={cn(
           // Base styles
-          "text-sm font-medium text-destructive", 
+          "text-sm font-medium text-destructive",
           // Mobile optimizations for better visibility and touch
-          mobileOptimized && isMobile && "text-base sm:text-sm py-1 mb-1 leading-relaxed",
+          mobileOptimized &&
+            isMobile &&
+            "text-base sm:text-sm py-1 mb-1 leading-relaxed",
           // Add animation for better feedback
           "animate-in fade-in duration-200",
           // Additional touch optimization
           "tap-highlight-transparent select-none",
-          className
+          className,
         )}
         role="alert"
         aria-live="polite"
@@ -265,10 +299,10 @@ const FormMessage = React.forwardRef<HTMLParagraphElement, FormTextProps>(
       >
         {body}
       </p>
-    )
-  }
-)
-FormMessage.displayName = "FormMessage"
+    );
+  },
+);
+FormMessage.displayName = "FormMessage";
 
 export {
   useFormField,
@@ -283,5 +317,5 @@ export {
   type FormItemProps,
   type FormLabelProps,
   type FormControlProps,
-  type FormTextProps
-}
+  type FormTextProps,
+};

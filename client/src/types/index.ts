@@ -13,9 +13,9 @@ export interface AnimatedComponent extends BaseComponent {
 }
 
 export interface AccessibleComponent extends BaseComponent {
-  'aria-label'?: string;
-  'aria-labelledby'?: string;
-  'aria-describedby'?: string;
+  "aria-label"?: string;
+  "aria-labelledby"?: string;
+  "aria-describedby"?: string;
   role?: string;
   tabIndex?: number;
 }
@@ -48,8 +48,8 @@ export interface ErrorReport {
 // Theme and styling types
 export interface ThemeColors {
   sage: string;
-  'medium-forest': string;
-  'dark-sage': string;
+  "medium-forest": string;
+  "dark-sage": string;
   forest: string;
   mint: string;
 }
@@ -59,7 +59,7 @@ export interface BreakpointConfig {
   md: string;
   lg: string;
   xl: string;
-  '2xl': string;
+  "2xl": string;
 }
 
 // Animation configuration types
@@ -81,8 +81,10 @@ export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
-export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = 
-  Pick<T, Exclude<keyof T, Keys>> & 
+export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<
+  T,
+  Exclude<keyof T, Keys>
+> &
   {
     [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>;
   }[Keys];
@@ -103,7 +105,7 @@ export interface FormHandler {
 }
 
 // Loading state types
-export type LoadingState = 'idle' | 'loading' | 'success' | 'error';
+export type LoadingState = "idle" | "loading" | "success" | "error";
 
 export interface AsyncState<T> {
   data?: T;
@@ -114,18 +116,24 @@ export interface AsyncState<T> {
 }
 
 // Component size variants
-export type SizeVariant = 'sm' | 'md' | 'lg' | 'xl';
-export type ColorVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info';
+export type SizeVariant = "sm" | "md" | "lg" | "xl";
+export type ColorVariant =
+  | "primary"
+  | "secondary"
+  | "success"
+  | "warning"
+  | "error"
+  | "info";
 
 // Accessibility types
 export interface A11yProps {
-  'aria-live'?: 'polite' | 'assertive' | 'off';
-  'aria-atomic'?: boolean;
-  'aria-busy'?: boolean;
-  'aria-hidden'?: boolean;
-  'aria-expanded'?: boolean;
-  'aria-controls'?: string;
-  'aria-owns'?: string;
+  "aria-live"?: "polite" | "assertive" | "off";
+  "aria-atomic"?: boolean;
+  "aria-busy"?: boolean;
+  "aria-hidden"?: boolean;
+  "aria-expanded"?: boolean;
+  "aria-controls"?: string;
+  "aria-owns"?: string;
 }
 
 // Performance optimization types

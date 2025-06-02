@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import AnimatedCounter from '@/components/animated-counter';
-import { PerformanceMetric } from '@/data/features-data';
+import { motion } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import AnimatedCounter from "@/components/animated-counter";
+import { PerformanceMetric } from "@/data/features-data";
 
 interface PerformanceBenchmarksProps {
   readonly metrics: readonly PerformanceMetric[];
@@ -12,12 +12,12 @@ interface PerformanceBenchmarksProps {
   readonly description: string;
 }
 
-export default function PerformanceBenchmarks({ 
-  metrics, 
-  isInView, 
-  title, 
-  highlight, 
-  description 
+export default function PerformanceBenchmarks({
+  metrics,
+  isInView,
+  title,
+  highlight,
+  description,
 }: PerformanceBenchmarksProps) {
   return (
     <motion.div
@@ -31,9 +31,7 @@ export default function PerformanceBenchmarks({
             <h3 className="text-2xl font-raleway font-semibold text-forest mb-2">
               {title} <span className="text-sage">{highlight}</span>
             </h3>
-            <p className="text-forest/70 font-hammersmith">
-              {description}
-            </p>
+            <p className="text-forest/70 font-hammersmith">{description}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -50,16 +48,21 @@ export default function PerformanceBenchmarks({
                     <AnimatedCounter to={metric.value} />
                     <span className="text-lg">{metric.unit}</span>
                   </div>
-                  <div className="text-sm font-hammersmith text-forest/70 mb-3">{metric.label}</div>
-                  <Progress 
-                    value={metric.value} 
+                  <div className="text-sm font-hammersmith text-forest/70 mb-3">
+                    {metric.label}
+                  </div>
+                  <Progress
+                    value={metric.value}
                     className="h-2 bg-sage/20"
                     style={{
-                      background: 'linear-gradient(to right, hsl(var(--sage)), hsl(var(--medium-forest)))'
+                      background:
+                        "linear-gradient(to right, hsl(var(--sage)), hsl(var(--medium-forest)))",
                     }}
                   />
                 </div>
-                <div className="text-xs text-forest/50 font-hammersmith">{metric.comparison}</div>
+                <div className="text-xs text-forest/50 font-hammersmith">
+                  {metric.comparison}
+                </div>
               </motion.div>
             ))}
           </div>

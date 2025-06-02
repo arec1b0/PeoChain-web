@@ -1,6 +1,6 @@
-import React from "react"
-import { cn } from "@/lib/utils"
-import { useIsMobile, useTouch } from "@/hooks"
+import React from "react";
+import { cn } from "@/lib/utils";
+import { useIsMobile, useTouch } from "@/hooks";
 
 // Define explicit props to work with the project's TypeScript configuration
 type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
@@ -8,26 +8,24 @@ type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
    * Whether to optimize for mobile devices
    */
   mobileOptimized?: boolean;
-}
+};
 
-const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
-  props: TextareaProps,
-  ref: React.Ref<HTMLTextAreaElement>
-) {
-  const {
-    className,
-    mobileOptimized = true,
-    onFocus,
-    onBlur,
-    ...otherProps
-  } = props;
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  function Textarea(props: TextareaProps, ref: React.Ref<HTMLTextAreaElement>) {
+    const {
+      className,
+      mobileOptimized = true,
+      onFocus,
+      onBlur,
+      ...otherProps
+    } = props;
     const isMobile = useIsMobile();
     const [isFocused, setIsFocused] = React.useState(false);
-    
+
     const touchHandlers = useTouch({
       provideFeedback: true,
       feedbackDuration: 100,
-      onlyOnMobile: true
+      onlyOnMobile: true,
     });
 
     return (
@@ -55,7 +53,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(function T
           // Apply custom class
           className,
           // Apply touch class
-          touchHandlers.className
+          touchHandlers.className,
         )}
         onFocus={(e: React.FocusEvent<HTMLTextAreaElement>) => {
           setIsFocused(true);
@@ -68,12 +66,15 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(function T
         // Add touch handlers for mobile
         onTouchStart={mobileOptimized ? touchHandlers.onTouchStart : undefined}
         onTouchEnd={mobileOptimized ? touchHandlers.onTouchEnd : undefined}
-        onTouchCancel={mobileOptimized ? touchHandlers.onTouchCancel : undefined}
+        onTouchCancel={
+          mobileOptimized ? touchHandlers.onTouchCancel : undefined
+        }
         ref={ref}
         {...otherProps}
       />
     );
-})
-Textarea.displayName = "Textarea"
+  },
+);
+Textarea.displayName = "Textarea";
 
-export { Textarea, type TextareaProps }
+export { Textarea, type TextareaProps };

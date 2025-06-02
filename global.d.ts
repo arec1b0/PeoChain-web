@@ -9,7 +9,7 @@ declare namespace NodeJS {
     version: string;
     cwd(): string;
   }
-  
+
   interface ProcessEnv {
     [key: string]: string | undefined;
     NODE_ENV?: string;

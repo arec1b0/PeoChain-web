@@ -1,11 +1,13 @@
 # Code Quality Standards Documentation
 
 ## Overview
+
 Comprehensive code quality, performance, and accessibility standards implemented across the PeoChain frontend codebase.
 
 ## TypeScript Standards
 
 ### Type Safety Requirements
+
 - **Strict Mode**: All TypeScript compiled with `strict: true`
 - **No Implicit Any**: Zero tolerance for implicit `any` types
 - **Readonly Types**: All data interfaces use `readonly` modifiers
@@ -13,6 +15,7 @@ Comprehensive code quality, performance, and accessibility standards implemented
 - **Generic Constraints**: All generic types properly constrained
 
 ### Interface Design
+
 ```typescript
 // ✅ Correct - Readonly, well-typed interface
 interface CoreFeature {
@@ -37,6 +40,7 @@ interface CoreFeature {
 ## Performance Standards
 
 ### Component Optimization
+
 - **React.memo**: All functional components memoized
 - **useMemo**: Complex calculations memoized
 - **useCallback**: Event handlers and functions memoized
@@ -44,6 +48,7 @@ interface CoreFeature {
 - **Bundle Analysis**: Regular bundle size monitoring
 
 ### Performance Metrics Targets
+
 - **First Contentful Paint (FCP)**: < 1.5s
 - **Largest Contentful Paint (LCP)**: < 2.5s
 - **First Input Delay (FID)**: < 100ms
@@ -51,6 +56,7 @@ interface CoreFeature {
 - **Time to First Byte (TTFB)**: < 800ms
 
 ### Throttling and Debouncing
+
 ```typescript
 // ✅ High-frequency event optimization
 const throttledClick = useThrottle(handleClick, 300);
@@ -60,6 +66,7 @@ const debouncedSearch = useDebounce(searchTerm, 500);
 ## Accessibility Standards (WCAG 2.1 AA+)
 
 ### Required Features
+
 - **Keyboard Navigation**: Full keyboard accessibility
 - **Screen Reader Support**: Proper ARIA labels and roles
 - **Focus Management**: Visible focus indicators
@@ -68,6 +75,7 @@ const debouncedSearch = useDebounce(searchTerm, 500);
 - **High Contrast**: Supports high contrast mode
 
 ### Implementation Requirements
+
 ```typescript
 // ✅ Accessible component structure
 <Button
@@ -82,6 +90,7 @@ const debouncedSearch = useDebounce(searchTerm, 500);
 ```
 
 ### Semantic HTML
+
 - Proper heading hierarchy (h1 → h2 → h3)
 - Landmark regions (main, nav, section)
 - Form labels and descriptions
@@ -90,34 +99,38 @@ const debouncedSearch = useDebounce(searchTerm, 500);
 ## Testing Standards
 
 ### Coverage Requirements
+
 - **Unit Tests**: 80% minimum coverage
 - **Integration Tests**: All user flows covered
 - **Accessibility Tests**: Automated axe checks
 - **Performance Tests**: Core Web Vitals monitoring
 
 ### Testing Structure
+
 ```typescript
 // ✅ Comprehensive test structure
-describe('Component', () => {
-  it('renders correctly', () => {});
-  it('handles user interactions', () => {});
-  it('meets accessibility standards', async () => {
+describe("Component", () => {
+  it("renders correctly", () => {});
+  it("handles user interactions", () => {});
+  it("meets accessibility standards", async () => {
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
-  it('supports keyboard navigation', () => {});
+  it("supports keyboard navigation", () => {});
 });
 ```
 
 ## Error Handling Standards
 
 ### Error Boundary Strategy
+
 - **Application Level**: Root error boundary
 - **Section Level**: Section-specific error boundaries
 - **Component Level**: Critical component boundaries
 - **Graceful Degradation**: Fallback components for failures
 
 ### Error Logging
+
 ```typescript
 // ✅ Comprehensive error reporting
 onError={(error, errorInfo) => {
@@ -129,6 +142,7 @@ onError={(error, errorInfo) => {
 ## File Organization Standards
 
 ### Directory Structure
+
 ```
 client/src/
 ├── components/
@@ -143,6 +157,7 @@ client/src/
 ```
 
 ### Naming Conventions
+
 - **Components**: PascalCase with descriptive names
 - **Hooks**: camelCase starting with "use"
 - **Types**: PascalCase with Interface/Type suffix
@@ -152,21 +167,24 @@ client/src/
 ## Performance Optimization Techniques
 
 ### Code Splitting
+
 ```typescript
 // ✅ Lazy loading with error boundaries
-const LazyComponent = createLazyComponent(
-  () => import('./HeavyComponent'),
-  { timeout: 15000, retry: 2 }
-);
+const LazyComponent = createLazyComponent(() => import("./HeavyComponent"), {
+  timeout: 15000,
+  retry: 2,
+});
 ```
 
 ### Memoization Strategy
+
 - Component-level memoization for pure components
 - Value memoization for expensive calculations
 - Callback memoization for event handlers
 - Selector memoization for derived state
 
 ### Asset Optimization
+
 - SVG icons for scalability
 - WebP images with fallbacks
 - Font preloading for custom fonts
@@ -175,12 +193,14 @@ const LazyComponent = createLazyComponent(
 ## Accessibility Testing Checklist
 
 ### Automated Testing
+
 - [ ] axe-core integration
 - [ ] Color contrast validation
 - [ ] Keyboard navigation testing
 - [ ] Screen reader compatibility
 
 ### Manual Testing
+
 - [ ] Tab order verification
 - [ ] Focus indicator visibility
 - [ ] Screen reader announcement testing
@@ -190,6 +210,7 @@ const LazyComponent = createLazyComponent(
 ## Deployment Standards
 
 ### Pre-deployment Checks
+
 - [ ] TypeScript compilation passes
 - [ ] All tests pass (unit, integration, e2e)
 - [ ] Accessibility audit passes
@@ -197,6 +218,7 @@ const LazyComponent = createLazyComponent(
 - [ ] Bundle size within limits
 
 ### Monitoring Requirements
+
 - Performance metrics tracking
 - Error rate monitoring
 - Accessibility compliance monitoring
@@ -205,6 +227,7 @@ const LazyComponent = createLazyComponent(
 ## Code Review Standards
 
 ### Required Reviews
+
 - TypeScript type safety verification
 - Performance impact assessment
 - Accessibility compliance check
@@ -212,6 +235,7 @@ const LazyComponent = createLazyComponent(
 - Security vulnerability scan
 
 ### Review Checklist
+
 - [ ] Proper TypeScript typing
 - [ ] Performance optimizations applied
 - [ ] Accessibility features implemented
@@ -222,12 +246,14 @@ const LazyComponent = createLazyComponent(
 ## Maintenance Standards
 
 ### Regular Audits
+
 - **Weekly**: Dependency updates
 - **Monthly**: Performance audits
 - **Quarterly**: Accessibility audits
 - **Bi-annually**: Architecture reviews
 
 ### Technical Debt Management
+
 - Regular refactoring cycles
 - Performance regression monitoring
 - Accessibility regression prevention
@@ -236,16 +262,18 @@ const LazyComponent = createLazyComponent(
 ## Documentation Requirements
 
 ### Component Documentation
+
 ```typescript
 /**
  * HeroActions component renders call-to-action buttons with full accessibility support
- * 
+ *
  * @param actions - Array of action configurations
  * @returns Memoized component with keyboard navigation and screen reader support
  */
 ```
 
 ### Type Documentation
+
 - All public interfaces documented
 - Complex types explained
 - Usage examples provided

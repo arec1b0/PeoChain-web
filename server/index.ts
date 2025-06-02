@@ -1,52 +1,59 @@
 import express, { type Request, Response, NextFunction } from "express";
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
-import session from 'express-session';
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import session from "express-session";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { logger, logError, logInfo } from './utils/logger';
+import { logger, logError, logInfo } from "./utils/logger";
 
 const app = express();
 
 // Security middleware
-app.use(helmet({
-  contentSecurityPolicy: process.env.NODE_ENV === 'production' ? {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https:"],
-    },
-  } : false, // Disable CSP in development to allow Vite hot reload
-}));
+app.use(
+  helmet({
+    contentSecurityPolicy:
+      process.env.NODE_ENV === "production"
+        ? {
+            directives: {
+              defaultSrc: ["'self'"],
+              styleSrc: ["'self'", "'unsafe-inline'"],
+              scriptSrc: ["'self'"],
+              imgSrc: ["'self'", "data:", "https:"],
+            },
+          }
+        : false, // Disable CSP in development to allow Vite hot reload
+  }),
+);
 
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
   message: {
-    error: 'Too many requests from this IP, please try again later.'
+    error: "Too many requests from this IP, please try again later.",
   },
   standardHeaders: true,
   legacyHeaders: false,
 });
 
-app.use('/api', limiter);
+app.use("/api", limiter);
 
 // Session configuration
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'dev-secret-key-change-in-production',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 // 24 hours
-  }
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "dev-secret-key-change-in-production",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24, // 24 hours
+    },
+  }),
+);
 
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: false, limit: '10mb' }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: false, limit: "10mb" }));
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -73,13 +80,13 @@ app.use((req, res, next) => {
       }
 
       log(logLine);
-      
+
       // Log to winston as well
       logInfo(`API Request: ${req.method} ${path}`, {
         statusCode: res.statusCode,
         duration,
-        userAgent: req.get('User-Agent'),
-        ip: req.ip
+        userAgent: req.get("User-Agent"),
+        ip: req.ip,
       });
     }
   });
@@ -98,12 +105,12 @@ app.use((req, res, next) => {
     logError(err, `${req.method} ${req.path}`);
 
     // Don't expose stack traces in production
-    const response: any = { 
+    const response: any = {
       error: message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       response.stack = err.stack;
     }
 
@@ -123,11 +130,14 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
+  server.listen(
+    {
+      port,
+      host: "0.0.0.0",
+      reusePort: true,
+    },
+    () => {
+      log(`serving on port ${port}`);
+    },
+  );
 })();

@@ -1,7 +1,7 @@
-import React from 'react';
-import { AlertTriangle, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import React from "react";
+import { AlertTriangle, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 /**
  * Props for the error fallback component
@@ -17,7 +17,9 @@ export interface ErrorFallbackProps {
  */
 export interface ErrorBoundaryProps {
   children: React.ReactNode | ((resetError: () => void) => React.ReactNode);
-  fallback?: React.ComponentType<ErrorFallbackProps> | ((props: ErrorFallbackProps) => React.ReactNode);
+  fallback?:
+    | React.ComponentType<ErrorFallbackProps>
+    | ((props: ErrorFallbackProps) => React.ReactNode);
   onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
   onReset?: () => void;
   resetOnPropsChange?: boolean;
@@ -36,19 +38,25 @@ export interface ErrorBoundaryState {
  * Enhanced Error Boundary component with reset capability and fallback UI
  * Implemented as a class component to use React's error boundary lifecycle methods
  */
-export class ErrorBoundaryEnhanced extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundaryEnhanced extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   // Explicitly declare props and state to fix TypeScript errors
   declare readonly props: Readonly<ErrorBoundaryProps>;
   declare state: Readonly<ErrorBoundaryState>;
-  
+
   // Explicitly declare setState method to fix TypeScript errors
   declare setState: <K extends keyof ErrorBoundaryState>(
-    state: ((prevState: Readonly<ErrorBoundaryState>, props: Readonly<ErrorBoundaryProps>) => 
-      (Pick<ErrorBoundaryState, K> | ErrorBoundaryState | null)) | 
-      (Pick<ErrorBoundaryState, K> | ErrorBoundaryState | null),
-    callback?: () => void
+    state:
+      | ((
+          prevState: Readonly<ErrorBoundaryState>,
+          props: Readonly<ErrorBoundaryProps>,
+        ) => Pick<ErrorBoundaryState, K> | ErrorBoundaryState | null)
+      | (Pick<ErrorBoundaryState, K> | ErrorBoundaryState | null),
+    callback?: () => void,
   ) => void;
-  
+
   private resetTimeoutId: number | null = null;
 
   constructor(props: ErrorBoundaryProps) {
@@ -56,7 +64,7 @@ export class ErrorBoundaryEnhanced extends React.Component<ErrorBoundaryProps, E
     this.state = {
       hasError: false,
       error: null,
-      errorInfo: null
+      errorInfo: null,
     };
   }
 
@@ -67,14 +75,14 @@ export class ErrorBoundaryEnhanced extends React.Component<ErrorBoundaryProps, E
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     // Update state with error info
     this.setState({ errorInfo });
-    
+
     // Call onError prop if provided
     if (this.props.onError) {
       this.props.onError(error, errorInfo);
     }
-    
+
     // Log error in development
-    console.error('Error caught by ErrorBoundary:', error, errorInfo);
+    console.error("Error caught by ErrorBoundary:", error, errorInfo);
   }
 
   componentDidUpdate(prevProps: ErrorBoundaryProps): void {
@@ -100,7 +108,7 @@ export class ErrorBoundaryEnhanced extends React.Component<ErrorBoundaryProps, E
     this.setState({
       hasError: false,
       error: null,
-      errorInfo: null
+      errorInfo: null,
     });
 
     if (onReset) {
@@ -116,11 +124,11 @@ export class ErrorBoundaryEnhanced extends React.Component<ErrorBoundaryProps, E
       const fallbackProps: ErrorFallbackProps = {
         error,
         errorInfo,
-        resetError: this.resetErrorBoundary
+        resetError: this.resetErrorBoundary,
       };
-      
+
       // Handle both function and component fallbacks
-      if (typeof fallback === 'function') {
+      if (typeof fallback === "function") {
         return fallback(fallbackProps);
       } else {
         const FallbackComponent = fallback;
@@ -129,15 +137,20 @@ export class ErrorBoundaryEnhanced extends React.Component<ErrorBoundaryProps, E
     }
 
     // Support both function-as-children and regular children
-    return typeof children === 'function'
+    return typeof children === "function"
       ? (children as Function)(this.resetErrorBoundary)
       : children;
   }
 }
 
-export function DefaultErrorFallback({ error, resetError, errorInfo }: ErrorFallbackProps) {
+export function DefaultErrorFallback({
+  error,
+  resetError,
+  errorInfo,
+}: ErrorFallbackProps) {
   // Check if we're in development mode without using import.meta.env
-  const isDev = typeof window !== 'undefined' && window.location.hostname === 'localhost';
+  const isDev =
+    typeof window !== "undefined" && window.location.hostname === "localhost";
 
   return (
     <div className="min-h-[400px] flex items-center justify-center p-4">
@@ -145,14 +158,17 @@ export function DefaultErrorFallback({ error, resetError, errorInfo }: ErrorFall
         <CardHeader className="border-b pb-3">
           <div className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-destructive" />
-            <CardTitle className="text-destructive">Something went wrong</CardTitle>
+            <CardTitle className="text-destructive">
+              Something went wrong
+            </CardTitle>
           </div>
         </CardHeader>
         <CardContent className="pt-4">
           <p className="text-muted-foreground mb-4">
-            An unexpected error occurred. Please try again or contact support if the problem persists.
+            An unexpected error occurred. Please try again or contact support if
+            the problem persists.
           </p>
-          
+
           {/* Show error details in development */}
           {isDev && (
             <details className="mb-4 text-sm">
@@ -165,15 +181,15 @@ export function DefaultErrorFallback({ error, resetError, errorInfo }: ErrorFall
               </pre>
             </details>
           )}
-          
+
           <div className="flex flex-col sm:flex-row gap-2 justify-center">
             <Button onClick={resetError} variant="outline" size="sm">
               <ArrowRight className="w-4 h-4 mr-2" />
               Trying again
             </Button>
-            <Button 
-              onClick={() => window.location.href = '/'} 
-              variant="default" 
+            <Button
+              onClick={() => (window.location.href = "/")}
+              variant="default"
               size="sm"
             >
               <ArrowRight className="w-4 h-4 mr-2" />
@@ -186,7 +202,10 @@ export function DefaultErrorFallback({ error, resetError, errorInfo }: ErrorFall
   );
 }
 
-export function SectionErrorFallback({ error, resetError }: ErrorFallbackProps) {
+export function SectionErrorFallback({
+  error,
+  resetError,
+}: ErrorFallbackProps) {
   return (
     <div className="py-8 px-4">
       <div className="max-w-md mx-auto text-center">

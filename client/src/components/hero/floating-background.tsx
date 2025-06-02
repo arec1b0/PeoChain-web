@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { FloatingNode } from '@/data/hero-data';
+import { motion } from "framer-motion";
+import { FloatingNode } from "@/data/hero-data";
 
 interface FloatingBackgroundProps {
   nodes: FloatingNode[];
@@ -15,17 +15,17 @@ export default function FloatingBackground({ nodes }: FloatingBackgroundProps) {
           style={{
             width: node.size,
             height: node.size,
-            ...node.position
+            ...node.position,
           }}
           animate={{
             y: [0, -20, 0],
-            opacity: [0.4, 0.7, 0.4]
+            opacity: [0.4, 0.7, 0.4],
           }}
           transition={{
             duration: 6,
             repeat: Infinity,
             delay: node.delay,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
       ))}

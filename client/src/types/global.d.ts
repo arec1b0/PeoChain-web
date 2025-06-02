@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 declare global {
   namespace JSX {
@@ -9,19 +9,21 @@ declare global {
 }
 
 // For SVG imports
-declare module '*.svg' {
-  export const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+declare module "*.svg" {
+  export const ReactComponent: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement>
+  >;
   const src: string;
   export default src;
 }
 
 // For wouter
-declare module 'wouter';
+declare module "wouter";
 
 // For lucide-react
-declare module 'lucide-react';
+declare module "lucide-react";
 // For framer-motion
-declare module 'framer-motion';
+declare module "framer-motion";
 
 type FC<P = {}> = React.FC<P>;
 type ReactNode = React.ReactNode;

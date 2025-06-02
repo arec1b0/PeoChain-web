@@ -1,8 +1,8 @@
 // Type declarations for external modules that don't have types available
 
-declare module '@radix-ui/react-slot' {
-  import * as React from 'react';
-  
+declare module "@radix-ui/react-slot" {
+  import * as React from "react";
+
   export interface SlotProps extends React.HTMLAttributes<HTMLElement> {
     children?: React.ReactNode;
     asChild?: boolean;
@@ -13,15 +13,15 @@ declare module '@radix-ui/react-slot' {
   >;
 }
 
-declare module 'react-hook-form' {
-  import * as React from 'react';
-  
+declare module "react-hook-form" {
+  import * as React from "react";
+
   export type FieldValues = Record<string, any>;
   export type FieldPath<TFieldValues extends FieldValues> = string;
-  
+
   export interface ControllerProps<
     TFieldValues extends FieldValues = FieldValues,
-    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
   > {
     name: TName;
     control?: any;
@@ -37,10 +37,14 @@ declare module 'react-hook-form' {
       formState: any;
     }) => React.ReactElement;
   }
-  
-  export interface UseFormReturn<TFieldValues extends FieldValues = FieldValues> {
+
+  export interface UseFormReturn<
+    TFieldValues extends FieldValues = FieldValues,
+  > {
     control: any;
-    handleSubmit: (onSubmit: (data: TFieldValues) => void) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+    handleSubmit: (
+      onSubmit: (data: TFieldValues) => void,
+    ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
     formState: {
       errors: Record<string, any>;
       isSubmitting: boolean;
@@ -54,7 +58,10 @@ declare module 'react-hook-form' {
     setValue: (name: string, value: any, options?: any) => void;
     getValues: (payload?: any) => any;
     reset: (values?: any, options?: any) => void;
-    getFieldState: (name: string, formState?: any) => {
+    getFieldState: (
+      name: string,
+      formState?: any,
+    ) => {
       invalid: boolean;
       isDirty: boolean;
       isTouched: boolean;
@@ -62,25 +69,31 @@ declare module 'react-hook-form' {
     };
   }
 
-  export function useForm<TFieldValues extends FieldValues = FieldValues>(options?: any): UseFormReturn<TFieldValues>;
-  
+  export function useForm<TFieldValues extends FieldValues = FieldValues>(
+    options?: any,
+  ): UseFormReturn<TFieldValues>;
+
   export function Controller<
     TFieldValues extends FieldValues = FieldValues,
-    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
   >(props: ControllerProps<TFieldValues, TName>): React.ReactElement;
 
-  export function FormProvider<TFieldValues extends FieldValues = FieldValues>(props: {
+  export function FormProvider<
+    TFieldValues extends FieldValues = FieldValues,
+  >(props: {
     children: React.ReactNode;
     [key: string]: any;
   }): React.ReactElement;
-  
-  export function useFormContext<TFieldValues extends FieldValues = FieldValues>(): UseFormReturn<TFieldValues>;
+
+  export function useFormContext<
+    TFieldValues extends FieldValues = FieldValues,
+  >(): UseFormReturn<TFieldValues>;
 }
 
-declare module 'react' {
+declare module "react" {
   // Extend React namespace to properly support Component class
   interface ComponentClass<P = {}, S = {}> {
-    new(props: P, context?: any): Component<P, S>;
+    new (props: P, context?: any): Component<P, S>;
     contextType?: Context<any>;
     displayName?: string;
     defaultProps?: Partial<P>;
@@ -89,8 +102,13 @@ declare module 'react' {
   interface Component<P = {}, S = {}> {
     constructor(props: P, context?: any);
     setState<K extends keyof S>(
-      state: ((prevState: Readonly<S>, props: Readonly<P>) => (Pick<S, K> | S | null)) | (Pick<S, K> | S | null),
-      callback?: () => void
+      state:
+        | ((
+            prevState: Readonly<S>,
+            props: Readonly<P>,
+          ) => Pick<S, K> | S | null)
+        | (Pick<S, K> | S | null),
+      callback?: () => void,
     ): void;
     forceUpdate(callback?: () => void): void;
     render(): ReactNode;
@@ -98,7 +116,7 @@ declare module 'react' {
     state: Readonly<S>;
     context: any;
     refs: {
-      [key: string]: ReactInstance
+      [key: string]: ReactInstance;
     };
   }
 
@@ -106,8 +124,13 @@ declare module 'react' {
   export class Component<P = {}, S = {}> {
     constructor(props: P, context?: any);
     setState<K extends keyof S>(
-      state: ((prevState: Readonly<S>, props: Readonly<P>) => (Pick<S, K> | S | null)) | (Pick<S, K> | S | null),
-      callback?: () => void
+      state:
+        | ((
+            prevState: Readonly<S>,
+            props: Readonly<P>,
+          ) => Pick<S, K> | S | null)
+        | (Pick<S, K> | S | null),
+      callback?: () => void,
     ): void;
     forceUpdate(callback?: () => void): void;
     render(): ReactNode;
@@ -115,13 +138,20 @@ declare module 'react' {
     state: Readonly<S>;
     context: any;
     refs: {
-      [key: string]: ReactInstance
+      [key: string]: ReactInstance;
     };
   }
 
   // Add missing type definitions
   type ReactInstance = Component<any> | Element;
-  type ReactNode = Element | string | number | boolean | null | undefined | ReactNodeArray;
+  type ReactNode =
+    | Element
+    | string
+    | number
+    | boolean
+    | null
+    | undefined
+    | ReactNodeArray;
   interface ReactNodeArray extends Array<ReactNode> {}
   type ElementType<P = any> = string | ComponentType<P>;
   type ComponentType<P = {}> = ComponentClass<P> | FunctionComponent<P>;
@@ -130,12 +160,19 @@ declare module 'react' {
     displayName?: string;
     defaultProps?: Partial<P>;
   }
-  interface ReactElement<P = any, T extends string | JSXElementConstructor<any> = string | JSXElementConstructor<any>> {
+  interface ReactElement<
+    P = any,
+    T extends string | JSXElementConstructor<any> =
+      | string
+      | JSXElementConstructor<any>,
+  > {
     type: T;
     props: P;
     key: Key | null;
   }
-  type JSXElementConstructor<P> = ((props: P) => ReactElement | null) | (new (props: P) => Component<P, any>);
+  type JSXElementConstructor<P> =
+    | ((props: P) => ReactElement | null)
+    | (new (props: P) => Component<P, any>);
   type Key = string | number;
   interface Context<T> {
     Provider: Provider<T>;
@@ -163,24 +200,34 @@ declare module 'react' {
   export as namespace React;
 }
 
-declare module 'wouter' {
-  export function useLocation(): [string, (to: string, options?: { replace?: boolean }) => void];
+declare module "wouter" {
+  export function useLocation(): [
+    string,
+    (to: string, options?: { replace?: boolean }) => void,
+  ];
   export function useRoute(pattern: string): [boolean, Record<string, string>];
-  
-  export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+
+  export interface LinkProps
+    extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     href: string;
     to?: string;
     children?: React.ReactNode;
   }
-  
+
   export const Link: React.FC<LinkProps>;
   export const Router: React.FC<{ children?: React.ReactNode; base?: string }>;
-  export const Route: React.FC<{ path: string; component: React.ComponentType<any> }>;
-  export const Switch: React.FC<{ children?: React.ReactNode; location?: string }>;
+  export const Route: React.FC<{
+    path: string;
+    component: React.ComponentType<any>;
+  }>;
+  export const Switch: React.FC<{
+    children?: React.ReactNode;
+    location?: string;
+  }>;
   export const Redirect: React.FC<{ to: string; replace?: boolean }>;
 }
 
-declare module 'framer-motion' {
+declare module "framer-motion" {
   export const motion: {
     [key: string]: any;
     div: React.ForwardRefExoticComponent<any>;
@@ -190,31 +237,31 @@ declare module 'framer-motion' {
     li: React.ForwardRefExoticComponent<any>;
     header: React.ForwardRefExoticComponent<any>;
   };
-  
+
   export interface AnimatePresenceProps {
     children?: React.ReactNode;
     initial?: boolean;
     exitBeforeEnter?: boolean;
     onExitComplete?: () => void;
   }
-  
+
   export const AnimatePresence: React.FC<AnimatePresenceProps>;
-  
+
   export interface VariantLabels {
     [key: string]: any;
   }
-  
+
   export type Variant = {
     [key: string]: string | number | { [key: string]: string | number };
   };
-  
+
   export type Variants = {
     [key: string]: Variant;
   };
 }
 
-declare module 'lucide-react' {
-  import * as React from 'react';
+declare module "lucide-react" {
+  import * as React from "react";
 
   export interface IconProps {
     size?: string | number;
@@ -259,7 +306,7 @@ declare module 'lucide-react' {
   export const CheckCircle: Icon;
   export const AlertCircle: Icon;
   export const DollarSign: Icon;
-  
+
   // Additional icons used in tech-stack-section.tsx
   export const Workflow: Icon;
   export const ShieldCheck: Icon;
@@ -271,7 +318,7 @@ declare module 'lucide-react' {
   export const HardDrive: Icon;
   export const Layers3: Icon;
   export const Lock: Icon;
-  
+
   // Added icons for mobile UI optimization
   export const Gauge: Icon;
   export const Award: Icon;
