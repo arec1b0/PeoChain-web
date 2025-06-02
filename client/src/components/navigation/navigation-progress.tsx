@@ -6,9 +6,9 @@ interface NavigationProgressProps {
   scrollProgress: number;
 }
 
-export const NavigationProgress: React.FC<NavigationProgressProps> = ({ 
-  isScrolled, 
-  scrollProgress 
+export const NavigationProgress: React.FC<NavigationProgressProps> = ({
+  isScrolled,
+  scrollProgress,
 }) => {
   if (!isScrolled) return null;
 

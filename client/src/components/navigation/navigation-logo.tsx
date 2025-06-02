@@ -27,13 +27,15 @@ interface NavigationLogoProps {
   onNavigateHome: (e?: React.KeyboardEvent | React.MouseEvent) => void;
 }
 
-export const NavigationLogo: React.FC<NavigationLogoProps> = ({ onNavigateHome }) => {
+export const NavigationLogo: React.FC<NavigationLogoProps> = ({
+  onNavigateHome,
+}) => {
   const [location] = useLocation();
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      onNavigateHome(event);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onNavigateHome(e);
     }
   };
 
