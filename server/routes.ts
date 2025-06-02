@@ -55,6 +55,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post(
     "/api/auth/login",
+    csrfProtection,
     loginValidation,
     handleValidationErrors,
     async (req: Request, res: Response) => {
@@ -87,7 +88,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     },
   );
 
-  app.post("/api/auth/logout", (req: Request, res: Response) => {
+  app.post("/api/auth/logout", csrfProtection, (req: Request, res: Response) => {
     const authReq = req as AuthenticatedRequest;
     authReq.session.destroy((err) => {
       if (err) {

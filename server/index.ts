@@ -6,23 +6,40 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { logger, logError, logInfo, logWarn } from "./utils/logger";
 import { csrfTokenGenerator } from "./middleware/csrf";
+import { 
+  securityHeaders, 
+  sanitizeRequest, 
+  requestMonitoring, 
+  bruteForceProtection,
+  validateContentType 
+} from "./middleware/security";
+import { securityConfig } from "./config/security";
 
 const app = express();
 
-// Security middleware
+// Enhanced security middleware stack
+app.use(securityHeaders);
+app.use(sanitizeRequest);
+app.use(requestMonitoring);
+app.use(bruteForceProtection);
+app.use(validateContentType(['application/json', 'application/x-www-form-urlencoded']));
+
+// Helmet with enhanced CSP
 app.use(
   helmet({
-    contentSecurityPolicy:
-      process.env.NODE_ENV === "production"
-        ? {
-            directives: {
-              defaultSrc: ["'self'"],
-              styleSrc: ["'self'", "'unsafe-inline'"],
-              scriptSrc: ["'self'"],
-              imgSrc: ["'self'", "data:", "https:"],
-            },
-          }
-        : false, // Disable CSP in development to allow Vite hot reload
+    contentSecurityPolicy: securityConfig.csp.enabled
+      ? {
+          directives: securityConfig.csp.directives,
+        }
+      : false,
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+      preload: true
+    },
+    noSniff: true,
+    xssFilter: true,
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" }
   }),
 );
 
@@ -76,17 +93,20 @@ const generalLimiter = rateLimit({
 app.use("/api/auth", authLimiter);
 app.use("/api", generalLimiter);
 
-// Session configuration
+// Enhanced session configuration with security config
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "dev-secret-key-change-in-production",
+    secret: securityConfig.session.secret,
     resave: false,
     saveUninitialized: false,
+    name: 'sessionId', // Change default session name
     cookie: {
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // 24 hours
+      secure: securityConfig.session.secure,
+      httpOnly: securityConfig.session.httpOnly,
+      maxAge: securityConfig.session.maxAge,
+      sameSite: securityConfig.session.sameSite,
     },
+    rolling: true, // Reset expiration on activity
   }),
 );
 
