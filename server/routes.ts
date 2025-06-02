@@ -13,6 +13,7 @@ import {
   type AuthenticatedRequest,
 } from "./middleware/auth";
 import { csrfProtection, getCSRFToken } from "./middleware/csrf";
+import { staticDataCache, dynamicDataCache, conditionalCache } from "./middleware/cache";
 import { logError } from "./utils/logger";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -117,8 +118,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Public API Endpoints (using data service)
-  app.get("/api/home", async (req, res) => {
+  // Public API Endpoints with caching (using data service)
+  app.get("/api/home", staticDataCache(300), async (req, res) => {
     try {
       const data = dataService.getHomeData();
       res.json(data);
@@ -128,7 +129,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/whitepaper", async (req, res) => {
+  app.get("/api/whitepaper", staticDataCache(600), async (req, res) => {
     try {
       const data = dataService.getWhitepaperData();
       res.json(data);
@@ -138,7 +139,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/peopay", async (req, res) => {
+  app.get("/api/peopay", staticDataCache(600), async (req, res) => {
     try {
       const data = dataService.getPeoPayData();
       res.json(data);
@@ -148,7 +149,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/technology", async (req, res) => {
+  app.get("/api/technology", staticDataCache(600), async (req, res) => {
     try {
       const data = dataService.getTechnologyData();
       res.json(data);
@@ -158,7 +159,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/network-stats", async (req, res) => {
+  app.get("/api/network-stats", dynamicDataCache(60), async (req, res) => {
     try {
       const stats = dataService.getNetworkStats();
       res.json(stats);
@@ -168,7 +169,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/validator-bonds", async (req, res) => {
+  app.get("/api/validator-bonds", staticDataCache(300), async (req, res) => {
     try {
       const data = dataService.getValidatorBondsData();
       const stats = dataService.getValidatorStats();
@@ -185,7 +186,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/validator-stats", async (req, res) => {
+  app.get("/api/validator-stats", dynamicDataCache(30), async (req, res) => {
     try {
       const stats = dataService.getValidatorStats();
       res.json(stats);
