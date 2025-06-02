@@ -1,4 +1,5 @@
 import { AnimatedComponent, AccessibleComponent } from "@/types";
+import { EXTERNAL_URLS, NAVIGATION_ROUTES, PERFORMANCE_METRICS } from "@shared/config";
 
 export interface HeroMetric {
   readonly value: number;
@@ -124,21 +125,21 @@ export const heroContent = {
       type: "primary" as const,
       label: "Join Validator Network",
       icon: "Workflow",
-      href: "/validator-bonds",
+      href: NAVIGATION_ROUTES.VALIDATOR_BONDS,
       ariaLabel: "Navigate to validator bonds page to join the network",
     },
     {
       type: "secondary" as const,
       label: "Experience Testnet",
       icon: "TestTube",
-      href: "https://testnet.peochain.xyz",
+      href: EXTERNAL_URLS.TESTNET,
       ariaLabel: "Try the PeoChain testnet environment",
     },
     {
       type: "secondary" as const,
       label: "Read Whitepaper",
       icon: "BookOpen",
-      href: "/whitepaper",
+      href: NAVIGATION_ROUTES.WHITEPAPER,
       ariaLabel: "Read the technical whitepaper documentation",
     },
   ],

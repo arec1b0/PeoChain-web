@@ -9,6 +9,8 @@ import {
   useReducedMotion,
 } from "@/hooks/use-accessibility";
 import { useThrottle } from "@/hooks/use-performance";
+import { EXTERNAL_URLS, NAVIGATION_ROUTES } from "@shared/config";
+import { BUTTON_STYLES } from "@shared/styles";
 
 interface HeroActionsProps {
   readonly actions: readonly HeroAction[];
