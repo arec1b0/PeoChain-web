@@ -1,8 +1,44 @@
-node_modules
-dist
+node_modules/
+dist/
 .DS_Store
-server/public
-vite.config.ts.*
+server/public/
+vite.config.ts*
 attached_assets/
 .replit
 generated-icon.png
+
+# Logs
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+jspm_packages/
+
+# TypeScript
+*.tsbuildinfo
+
+# Environment Files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor settings/
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Replit specific files and directories
+.repl/
+logs.txt
+.cassettes/
