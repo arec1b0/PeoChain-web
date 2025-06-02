@@ -10,6 +10,8 @@ import {
   Linkedin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { EXTERNAL_URLS } from "@shared/config";
+import { BUTTON_STYLES, LAYOUT_STYLES, TEXT_STYLES } from "@shared/styles";
 
 export default function FooterSection() {
   const socialLinks = [
@@ -65,7 +67,7 @@ export default function FooterSection() {
             className="bg-sage hover:bg-medium-forest active:bg-dark-forest text-white px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-raleway font-medium text-base sm:text-lg transform transition-all duration-300 hover:scale-105 shadow-lg touch-action-manipulation active:scale-[0.98] active:shadow-md min-h-[56px] min-w-[120px] w-full sm:w-auto select-none tap-highlight-transparent"
             mobileOptimized={true}
             aria-label="Start building with PeoChain"
-            onClick={() => window.open("https://github.com/peochain", "_blank")}
+            onClick={() => window.open(EXTERNAL_URLS.GITHUB, "_blank")}
           >
             <Rocket className="mr-2 h-5 w-5 sm:h-5 sm:w-5" aria-hidden="true" />
             Start Building Today
@@ -76,7 +78,7 @@ export default function FooterSection() {
             className="border-2 border-sage text-sage hover:bg-sage hover:text-white active:bg-medium-forest px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-raleway font-medium text-base sm:text-lg transform transition-all duration-300 hover:scale-105 touch-action-manipulation active:scale-[0.98] min-h-[56px] min-w-[120px] w-full sm:w-auto select-none tap-highlight-transparent"
             mobileOptimized={true}
             aria-label="View PeoChain documentation"
-            onClick={() => window.open("https://docs.peochain.xyz", "_blank")}
+            onClick={() => window.open(EXTERNAL_URLS.DOCS, "_blank")}
           >
             <Book className="mr-2 h-5 w-5 sm:h-5 sm:w-5" aria-hidden="true" />
             View Documentation
