@@ -23,6 +23,7 @@ export interface AuthenticatedRequest extends Request {
     Partial<session.SessionData> & {
       userId?: number;
       username?: string;
+      csrfToken?: string;
     };
 }
 

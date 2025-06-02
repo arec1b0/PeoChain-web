@@ -8,7 +8,11 @@ const environmentSchema = z.object({
   DATABASE_URL: z.string().url(),
   SESSION_SECRET: z
     .string()
-    .min(32, "Session secret must be at least 32 characters"),
+    .min(32, "Session secret must be at least 32 characters")
+    .refine(
+      (val) => val !== "dev-secret-key-change-in-production",
+      "Production must use a secure session secret, not the default development value"
+    ),
 
   // Rate limiting configuration
   RATE_LIMIT_WINDOW_MS: z.string().transform(Number).default("900000"), // 15 minutes
