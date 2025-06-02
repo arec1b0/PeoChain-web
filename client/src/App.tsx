@@ -9,11 +9,7 @@ import {
   DefaultErrorFallback,
 } from "@/components/ui/error-boundary-enhanced";
 import { FloatingLoader } from "@/components/ui/loading-states";
-import Home from "@/pages/home";
-import Technology from "@/pages/technology";
-import Whitepaper from "@/pages/whitepaper";
-import ValidatorBonds from "@/pages/validator-bonds";
-import NotFound from "@/pages/not-found";
+import { Home, Technology, Whitepaper, ValidatorBonds, NotFound } from "@/components/lazy-routes";
 import { Suspense, useEffect } from "react";
 import { useReducedMotion } from "@/hooks/use-accessibility";
 import { useAnimationStore } from "@/store";

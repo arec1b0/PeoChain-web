@@ -1,5 +1,6 @@
 import React from "react";
 const { Suspense, useRef, useMemo, useCallback, memo } = React;
+import { useRenderTracker } from "@/utils/performance-metrics";
 import {
   ErrorBoundaryEnhanced,
   SectionErrorFallback,
@@ -16,6 +17,9 @@ import {
   floatingNodesConfig,
 } from "@/data/hero-data";
 const HeroSection = memo(function HeroSection() {
+  // Track render performance
+  useRenderTracker('HeroSection');
+  
   // Memoize expensive data transformations
   const memoizedFloatingNodes = useMemo(() => floatingNodesConfig, []);
   const memoizedHeroContent = useMemo(() => heroContent, []);
