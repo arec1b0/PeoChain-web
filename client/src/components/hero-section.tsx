@@ -17,7 +17,7 @@ import {
   floatingNodesConfig,
 } from "@/data/hero-data";
 import { motion } from "framer-motion";
-import { ArrowRight, Zap, Shield, Globe, Sparkles, FileText } from "lucide-react";
+import { ArrowRight, Zap, Shield, Globe, CheckCircle, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import AnimatedCounter from "./animated-counter";
@@ -81,7 +81,7 @@ const HeroSection = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Sparkles className="w-4 h-4 text-sage" />
+            <CheckCircle className="w-4 h-4 text-sage" />
             <span className="text-sm font-medium text-sage">Next-Gen Blockchain Technology</span>
           </motion.div>
 
