@@ -24,12 +24,7 @@ const Technology: React.FC = () => {
   return (
     <MainLayout className="bg-gradient-to-br from-mint/50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section */}
-      <motion.section
-        className="pt-24 pb-8 px-4 sm:px-6 lg:px-8"
-        initial="hidden"
-        animate="visible"
-        variants={fadeIn}
-      >
+      <section className="pt-24 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-5xl md:text-6xl font-raleway font-bold text-forest dark:text-white mb-6">
@@ -41,7 +36,7 @@ const Technology: React.FC = () => {
             </p>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Advanced Technology Stack Section with lazy loading */}
       <motion.div
