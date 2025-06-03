@@ -26,16 +26,47 @@ import { ANIMATION_VARIANTS, TEXT_STYLES, BUTTON_STYLES, CARD_STYLES } from "../
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Professional Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100/50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-        {/* Subtle Grid Pattern */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,.02)_1px,transparent_1px),linear-gradient(rgba(0,0,0,.02)_1px,transparent_1px)] bg-[size:80px_80px] dark:bg-[linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px)]" />
-        </div>
-        {/* Minimal Geometric Elements */}
-        <div className="absolute top-20 right-20 w-2 h-2 bg-sage/40 rounded-full" />
-        <div className="absolute bottom-32 left-32 w-1 h-1 bg-sage/30 rounded-full" />
-        <div className="absolute top-1/3 left-20 w-1.5 h-1.5 bg-sage/20 rounded-full" />
+      {/* Enhanced Animated Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-mint via-white to-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-sage/5">
+        {/* Floating Elements */}
+        <motion.div
+          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-sage/30 to-medium-forest/20 rounded-full blur-2xl"
+          animate={{
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-10 w-24 h-24 bg-gradient-to-br from-medium-forest/30 to-dark-sage/20 rounded-full blur-2xl"
+          animate={{
+            x: [0, -80, 0],
+            y: [0, 60, 0],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/4 w-16 h-16 bg-sage/10 rounded-full blur-xl"
+          animate={{
+            rotate: [0, 360],
+            scale: [1, 1.3, 1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
@@ -75,14 +106,14 @@ const HeroSection = () => {
           </h1>
 
           <motion.p
-            className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8"
+            className={`${TEXT_STYLES.BODY_LG} ${TEXT_STYLES.FOREST_MUTED} max-w-4xl mx-auto leading-relaxed mb-8`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            Professional-grade blockchain infrastructure designed for institutional adoption. 
-            Our proven technology delivers enterprise-scale performance, security, and 
-            regulatory compliance for the next generation of financial services.
+            Revolutionary blockchain technology achieving unprecedented scalability, 
+            security, and decentralization through innovative consensus mechanisms 
+            and cutting-edge cryptographic protocols.
           </motion.p>
         </motion.div>
 
@@ -99,12 +130,13 @@ const HeroSection = () => {
           >
             <Button
               size="lg"
-              className="bg-sage hover:bg-sage/90 text-white px-8 py-4 text-lg font-medium transition-colors duration-300 group"
+              className={`${BUTTON_STYLES.PRIMARY} ${BUTTON_STYLES.SIZE_LG} ${BUTTON_STYLES.ANIMATION} group relative overflow-hidden`}
             >
-              <span className="flex items-center">
+              <span className="relative z-10 flex items-center">
                 Get Started
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-medium-forest to-dark-sage opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </Button>
           </motion.div>
 
@@ -116,9 +148,9 @@ const HeroSection = () => {
             <Button
               variant="outline"
               size="lg"
-              className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 px-8 py-4 text-lg font-medium transition-colors duration-300 group"
+              className={`${BUTTON_STYLES.SECONDARY} ${BUTTON_STYLES.SIZE_LG} backdrop-blur-sm bg-white/10 dark:bg-gray-900/10 relative overflow-hidden group`}
             >
-              <span className="flex items-center">
+              <span className="relative z-10 flex items-center">
                 View Whitepaper
                 <FileText className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
               </span>
@@ -143,28 +175,29 @@ const HeroSection = () => {
               whileHover={{ y: -8, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 group relative overflow-hidden hover:shadow-xl transition-all duration-500">
+              <Card className={`${CARD_STYLES.BASE} group relative overflow-hidden hover:shadow-2xl transition-all duration-500`}>
                 <CardContent className="p-8 text-center relative z-10">
                   <motion.div
                     className="flex items-center justify-center mb-6"
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <div className={`p-3 rounded-xl bg-gray-100 dark:bg-gray-700 ${metric.color}`}>
+                    <div className={`p-3 rounded-full bg-gradient-to-br from-sage/20 to-medium-forest/20 ${metric.color}`}>
                       <metric.icon className="h-8 w-8" />
                     </div>
                   </motion.div>
-                  <div className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
+                  <div className={`text-4xl font-bold ${TEXT_STYLES.FOREST} mb-3`}>
                     <AnimatedCounter 
                       to={metric.value} 
                       duration={2000}
                       suffix={metric.suffix}
                     />
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400 font-medium tracking-wide">
+                  <p className={`${TEXT_STYLES.FOREST_MUTED} font-medium tracking-wide`}>
                     {metric.label}
                   </p>
                 </CardContent>
+                <div className="absolute inset-0 bg-gradient-to-br from-sage/5 to-medium-forest/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </Card>
             </motion.div>
           ))}
