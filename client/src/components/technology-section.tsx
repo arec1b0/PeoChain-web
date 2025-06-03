@@ -1,11 +1,13 @@
+import React from "react";
 import { motion } from "framer-motion";
-import { GitBranch, Zap, Leaf, Link, Code, Wrench } from "lucide-react";
+import { Shield, Zap, Globe, Link2, Code, Cog } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const TechnologySection = () => {
   const technologies = [
     {
-      icon: GitBranch,
+      icon: Shield,
       title: "Consensus Algorithm",
       description: "Innovative Proof-of-Stake mechanism with Byzantine fault tolerance and quantum-resistant signatures.",
       details: ["99.9% uptime guarantee", "Sub-second finality", "Energy efficient", "Quantum-safe"],
@@ -21,7 +23,7 @@ const TechnologySection = () => {
       iconColor: "text-yellow-600 dark:text-yellow-400"
     },
     {
-      icon: Leaf,
+      icon: Globe,
       title: "Sustainability",
       description: "Carbon-negative blockchain with renewable energy integration and offset programs.",
       details: ["99% less energy usage", "Carbon offset programs", "Green mining", "Renewable powered"],
@@ -29,7 +31,7 @@ const TechnologySection = () => {
       iconColor: "text-green-600 dark:text-green-400"
     },
     {
-      icon: Link,
+      icon: Link2,
       title: "Interoperability",
       description: "Seamless cross-chain communication and asset transfers with universal protocols.",
       details: ["Multi-chain bridges", "Universal protocols", "Cross-chain DeFi", "Asset portability"],
@@ -45,22 +47,59 @@ const TechnologySection = () => {
       iconColor: "text-purple-600 dark:text-purple-400"
     },
     {
-      icon: Wrench,
+      icon: Settings,
       title: "Developer Tools",
       description: "Comprehensive SDK and toolchain for rapid development with rich documentation.",
-      details: ["Rich documentation", "Testing frameworks", "IDE integration", "CI/CD support"],
-      gradient: "from-teal-500/20 to-green-500/20",
+      details: ["Complete SDK", "Rich documentation", "Testing frameworks", "IDE integrations"],
+      gradient: "from-teal-500/20 to-cyan-500/20",
       iconColor: "text-teal-600 dark:text-teal-400"
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
-    <section className={`py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-mint/20 via-white to-sage/10 dark:from-gray-800/50 dark:via-gray-900 dark:to-gray-800 relative overflow-hidden`}>
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(109,158,121,0.1),transparent_50%)]" />
+    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-white to-sage/5 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 relative overflow-hidden">
+      {/* Enhanced Background Pattern */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(109,158,121,0.08),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(34,197,94,0.06),transparent_60%)]" />
         <motion.div
-          className="absolute bottom-20 left-20 w-32 h-32 bg-gradient-to-br from-medium-forest/20 to-sage/10 rounded-full blur-2xl"
+          className="absolute top-20 right-20 w-40 h-40 bg-gradient-to-br from-sage/20 to-emerald-300/10 rounded-full blur-3xl"
+          animate={{
+            x: [0, -30, 0],
+            y: [0, 20, 0],
+            scale: [1, 1.2, 1],
+            rotate: [0, 45, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 left-20 w-32 h-32 bg-gradient-to-br from-medium-forest/15 to-sage/10 rounded-full blur-2xl"
           animate={{
             x: [0, 50, 0],
             y: [0, -30, 0],
@@ -74,62 +113,92 @@ const TechnologySection = () => {
         />
       </div>
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-20"
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
         >
-          <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 bg-medium-forest/10 rounded-full border border-medium-forest/20 mb-6"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Code className="w-4 h-4 text-medium-forest" />
-            <span className="text-sm font-medium text-medium-forest">Advanced Architecture</span>
-          </motion.div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-raleway font-medium text-forest mb-6">
-            Next-Generation Technology Stack
+          <h2 className="text-4xl md:text-5xl font-raleway font-bold text-forest dark:text-white mb-6">
+            Revolutionary Technology
           </h2>
-          <p className="text-lg sm:text-xl font-hammersmith text-forest/80 max-w-4xl mx-auto">
-            Built on cutting-edge technology designed for the future of decentralized applications,
-            combining performance, security, and sustainability in perfect harmony.
+          <p className="text-xl font-hammersmith text-forest/80 dark:text-gray-300 max-w-4xl mx-auto">
+            Explore the cutting-edge innovations that power PeoChain's next-generation blockchain infrastructure
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {technologies.map((technology, index) => (
-            <motion.div
-              key={technology.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.05 }}
-              className="group"
-            >
-              <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg transform transition-all duration-300 group-hover:shadow-2xl h-full">
-                <CardContent className="p-8">
-                  <div
-                    className={`w-16 h-16 ${technology.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:animate-pulse`}
-                  >
-                    <technology.icon className={`${technology.iconColor} h-8 w-8`} />
-                  </div>
-                  <h3 className="text-xl font-raleway font-semibold text-forest mb-4">
-                    {technology.title}
-                  </h3>
-                  <p className="text-forest/70 font-hammersmith leading-relaxed">
-                    {technology.description}
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+        {/* Technology Cards Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+        >
+          {technologies.map((tech, index) => {
+            const IconComponent = tech.icon;
+            return (
+              <motion.div key={index} variants={itemVariants}>
+                <Card className={`group relative overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 bg-gradient-to-br ${tech.gradient} backdrop-blur-sm hover:scale-105`}>
+                  <CardContent className="p-8">
+                    {/* Icon */}
+                    <div className={`w-16 h-16 rounded-xl bg-white dark:bg-gray-800 shadow-md flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                      <IconComponent className={`w-8 h-8 ${tech.iconColor}`} />
+                    </div>
+
+                    {/* Content */}
+                    <h3 className="text-xl font-raleway font-bold text-forest dark:text-white mb-4">
+                      {tech.title}
+                    </h3>
+                    <p className="text-forest/80 dark:text-gray-300 font-hammersmith mb-6 leading-relaxed">
+                      {tech.description}
+                    </p>
+
+                    {/* Feature List */}
+                    <ul className="space-y-2">
+                      {tech.details.map((detail, detailIndex) => (
+                        <li key={detailIndex} className="flex items-center text-sm text-forest/70 dark:text-gray-400">
+                          <div className="w-2 h-2 bg-sage rounded-full mr-3 flex-shrink-0" />
+                          {detail}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* Call to Action */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="text-center"
+        >
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-sage/20">
+            <h3 className="text-2xl font-raleway font-bold text-forest dark:text-white mb-4">
+              Ready to Build on PeoChain?
+            </h3>
+            <p className="text-forest/80 dark:text-gray-300 font-hammersmith mb-6 max-w-2xl mx-auto">
+              Join thousands of developers building the future of decentralized finance with our comprehensive developer toolkit
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button className="bg-sage hover:bg-sage/90 text-white px-8 py-3 rounded-xl font-hammersmith transition-all duration-300">
+                Start Building
+              </Button>
+              <Button variant="outline" className="border-sage text-sage hover:bg-sage/10 px-8 py-3 rounded-xl font-hammersmith transition-all duration-300">
+                View Documentation
+              </Button>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
-}
+};
 
 export default TechnologySection;
