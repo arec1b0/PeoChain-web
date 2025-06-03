@@ -17,6 +17,9 @@ import {
   technicalHighlights,
   featuresContent,
 } from "@/data/features-data";
+import { Shield, Zap, Globe, Lock, TrendingUp, Users, Sparkles, ArrowRight } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ANIMATION_VARIANTS, TEXT_STYLES, CARD_STYLES, LAYOUT_STYLES } from "@/shared/styles";
 
 export default function FeaturesSection() {
   const sectionRef = useRef(null);
