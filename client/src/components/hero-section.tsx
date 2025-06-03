@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import AnimatedCounter from "./animated-counter";
 import { ANIMATION_VARIANTS, TEXT_STYLES, BUTTON_STYLES, CARD_STYLES } from "../../../shared/styles";
+import { EXTERNAL_URLS } from "@shared/config";
 
 const HeroSection = () => {
   return (
@@ -131,6 +132,7 @@ const HeroSection = () => {
             <Button
               size="lg"
               className={`${BUTTON_STYLES.PRIMARY} ${BUTTON_STYLES.SIZE_LG} ${BUTTON_STYLES.ANIMATION} group relative overflow-hidden`}
+              onClick={() => window.open(EXTERNAL_URLS.GET_STARTED, "_blank")}
             >
               <span className="relative z-10 flex items-center">
                 Get Started
@@ -149,6 +151,7 @@ const HeroSection = () => {
               variant="outline"
               size="lg"
               className={`${BUTTON_STYLES.SECONDARY} ${BUTTON_STYLES.SIZE_LG} backdrop-blur-sm bg-white/10 dark:bg-gray-900/10 relative overflow-hidden group`}
+              onClick={() => window.open(EXTERNAL_URLS.WHITEPAPER_PDF, "_blank")}
             >
               <span className="relative z-10 flex items-center">
                 View Whitepaper

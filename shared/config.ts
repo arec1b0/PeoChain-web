@@ -6,7 +6,12 @@ export const EXTERNAL_URLS = {
   CLI_DOCS: "https://docs.peochain.xyz/cli",
   VALIDATOR_DETAILS: "https://docs.peochain.xyz/validators",
   VALIDATOR_JOIN: "https://testnet.peochain.xyz/validator",
-  WHITEPAPER_PDF: "/PEOCHAIN_White_Paper.pdf",
+  WHITEPAPER_PDF: "https://peochain.xyz/whitepaper/PEOCHAIN_White_Paper.pdf",
+  GET_STARTED: "https://docs.peochain.xyz/getting-started",
+  COMMUNITY: "https://discord.gg/ahAyh5pA",
+  TWITTER: "https://x.com/peochain?s=21",
+  LINKEDIN: "https://www.linkedin.com/company/peochain/",
+  EMAIL: "mailto:info@peochain.xyz",
 } as const;
 
 export const NAVIGATION_ROUTES = {

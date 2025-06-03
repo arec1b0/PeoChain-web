@@ -17,19 +17,19 @@ export default function FooterSection() {
   const socialLinks = [
     {
       icon: Twitter,
-      href: "https://x.com/peochain?s=21",
+      href: EXTERNAL_URLS.TWITTER,
       label: "X (Twitter)",
     },
     {
       icon: MessageCircle,
-      href: "https://discord.gg/ahAyh5pA",
+      href: EXTERNAL_URLS.COMMUNITY,
       label: "Discord",
     },
-    { icon: Github, href: "https://github.com/peochain", label: "GitHub" },
-    { icon: Mail, href: "mailto:info@peochain.xyz", label: "Email" },
+    { icon: Github, href: EXTERNAL_URLS.GITHUB, label: "GitHub" },
+    { icon: Mail, href: EXTERNAL_URLS.EMAIL, label: "Email" },
     {
       icon: Linkedin,
-      href: "https://www.linkedin.com/company/peochain/",
+      href: EXTERNAL_URLS.LINKEDIN,
       label: "LinkedIn",
     },
   ];

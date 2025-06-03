@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap, BookOpen } from "lucide-react";
+import { EXTERNAL_URLS } from "@shared/config";
 
 interface NavItem {
   href: string;
@@ -57,7 +58,7 @@ export const DesktopNavigation: React.FC = () => {
         variant="outline"
         size="sm"
         className="ml-2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        onClick={() => window.open("/validator-bonds", "_blank")}
+        onClick={() => window.open(EXTERNAL_URLS.VALIDATOR_APPLICATION, "_blank")}
       >
         To Bonds
         <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
