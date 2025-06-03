@@ -17,7 +17,7 @@ class BundleAnalyzer {
     loadTimes: {},
     totalLoadTime: 0,
     firstContentfulPaint: 0,
-    timeToInteractive: 0
+    timeToInteractive: 0,
   };
 
   static getInstance() {
@@ -34,23 +34,28 @@ class BundleAnalyzer {
   }
 
   trackPerformanceMetrics() {
-    if (typeof window !== 'undefined' && 'performance' in window) {
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-      const paint = performance.getEntriesByType('paint');
-      
-      this.metrics.firstContentfulPaint = 
-        paint.find(entry => entry.name === 'first-contentful-paint')?.startTime || 0;
-      
+    if (typeof window !== "undefined" && "performance" in window) {
+      const navigation = performance.getEntriesByType(
+        "navigation",
+      )[0] as PerformanceNavigationTiming;
+      const paint = performance.getEntriesByType("paint");
+
+      this.metrics.firstContentfulPaint =
+        paint.find((entry) => entry.name === "first-contentful-paint")
+          ?.startTime || 0;
+
       // Estimate TTI using navigation timing
-      this.metrics.timeToInteractive = navigation.loadEventEnd - navigation.navigationStart;
+      this.metrics.timeToInteractive =
+        navigation.loadEventEnd - navigation.navigationStart;
     }
   }
 
   getReport() {
     return {
       ...this.metrics,
-      averageChunkLoadTime: this.metrics.totalLoadTime / this.metrics.chunksLoaded.length || 0,
-      totalChunks: this.metrics.chunksLoaded.length
+      averageChunkLoadTime:
+        this.metrics.totalLoadTime / this.metrics.chunksLoaded.length || 0,
+      totalChunks: this.metrics.chunksLoaded.length,
     };
   }
 
@@ -59,26 +64,40 @@ class BundleAnalyzer {
     const recommendations = [];
 
     if (report.firstContentfulPaint > 2000) {
-      recommendations.push('Consider reducing initial bundle size - FCP is over 2 seconds');
+      recommendations.push(
+        "Consider reducing initial bundle size - FCP is over 2 seconds",
+      );
     }
 
     if (report.averageChunkLoadTime > 500) {
-      recommendations.push('Chunk loading is slow - consider optimizing lazy loading');
+      recommendations.push(
+        "Chunk loading is slow - consider optimizing lazy loading",
+      );
     }
 
     if (report.totalChunks > 10) {
-      recommendations.push('Many chunks loaded - consider bundle consolidation');
+      recommendations.push(
+        "Many chunks loaded - consider bundle consolidation",
+      );
     }
 
     return {
       metrics: report,
       recommendations,
       performance: {
-        fcp: report.firstContentfulPaint < 1800 ? 'good' : 
-             report.firstContentfulPaint < 3000 ? 'needs improvement' : 'poor',
-        tti: report.timeToInteractive < 3800 ? 'good' :
-             report.timeToInteractive < 7300 ? 'needs improvement' : 'poor'
-      }
+        fcp:
+          report.firstContentfulPaint < 1800
+            ? "good"
+            : report.firstContentfulPaint < 3000
+              ? "needs improvement"
+              : "poor",
+        tti:
+          report.timeToInteractive < 3800
+            ? "good"
+            : report.timeToInteractive < 7300
+              ? "needs improvement"
+              : "poor",
+      },
     };
   }
 }
@@ -88,7 +107,7 @@ export const bundleAnalyzer = BundleAnalyzer.getInstance();
 // Hook to track lazy component loading
 export function useLazyComponentTracker(componentName: string) {
   const startTime = performance.now();
-  
+
   React.useEffect(() => {
     const loadTime = performance.now() - startTime;
     bundleAnalyzer.trackChunkLoad(componentName, loadTime);
@@ -101,9 +120,9 @@ export function useAppPerformanceMonitor() {
     const observer = new PerformanceObserver((list) => {
       bundleAnalyzer.trackPerformanceMetrics();
     });
-    
-    observer.observe({ entryTypes: ['navigation', 'paint'] });
-    
+
+    observer.observe({ entryTypes: ["navigation", "paint"] });
+
     return () => observer.disconnect();
   }, []);
 }

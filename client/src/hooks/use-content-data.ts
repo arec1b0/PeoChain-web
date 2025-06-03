@@ -10,7 +10,7 @@ export interface UseContentDataResult<T> {
 
 export function useContentData<T>(
   fetcher: (service: ContentService) => Promise<T>,
-  dependencies: unknown[] = []
+  dependencies: unknown[] = [],
 ): UseContentDataResult<T> {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
@@ -23,8 +23,10 @@ export function useContentData<T>(
       const result = await fetcher(contentService);
       setData(result);
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Unknown error occurred'));
-      console.error('Content fetch error:', err);
+      setError(
+        err instanceof Error ? err : new Error("Unknown error occurred"),
+      );
+      console.error("Content fetch error:", err);
     } finally {
       setLoading(false);
     }
@@ -38,27 +40,27 @@ export function useContentData<T>(
     data,
     loading,
     error,
-    refetch: fetchData
+    refetch: fetchData,
   };
 }
 
 // Specific hooks for common data
 export function useHeroData() {
-  return useContentData(service => service.getHeroData());
+  return useContentData((service) => service.getHeroData());
 }
 
 export function useHeroMetrics() {
-  return useContentData(service => service.getHeroMetrics());
+  return useContentData((service) => service.getHeroMetrics());
 }
 
 export function useFeatures() {
-  return useContentData(service => service.getFeatures());
+  return useContentData((service) => service.getFeatures());
 }
 
 export function useValidatorStats() {
-  return useContentData(service => service.getValidatorStats());
+  return useContentData((service) => service.getValidatorStats());
 }
 
 export function useWhitepaperSections() {
-  return useContentData(service => service.getWhitepaperSections());
+  return useContentData((service) => service.getWhitepaperSections());
 }

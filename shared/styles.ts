@@ -3,15 +3,20 @@ export const CARD_STYLES = {
   GRADIENT: "bg-gradient-to-br from-sage to-medium-forest",
   HOVER: "hover:bg-sage/10 transition-colors",
   INTERACTIVE: "p-3 bg-sage/5 rounded-lg hover:bg-sage/10 transition-colors",
-  BORDERED: "p-4 bg-sage/5 rounded-lg hover:bg-sage/10 transition-colors border border-sage/10"
+  BORDERED:
+    "p-4 bg-sage/5 rounded-lg hover:bg-sage/10 transition-colors border border-sage/10",
 } as const;
 
 export const BUTTON_STYLES = {
-  PRIMARY: "bg-sage hover:bg-medium-forest active:bg-dark-forest text-white font-raleway font-medium",
-  SECONDARY: "border-2 border-sage text-sage hover:bg-sage hover:text-white active:bg-medium-forest",
+  PRIMARY:
+    "bg-sage hover:bg-medium-forest active:bg-dark-forest text-white font-raleway font-medium",
+  SECONDARY:
+    "border-2 border-sage text-sage hover:bg-sage hover:text-white active:bg-medium-forest",
   OUTLINE_WHITE: "border-white text-white hover:bg-white hover:text-sage",
-  SIZE_LG: "px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-base sm:text-lg",
-  ANIMATION: "transform transition-all duration-300 hover:scale-105 shadow-lg touch-action-manipulation active:scale-[0.98] active:shadow-md min-h-[56px] min-w-[120px] w-full sm:w-auto select-none tap-highlight-transparent"
+  SIZE_LG:
+    "px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-base sm:text-lg",
+  ANIMATION:
+    "transform transition-all duration-300 hover:scale-105 shadow-lg touch-action-manipulation active:scale-[0.98] active:shadow-md min-h-[56px] min-w-[120px] w-full sm:w-auto select-none tap-highlight-transparent",
 } as const;
 
 export const LAYOUT_STYLES = {
@@ -20,7 +25,8 @@ export const LAYOUT_STYLES = {
   GRID_2: "grid md:grid-cols-2 gap-8",
   GRID_3: "grid md:grid-cols-3 gap-6",
   GRID_4: "grid md:grid-cols-2 lg:grid-cols-4 gap-8",
-  FLEX_CENTER: "flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6"
+  FLEX_CENTER:
+    "flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6",
 } as const;
 
 export const TEXT_STYLES = {
@@ -31,17 +37,17 @@ export const TEXT_STYLES = {
   BODY_BASE: "font-hammersmith",
   FOREST: "text-forest dark:text-white",
   FOREST_MUTED: "text-forest/80 dark:text-gray-300",
-  SAGE: "text-sage"
+  SAGE: "text-sage",
 } as const;
 
 export const ANIMATION_VARIANTS = {
   FADE_IN: {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   },
   FADE_IN_UP: {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
   },
   STAGGER_CONTAINER: {
     hidden: { opacity: 0 },
@@ -49,8 +55,8 @@ export const ANIMATION_VARIANTS = {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.3
-      }
-    }
-  }
+        delayChildren: 0.3,
+      },
+    },
+  },
 } as const;

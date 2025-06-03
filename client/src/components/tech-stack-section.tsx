@@ -7,12 +7,12 @@ import { techComponents } from "@/components/tech-stack/tech-data";
 export default function TechStackSection() {
   const sectionRef = React.useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-  const [expandedComponent, setExpandedComponent] = React.useState<string | null>(
-    null,
-  );
+  const [expandedComponent, setExpandedComponent] = React.useState<
+    string | null
+  >(null);
 
   const handleToggle = React.useCallback((id: string) => {
-    setExpandedComponent(prev => prev === id ? null : id);
+    setExpandedComponent((prev) => (prev === id ? null : id));
   }, []);
 
   return (

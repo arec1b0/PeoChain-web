@@ -18,7 +18,8 @@ export const useNavigationState = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
           const scrollY = window.scrollY;
-          const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const windowHeight =
+            document.documentElement.scrollHeight - window.innerHeight;
           const progress = Math.min((scrollY / windowHeight) * 100, 100);
 
           setScrollProgress(progress);
@@ -27,14 +28,14 @@ export const useNavigationState = () => {
           // Update active section based on scroll position
           const sections = document.querySelectorAll("section[id]");
           let currentSection = "home";
-          
+
           sections.forEach((section) => {
             const sectionTop = section.getBoundingClientRect().top;
             if (sectionTop <= 100) {
               currentSection = section.id;
             }
           });
-          
+
           setActiveSection(currentSection);
           ticking = false;
         });
@@ -76,11 +77,11 @@ export const useNavigationState = () => {
   }, [isMobileMenuOpen, isSearchOpen]);
 
   const toggleMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen(prev => !prev);
+    setIsMobileMenuOpen((prev) => !prev);
   }, []);
 
   const toggleSearch = useCallback(() => {
-    setIsSearchOpen(prev => !prev);
+    setIsSearchOpen((prev) => !prev);
   }, []);
 
   const handleSearchSubmit = useCallback((e: React.FormEvent) => {
@@ -90,12 +91,15 @@ export const useNavigationState = () => {
     setIsSearchOpen(false);
   }, []);
 
-  const navigateToHome = useCallback((e?: React.KeyboardEvent | React.MouseEvent) => {
-    if (e && "key" in e && e.key !== "Enter" && e.key !== " ") {
-      return;
-    }
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  const navigateToHome = useCallback(
+    (e?: React.KeyboardEvent | React.MouseEvent) => {
+      if (e && "key" in e && e.key !== "Enter" && e.key !== " ") {
+        return;
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [],
+  );
 
   return {
     // State
@@ -105,7 +109,7 @@ export const useNavigationState = () => {
     searchQuery,
     scrollProgress,
     activeSection,
-    
+
     // Actions
     setSearchQuery,
     toggleMobileMenu,

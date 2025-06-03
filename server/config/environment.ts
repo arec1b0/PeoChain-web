@@ -11,7 +11,7 @@ const environmentSchema = z.object({
     .min(32, "Session secret must be at least 32 characters")
     .refine(
       (val) => val !== "dev-secret-key-change-in-production",
-      "Production must use a secure session secret, not the default development value"
+      "Production must use a secure session secret, not the default development value",
     ),
 
   // Rate limiting configuration

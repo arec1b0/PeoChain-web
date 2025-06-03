@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from "react";
 
 interface PerformanceMetrics {
   renderCount: number;
@@ -23,12 +23,13 @@ class RenderTracker {
       renderCount: 0,
       totalRenderTime: 0,
       averageRenderTime: 0,
-      lastRenderTime: 0
+      lastRenderTime: 0,
     };
 
     existing.renderCount++;
     existing.totalRenderTime += renderTime;
-    existing.averageRenderTime = existing.totalRenderTime / existing.renderCount;
+    existing.averageRenderTime =
+      existing.totalRenderTime / existing.renderCount;
     existing.lastRenderTime = renderTime;
 
     this.metrics.set(componentName, existing);
@@ -44,9 +45,9 @@ class RenderTracker {
       renders: metrics.renderCount,
       avgTime: Math.round(metrics.averageRenderTime * 100) / 100,
       lastTime: Math.round(metrics.lastRenderTime * 100) / 100,
-      totalTime: Math.round(metrics.totalRenderTime * 100) / 100
+      totalTime: Math.round(metrics.totalRenderTime * 100) / 100,
     }));
-    
+
     return data.sort((a, b) => b.totalTime - a.totalTime);
   }
 }
@@ -56,9 +57,9 @@ export const renderTracker = RenderTracker.getInstance();
 // Hook to track component render performance
 export function useRenderTracker(componentName: string) {
   const renderStart = useRef<number>(0);
-  
+
   renderStart.current = performance.now();
-  
+
   useEffect(() => {
     const renderTime = performance.now() - renderStart.current;
     renderTracker.trackRender(componentName, renderTime);
@@ -68,13 +69,13 @@ export function useRenderTracker(componentName: string) {
 // Hook to get performance report
 export function usePerformanceReport() {
   const [report, setReport] = useState<any[]>([]);
-  
+
   const generateReport = () => {
     const data = renderTracker.getReport();
     setReport(data);
     console.table(data);
     return data;
   };
-  
+
   return { report, generateReport };
 }

@@ -43,12 +43,8 @@ export const DesktopNavigation: React.FC = () => {
                 ? "text-foreground bg-primary/10"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
             }`}
-            aria-current={
-              location.startsWith(item.href) ? "page" : undefined
-            }
-            onKeyDown={(e: React.KeyboardEvent) =>
-              handleKeyDown(e, item.href)
-            }
+            aria-current={location.startsWith(item.href) ? "page" : undefined}
+            onKeyDown={(e: React.KeyboardEvent) => handleKeyDown(e, item.href)}
           >
             <div className="flex items-center">
               {item.icon && <Icon className="mr-2 h-4 w-4" />}

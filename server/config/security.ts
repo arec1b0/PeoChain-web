@@ -8,7 +8,7 @@ const securityConfigSchema = z.object({
     maxAge: z.number().default(24 * 60 * 60 * 1000), // 24 hours
     secure: z.boolean().default(false),
     httpOnly: z.boolean().default(true),
-    sameSite: z.enum(['strict', 'lax', 'none']).default('strict')
+    sameSite: z.enum(["strict", "lax", "none"]).default("strict"),
   }),
 
   // Rate limiting
@@ -16,7 +16,7 @@ const securityConfigSchema = z.object({
     authWindow: z.number().default(15 * 60 * 1000), // 15 minutes
     authMaxAttempts: z.number().default(5),
     generalWindow: z.number().default(15 * 60 * 1000),
-    generalMaxRequests: z.number().default(100)
+    generalMaxRequests: z.number().default(100),
   }),
 
   // Password security
@@ -26,15 +26,15 @@ const securityConfigSchema = z.object({
     requireUppercase: z.boolean().default(true),
     requireLowercase: z.boolean().default(true),
     requireNumbers: z.boolean().default(true),
-    requireSymbols: z.boolean().default(false)
+    requireSymbols: z.boolean().default(false),
   }),
 
   // CSRF protection
   csrf: z.object({
     enabled: z.boolean().default(true),
     tokenLength: z.number().default(32),
-    cookieName: z.string().default('_csrf'),
-    headerName: z.string().default('x-csrf-token')
+    cookieName: z.string().default("_csrf"),
+    headerName: z.string().default("x-csrf-token"),
   }),
 
   // Content Security Policy
@@ -49,9 +49,9 @@ const securityConfigSchema = z.object({
       fontSrc: z.array(z.string()).default(["'self'"]),
       objectSrc: z.array(z.string()).default(["'none'"]),
       mediaSrc: z.array(z.string()).default(["'self'"]),
-      frameSrc: z.array(z.string()).default(["'none'"])
-    })
-  })
+      frameSrc: z.array(z.string()).default(["'none'"]),
+    }),
+  }),
 });
 
 // Default security configuration
@@ -61,13 +61,15 @@ const defaultSecurityConfig = {
     maxAge: parseInt(process.env.SESSION_MAX_AGE || "86400000"),
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
-    sameSite: 'strict' as const
+    sameSite: "strict" as const,
   },
   rateLimit: {
     authWindow: parseInt(process.env.AUTH_RATE_WINDOW_MS || "900000"),
     authMaxAttempts: parseInt(process.env.AUTH_RATE_MAX_ATTEMPTS || "5"),
     generalWindow: parseInt(process.env.GENERAL_RATE_WINDOW_MS || "900000"),
-    generalMaxRequests: parseInt(process.env.GENERAL_RATE_MAX_REQUESTS || "100")
+    generalMaxRequests: parseInt(
+      process.env.GENERAL_RATE_MAX_REQUESTS || "100",
+    ),
   },
   password: {
     saltRounds: parseInt(process.env.BCRYPT_ROUNDS || "12"),
@@ -75,30 +77,31 @@ const defaultSecurityConfig = {
     requireUppercase: process.env.PASSWORD_REQUIRE_UPPERCASE !== "false",
     requireLowercase: process.env.PASSWORD_REQUIRE_LOWERCASE !== "false",
     requireNumbers: process.env.PASSWORD_REQUIRE_NUMBERS !== "false",
-    requireSymbols: process.env.PASSWORD_REQUIRE_SYMBOLS === "true"
+    requireSymbols: process.env.PASSWORD_REQUIRE_SYMBOLS === "true",
   },
   csrf: {
     enabled: process.env.CSRF_ENABLED !== "false",
     tokenLength: parseInt(process.env.CSRF_TOKEN_LENGTH || "32"),
     cookieName: process.env.CSRF_COOKIE_NAME || "_csrf",
-    headerName: process.env.CSRF_HEADER_NAME || "x-csrf-token"
+    headerName: process.env.CSRF_HEADER_NAME || "x-csrf-token",
   },
   csp: {
     enabled: process.env.CSP_ENABLED !== "false",
     directives: {
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: process.env.NODE_ENV === "development" 
-        ? ["'self'", "'unsafe-eval'", "'unsafe-inline'"] 
-        : ["'self'"],
+      scriptSrc:
+        process.env.NODE_ENV === "development"
+          ? ["'self'", "'unsafe-eval'", "'unsafe-inline'"]
+          : ["'self'"],
       imgSrc: ["'self'", "data:", "https:"],
       connectSrc: ["'self'"],
       fontSrc: ["'self'"],
       objectSrc: ["'none'"],
       mediaSrc: ["'self'"],
-      frameSrc: ["'none'"]
-    }
-  }
+      frameSrc: ["'none'"],
+    },
+  },
 };
 
 // Validate and export security configuration
@@ -113,7 +116,9 @@ export function validatePasswordStrength(password: string): {
   const errors: string[] = [];
 
   if (password.length < config.minLength) {
-    errors.push(`Password must be at least ${config.minLength} characters long`);
+    errors.push(
+      `Password must be at least ${config.minLength} characters long`,
+    );
   }
 
   if (config.requireUppercase && !/[A-Z]/.test(password)) {
@@ -128,25 +133,28 @@ export function validatePasswordStrength(password: string): {
     errors.push("Password must contain at least one number");
   }
 
-  if (config.requireSymbols && !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+  if (
+    config.requireSymbols &&
+    !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
+  ) {
     errors.push("Password must contain at least one special character");
   }
 
   return {
     isValid: errors.length === 0,
-    errors
+    errors,
   };
 }
 
 // Security headers configuration
 export function getSecurityHeaders() {
   return {
-    'X-Content-Type-Options': 'nosniff',
-    'X-Frame-Options': 'DENY',
-    'X-XSS-Protection': '1; mode=block',
-    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-    'Referrer-Policy': 'strict-origin-when-cross-origin',
-    'Permissions-Policy': 'geolocation=(), microphone=(), camera=()'
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "X-XSS-Protection": "1; mode=block",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
   };
 }
 

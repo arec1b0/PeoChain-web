@@ -1,7 +1,13 @@
 import React from "react";
 import { AlertTriangle, RefreshCw, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -31,9 +37,10 @@ const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({
   errorId,
   onRetry,
   onGoHome,
-  retryCount
+  retryCount,
 }) => {
-  const isNetworkError = error.message.includes('fetch') || error.message.includes('network');
+  const isNetworkError =
+    error.message.includes("fetch") || error.message.includes("network");
   const canRetry = retryCount < 3;
 
   return (
@@ -47,43 +54,40 @@ const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({
             Something went wrong
           </CardTitle>
           <CardDescription className="text-gray-600 dark:text-gray-400">
-            {isNetworkError 
+            {isNetworkError
               ? "Unable to connect to our services. Please check your internet connection."
-              : "We encountered an unexpected error. Our team has been notified."
-            }
+              : "We encountered an unexpected error. Our team has been notified."}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="text-xs text-gray-500 dark:text-gray-400 font-mono bg-gray-100 dark:bg-gray-800 p-2 rounded border">
             Error ID: {errorId}
           </div>
-          
+
           <div className="flex flex-col gap-2">
             {canRetry && (
-              <Button 
+              <Button
                 onClick={onRetry}
                 variant="default"
                 className="w-full"
                 disabled={!canRetry}
               >
                 <RefreshCw className="w-4 h-4 mr-2" />
-                Try Again {retryCount > 0 && `(${3 - retryCount} attempts left)`}
+                Try Again{" "}
+                {retryCount > 0 && `(${3 - retryCount} attempts left)`}
               </Button>
             )}
-            
-            <Button 
-              onClick={onGoHome}
-              variant="outline"
-              className="w-full"
-            >
+
+            <Button onClick={onGoHome} variant="outline" className="w-full">
               <Home className="w-4 h-4 mr-2" />
               Go to Homepage
             </Button>
           </div>
-          
+
           {!canRetry && (
             <div className="text-sm text-red-600 dark:text-red-400 text-center">
-              Multiple retry attempts failed. Please refresh the page or contact support.
+              Multiple retry attempts failed. Please refresh the page or contact
+              support.
             </div>
           )}
         </CardContent>
@@ -93,7 +97,10 @@ const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({
 };
 
 // Main Error Boundary Component
-export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   private retryTimeoutId: number | null = null;
 
   constructor(props: ErrorBoundaryProps) {
@@ -101,18 +108,18 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     this.state = {
       hasError: false,
       error: null,
-      errorId: '',
-      retryCount: 0
+      errorId: "",
+      retryCount: 0,
     };
   }
 
   static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
     const errorId = `ERR_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
     return {
       hasError: true,
       error,
-      errorId
+      errorId,
     };
   }
 
@@ -123,29 +130,32 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
       url: window.location.href,
-      componentStack: errorInfo.componentStack.split('\n').slice(0, 5).join('\n'), // Limit stack trace
+      componentStack: errorInfo.componentStack
+        .split("\n")
+        .slice(0, 5)
+        .join("\n"), // Limit stack trace
       errorMessage: error.message,
-      retryCount: this.state.retryCount
+      retryCount: this.state.retryCount,
     };
 
     // Send to logging service (ensure no sensitive data)
-    console.error('React Error Boundary:', errorContext);
-    
+    console.error("React Error Boundary:", errorContext);
+
     // Call optional error handler
     if (this.props.onError) {
       this.props.onError(error, errorInfo);
     }
 
     // Report to external service if available
-    if (typeof window !== 'undefined' && 'localStorage' in window) {
+    if (typeof window !== "undefined" && "localStorage" in window) {
       try {
-        const errorLog = JSON.parse(localStorage.getItem('errorLog') || '[]');
+        const errorLog = JSON.parse(localStorage.getItem("errorLog") || "[]");
         errorLog.push(errorContext);
         // Keep only last 10 errors
         if (errorLog.length > 10) {
           errorLog.splice(0, errorLog.length - 10);
         }
-        localStorage.setItem('errorLog', JSON.stringify(errorLog));
+        localStorage.setItem("errorLog", JSON.stringify(errorLog));
       } catch (e) {
         // Ignore localStorage errors
       }
@@ -157,11 +167,11 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
       return;
     }
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       hasError: false,
       error: null,
-      errorId: '',
-      retryCount: prevState.retryCount + 1
+      errorId: "",
+      retryCount: prevState.retryCount + 1,
     }));
 
     // Clear any existing timeout
@@ -180,13 +190,13 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     this.setState({
       hasError: false,
       error: null,
-      errorId: '',
-      retryCount: 0
+      errorId: "",
+      retryCount: 0,
     });
 
     // Navigate to home
-    if (typeof window !== 'undefined') {
-      window.location.href = '/';
+    if (typeof window !== "undefined") {
+      window.location.href = "/";
     }
   };
 
@@ -199,7 +209,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   render() {
     if (this.state.hasError && this.state.error) {
       const FallbackComponent = this.props.fallback || DefaultErrorFallback;
-      
+
       return (
         <FallbackComponent
           error={this.state.error}
@@ -216,12 +226,10 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 }
 
 // Route-specific Error Boundary
-export const RouteErrorBoundary: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return (
-    <ErrorBoundary isolateRoutes={true}>
-      {children}
-    </ErrorBoundary>
-  );
+export const RouteErrorBoundary: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  return <ErrorBoundary isolateRoutes={true}>{children}</ErrorBoundary>;
 };
 
 // Hook for manual error reporting
@@ -230,21 +238,23 @@ export const useErrorHandler = () => {
     const errorContext = {
       errorId: `MANUAL_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       timestamp: new Date().toISOString(),
-      context: context || 'Manual report',
+      context: context || "Manual report",
       message: error.message,
-      url: window.location.href
+      url: window.location.href,
     };
 
-    console.error('Manual Error Report:', errorContext);
-    
+    console.error("Manual Error Report:", errorContext);
+
     // Store in localStorage for debugging
     try {
-      const errorLog = JSON.parse(localStorage.getItem('manualErrorLog') || '[]');
+      const errorLog = JSON.parse(
+        localStorage.getItem("manualErrorLog") || "[]",
+      );
       errorLog.push(errorContext);
       if (errorLog.length > 5) {
         errorLog.splice(0, errorLog.length - 5);
       }
-      localStorage.setItem('manualErrorLog', JSON.stringify(errorLog));
+      localStorage.setItem("manualErrorLog", JSON.stringify(errorLog));
     } catch (e) {
       // Ignore localStorage errors
     }

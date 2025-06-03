@@ -29,7 +29,7 @@ export enum ErrorType {
   EXTERNAL_SERVICE_ERROR = "external_service_error",
   INTERNAL_ERROR = "internal_error",
   NETWORK_ERROR = "network_error",
-  CONFIGURATION_ERROR = "configuration_error"
+  CONFIGURATION_ERROR = "configuration_error",
 }
 
 // Custom error classes for better error handling
@@ -44,14 +44,14 @@ export class AppError extends Error {
     type: ErrorType = ErrorType.INTERNAL_ERROR,
     statusCode: number = 500,
     isOperational: boolean = true,
-    details?: any
+    details?: any,
   ) {
     super(message);
     this.type = type;
     this.statusCode = statusCode;
     this.isOperational = isOperational;
     this.details = details;
-    
+
     Error.captureStackTrace(this, this.constructor);
   }
 }
@@ -82,7 +82,9 @@ export class NotFoundError extends AppError {
 
 export class RateLimitError extends AppError {
   constructor(retryAfter?: number) {
-    super("Rate limit exceeded", ErrorType.RATE_LIMIT_ERROR, 429, true, { retryAfter });
+    super("Rate limit exceeded", ErrorType.RATE_LIMIT_ERROR, 429, true, {
+      retryAfter,
+    });
   }
 }
 
@@ -99,7 +101,7 @@ export class ExternalServiceError extends AppError {
       ErrorType.EXTERNAL_SERVICE_ERROR,
       503,
       true,
-      { service }
+      { service },
     );
   }
 }
@@ -109,11 +111,12 @@ export function errorHandler(
   error: Error | AppError,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): void {
   // Generate request ID if not present
-  const requestId = req.headers['x-request-id'] as string || 
-                   `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  const requestId =
+    (req.headers["x-request-id"] as string) ||
+    `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
   let errorResponse: ErrorResponse;
   let statusCode = 500;
@@ -127,11 +130,13 @@ export function errorHandler(
         type: error.type,
         message: error.message,
         details: error.details,
-        ...(config.logging.errorStackTracesInProduction && { stack: error.stack })
+        ...(config.logging.errorStackTracesInProduction && {
+          stack: error.stack,
+        }),
       },
       timestamp: new Date().toISOString(),
       requestId,
-      path: req.path
+      path: req.path,
     };
 
     // Log based on severity
@@ -143,7 +148,7 @@ export function errorHandler(
         statusCode: error.statusCode,
         path: req.path,
         method: req.method,
-        requestId
+        requestId,
       });
     }
   } else if (error instanceof ZodError) {
@@ -154,22 +159,22 @@ export function errorHandler(
       error: {
         type: ErrorType.VALIDATION_ERROR,
         message: "Validation failed",
-        details: error.errors.map(err => ({
-          field: err.path.join('.'),
+        details: error.errors.map((err) => ({
+          field: err.path.join("."),
           message: err.message,
-          code: err.code
-        }))
+          code: err.code,
+        })),
       },
       timestamp: new Date().toISOString(),
       requestId,
-      path: req.path
+      path: req.path,
     };
 
     logWarn("Validation error", {
       errors: error.errors,
       path: req.path,
       method: req.method,
-      requestId
+      requestId,
     });
   } else {
     // Handle unexpected errors
@@ -178,22 +183,25 @@ export function errorHandler(
       success: false,
       error: {
         type: ErrorType.INTERNAL_ERROR,
-        message: config.server.env === "production" 
-          ? "An unexpected error occurred" 
-          : error.message,
-        ...(config.logging.errorStackTracesInProduction && { stack: error.stack })
+        message:
+          config.server.env === "production"
+            ? "An unexpected error occurred"
+            : error.message,
+        ...(config.logging.errorStackTracesInProduction && {
+          stack: error.stack,
+        }),
       },
       timestamp: new Date().toISOString(),
       requestId,
-      path: req.path
+      path: req.path,
     };
 
     logError(error, "Unhandled error");
   }
 
   // Set security headers
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "DENY");
 
   // Send error response
   res.status(statusCode).json(errorResponse);
@@ -201,10 +209,14 @@ export function errorHandler(
 
 // Async error wrapper
 export function asyncErrorHandler<T extends any[]>(
-  fn: (...args: T) => Promise<any>
+  fn: (...args: T) => Promise<any>,
 ) {
   return (...args: T) => {
-    const [req, res, next] = args as unknown as [Request, Response, NextFunction];
+    const [req, res, next] = args as unknown as [
+      Request,
+      Response,
+      NextFunction,
+    ];
     Promise.resolve(fn(...args)).catch(next);
   };
 }
@@ -215,18 +227,18 @@ export function notFoundHandler(req: Request, res: Response): void {
     success: false,
     error: {
       type: ErrorType.NOT_FOUND_ERROR,
-      message: `Route ${req.method} ${req.path} not found`
+      message: `Route ${req.method} ${req.path} not found`,
     },
     timestamp: new Date().toISOString(),
-    requestId: req.headers['x-request-id'] as string,
-    path: req.path
+    requestId: req.headers["x-request-id"] as string,
+    path: req.path,
   };
 
   logWarn("Route not found", {
     method: req.method,
     path: req.path,
-    userAgent: req.headers['user-agent'],
-    ip: req.ip
+    userAgent: req.headers["user-agent"],
+    ip: req.ip,
   });
 
   res.status(404).json(errorResponse);
@@ -235,17 +247,17 @@ export function notFoundHandler(req: Request, res: Response): void {
 // Health check error responses
 export function createHealthCheckError(
   service: string,
-  status: 'degraded' | 'unhealthy',
-  details?: any
+  status: "degraded" | "unhealthy",
+  details?: any,
 ): ErrorResponse {
   return {
     success: false,
     error: {
       type: ErrorType.EXTERNAL_SERVICE_ERROR,
       message: `Service ${service} is ${status}`,
-      details
+      details,
     },
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   };
 }
 
@@ -257,22 +269,22 @@ export function handleDatabaseError(error: any): DatabaseError {
   // PostgreSQL specific error handling
   if (error.code) {
     switch (error.code) {
-      case '23505': // unique_violation
+      case "23505": // unique_violation
         message = "Resource already exists";
         details = { constraint: error.constraint };
         break;
-      case '23503': // foreign_key_violation
+      case "23503": // foreign_key_violation
         message = "Referenced resource does not exist";
         details = { constraint: error.constraint };
         break;
-      case '23502': // not_null_violation
+      case "23502": // not_null_violation
         message = "Required field is missing";
         details = { column: error.column };
         break;
-      case 'ECONNREFUSED':
+      case "ECONNREFUSED":
         message = "Database connection refused";
         break;
-      case 'ETIMEDOUT':
+      case "ETIMEDOUT":
         message = "Database operation timed out";
         break;
       default:
@@ -286,7 +298,7 @@ export function handleDatabaseError(error: any): DatabaseError {
 // Rate limiting error with retry information
 export function createRateLimitError(
   windowMs: number,
-  maxAttempts: number
+  maxAttempts: number,
 ): RateLimitError {
   const retryAfter = Math.ceil(windowMs / 1000);
   return new RateLimitError(retryAfter);
@@ -299,39 +311,45 @@ export function createTimeoutError(timeoutMs: number): AppError {
     ErrorType.NETWORK_ERROR,
     408,
     true,
-    { timeout: timeoutMs }
+    { timeout: timeoutMs },
   );
 }
 
 // Circuit breaker error
-export function createCircuitBreakerError(service: string): ExternalServiceError {
+export function createCircuitBreakerError(
+  service: string,
+): ExternalServiceError {
   return new ExternalServiceError(
     service,
-    `Circuit breaker is open for ${service}. Service temporarily unavailable.`
+    `Circuit breaker is open for ${service}. Service temporarily unavailable.`,
   );
 }
 
 // Configuration validation error
 export function createConfigurationError(
   setting: string,
-  expected: string
+  expected: string,
 ): AppError {
   return new AppError(
     `Invalid configuration for ${setting}. Expected: ${expected}`,
     ErrorType.CONFIGURATION_ERROR,
     500,
-    false
+    false,
   );
 }
 
 // Export commonly used error creators
 export const errors = {
-  validation: (message: string, details?: any) => new ValidationError(message, details),
+  validation: (message: string, details?: any) =>
+    new ValidationError(message, details),
   authentication: (message?: string) => new AuthenticationError(message),
   authorization: (message?: string) => new AuthorizationError(message),
   notFound: (resource?: string) => new NotFoundError(resource),
   rateLimit: (retryAfter?: number) => new RateLimitError(retryAfter),
-  database: (message: string, details?: any) => new DatabaseError(message, details),
-  externalService: (service: string, message?: string) => new ExternalServiceError(service, message),
-  internal: (message: string) => new AppError(message, ErrorType.INTERNAL_ERROR, 500, true)
+  database: (message: string, details?: any) =>
+    new DatabaseError(message, details),
+  externalService: (service: string, message?: string) =>
+    new ExternalServiceError(service, message),
+  internal: (message: string) =>
+    new AppError(message, ErrorType.INTERNAL_ERROR, 500, true),
 };

@@ -13,7 +13,11 @@ import {
   type AuthenticatedRequest,
 } from "./middleware/auth";
 import { csrfProtection, getCSRFToken } from "./middleware/csrf";
-import { staticDataCache, dynamicDataCache, conditionalCache } from "./middleware/cache";
+import {
+  staticDataCache,
+  dynamicDataCache,
+  conditionalCache,
+} from "./middleware/cache";
 import { logError } from "./utils/logger";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -89,15 +93,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     },
   );
 
-  app.post("/api/auth/logout", csrfProtection, (req: Request, res: Response) => {
-    const authReq = req as AuthenticatedRequest;
-    authReq.session.destroy((err) => {
-      if (err) {
-        return res.status(500).json({ error: "Could not log out" });
-      }
-      res.json({ message: "Logout successful" });
-    });
-  });
+  app.post(
+    "/api/auth/logout",
+    csrfProtection,
+    (req: Request, res: Response) => {
+      const authReq = req as AuthenticatedRequest;
+      authReq.session.destroy((err) => {
+        if (err) {
+          return res.status(500).json({ error: "Could not log out" });
+        }
+        res.json({ message: "Logout successful" });
+      });
+    },
+  );
 
   app.get("/api/auth/me", requireAuth, async (req: Request, res: Response) => {
     const authReq = req as AuthenticatedRequest;

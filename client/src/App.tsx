@@ -9,7 +9,13 @@ import {
   DefaultErrorFallback,
 } from "@/components/ui/error-boundary-enhanced";
 import { FloatingLoader } from "@/components/ui/loading-states";
-import { Home, Technology, Whitepaper, ValidatorBonds, NotFound } from "@/components/lazy-routes";
+import {
+  Home,
+  Technology,
+  Whitepaper,
+  ValidatorBonds,
+  NotFound,
+} from "@/components/lazy-routes";
 import { Suspense, useEffect } from "react";
 import { useReducedMotion } from "@/hooks/use-accessibility";
 import { useAnimationStore } from "@/store";

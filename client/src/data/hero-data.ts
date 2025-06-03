@@ -1,5 +1,9 @@
 import { AnimatedComponent, AccessibleComponent } from "@/types";
-import { EXTERNAL_URLS, NAVIGATION_ROUTES, PERFORMANCE_METRICS } from "@shared/config";
+import {
+  EXTERNAL_URLS,
+  NAVIGATION_ROUTES,
+  PERFORMANCE_METRICS,
+} from "@shared/config";
 
 export interface HeroMetric {
   readonly value: number;

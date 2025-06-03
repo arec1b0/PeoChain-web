@@ -39,31 +39,38 @@ const Whitepaper: React.FC = () => {
     sections: [
       {
         title: "Introduction",
-        summary: "Overview of global financial inclusion challenges and PeoChain's innovative solution to bridge the gap for underbanked populations worldwide."
+        summary:
+          "Overview of global financial inclusion challenges and PeoChain's innovative solution to bridge the gap for underbanked populations worldwide.",
       },
       {
         title: "Proof of Synergy (PoSyg): A Unique Consensus Model",
-        summary: "Revolutionary consensus mechanism that combines validator performance, network contribution, and stake weight to achieve optimal scalability and security."
+        summary:
+          "Revolutionary consensus mechanism that combines validator performance, network contribution, and stake weight to achieve optimal scalability and security.",
       },
       {
         title: "Technical Architecture",
-        summary: "Comprehensive system design including subnet architecture, cross-chain interoperability, and zero-knowledge proof implementations."
+        summary:
+          "Comprehensive system design including subnet architecture, cross-chain interoperability, and zero-knowledge proof implementations.",
       },
       {
         title: "Economic Model (Tokenomics)",
-        summary: "Token distribution, validator rewards, transaction fee structure, and economic incentives driving network sustainability."
+        summary:
+          "Token distribution, validator rewards, transaction fee structure, and economic incentives driving network sustainability.",
       },
       {
         title: "Financial Model and Projections",
-        summary: "Revenue streams, market analysis, adoption forecasts, and long-term financial sustainability projections for the PeoChain ecosystem."
+        summary:
+          "Revenue streams, market analysis, adoption forecasts, and long-term financial sustainability projections for the PeoChain ecosystem.",
       },
       {
         title: "Roadmap",
-        summary: "Development phases from testnet launch through mainnet deployment, including key milestones and timeline for global expansion."
+        summary:
+          "Development phases from testnet launch through mainnet deployment, including key milestones and timeline for global expansion.",
       },
       {
         title: "Conclusion",
-        summary: "Summary of PeoChain's potential impact on global financial inclusion and the future of decentralized finance."
+        summary:
+          "Summary of PeoChain's potential impact on global financial inclusion and the future of decentralized finance.",
       },
     ],
     keyFeatures: [
@@ -132,9 +139,9 @@ const Whitepaper: React.FC = () => {
                     size="lg"
                     className="bg-sage hover:bg-medium-forest text-white font-raleway font-medium px-8 py-4"
                     onClick={() => {
-                      const link = document.createElement('a');
+                      const link = document.createElement("a");
                       link.href = EXTERNAL_URLS.WHITEPAPER_PDF;
-                      link.download = 'PEOCHAIN_White_Paper.pdf';
+                      link.download = "PEOCHAIN_White_Paper.pdf";
                       document.body.appendChild(link);
                       link.click();
                       document.body.removeChild(link);

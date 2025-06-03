@@ -36,7 +36,7 @@ interface ValidationErrorResponse {
 export function validateWithZod<
   TBody = any,
   TQuery = any,
-  TParams = any
+  TParams = any,
 >(schemas: {
   body?: z.ZodSchema<TBody>;
   query?: z.ZodSchema<TQuery>;
@@ -45,11 +45,12 @@ export function validateWithZod<
   return async (
     req: ValidatedRequest,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void> => {
     try {
       const validatedData: any = {};
-      const errors: Array<{ field: string; message: string; code: string }> = [];
+      const errors: Array<{ field: string; message: string; code: string }> =
+        [];
 
       // Validate request body
       if (schemas.body && req.body !== undefined) {
@@ -61,7 +62,7 @@ export function validateWithZod<
           errors.push({
             field: "body",
             message: zodError.message,
-            code: "INVALID_BODY"
+            code: "INVALID_BODY",
           });
         }
       }
@@ -76,7 +77,7 @@ export function validateWithZod<
           errors.push({
             field: "query",
             message: zodError.message,
-            code: "INVALID_QUERY"
+            code: "INVALID_QUERY",
           });
         }
       }
@@ -91,7 +92,7 @@ export function validateWithZod<
           errors.push({
             field: "params",
             message: zodError.message,
-            code: "INVALID_PARAMS"
+            code: "INVALID_PARAMS",
           });
         }
       }
@@ -103,18 +104,18 @@ export function validateWithZod<
           error: {
             type: "validation_error",
             message: "Request validation failed",
-            details: errors
+            details: errors,
           },
           timestamp: new Date().toISOString(),
-          requestId: req.headers['x-request-id'] as string
+          requestId: req.headers["x-request-id"] as string,
         };
 
         logWarn("Request validation failed", {
           url: req.url,
           method: req.method,
           errors: errors,
-          userAgent: req.headers['user-agent'],
-          ip: req.ip
+          userAgent: req.headers["user-agent"],
+          ip: req.ip,
         });
 
         res.status(400).json(errorResponse);
@@ -126,20 +127,22 @@ export function validateWithZod<
       next();
     } catch (error) {
       logError(error as Error, "Validation middleware error");
-      
+
       const errorResponse: ValidationErrorResponse = {
         success: false,
         error: {
           type: "validation_error",
           message: "Internal validation error",
-          details: [{
-            field: "server",
-            message: "An unexpected error occurred during validation",
-            code: "INTERNAL_ERROR"
-          }]
+          details: [
+            {
+              field: "server",
+              message: "An unexpected error occurred during validation",
+              code: "INTERNAL_ERROR",
+            },
+          ],
         },
         timestamp: new Date().toISOString(),
-        requestId: req.headers['x-request-id'] as string
+        requestId: req.headers["x-request-id"] as string,
       };
 
       res.status(500).json(errorResponse);
@@ -154,51 +157,73 @@ export const commonSchemas = {
     page: z.coerce.number().min(1).default(1),
     limit: z.coerce.number().min(1).max(100).default(20),
     sortBy: z.string().optional(),
-    sortOrder: z.enum(['asc', 'desc']).default('desc')
+    sortOrder: z.enum(["asc", "desc"]).default("desc"),
   }),
 
   // User authentication
   userLogin: z.object({
-    username: z.string()
+    username: z
+      .string()
       .min(3, "Username must be at least 3 characters")
       .max(50, "Username must not exceed 50 characters")
-      .regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain letters, numbers, hyphens, and underscores"),
-    password: z.string()
+      .regex(
+        /^[a-zA-Z0-9_-]+$/,
+        "Username can only contain letters, numbers, hyphens, and underscores",
+      ),
+    password: z
+      .string()
       .min(8, "Password must be at least 8 characters")
-      .max(128, "Password must not exceed 128 characters")
+      .max(128, "Password must not exceed 128 characters"),
   }),
 
-  userRegistration: z.object({
-    username: z.string()
-      .min(3, "Username must be at least 3 characters")
-      .max(50, "Username must not exceed 50 characters")
-      .regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain letters, numbers, hyphens, and underscores"),
-    password: z.string()
-      .min(8, "Password must be at least 8 characters")
-      .max(128, "Password must not exceed 128 characters")
-      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one lowercase letter, one uppercase letter, and one number"),
-    confirmPassword: z.string()
-  }).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"]
-  }),
+  userRegistration: z
+    .object({
+      username: z
+        .string()
+        .min(3, "Username must be at least 3 characters")
+        .max(50, "Username must not exceed 50 characters")
+        .regex(
+          /^[a-zA-Z0-9_-]+$/,
+          "Username can only contain letters, numbers, hyphens, and underscores",
+        ),
+      password: z
+        .string()
+        .min(8, "Password must be at least 8 characters")
+        .max(128, "Password must not exceed 128 characters")
+        .regex(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+          "Password must contain at least one lowercase letter, one uppercase letter, and one number",
+        ),
+      confirmPassword: z.string(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Passwords don't match",
+      path: ["confirmPassword"],
+    }),
 
   // ID validation
   numericId: z.object({
-    id: z.coerce.number().min(1, "ID must be a positive number")
+    id: z.coerce.number().min(1, "ID must be a positive number"),
   }),
 
   // Search and filtering
   searchQuery: z.object({
-    q: z.string().min(1, "Search query cannot be empty").max(200, "Search query too long"),
+    q: z
+      .string()
+      .min(1, "Search query cannot be empty")
+      .max(200, "Search query too long"),
     category: z.string().optional(),
-    tags: z.array(z.string()).optional()
-  })
+    tags: z.array(z.string()).optional(),
+  }),
 };
 
 // Enhanced error handling for async route handlers
 export function asyncHandler(
-  fn: (req: ValidatedRequest, res: Response, next: NextFunction) => Promise<any>
+  fn: (
+    req: ValidatedRequest,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<any>,
 ) {
   return (req: ValidatedRequest, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch(next);
@@ -212,12 +237,12 @@ export function validateAndRateLimit<T = any>(
     windowMs?: number;
     maxAttempts?: number;
     skipSuccessfulRequests?: boolean;
-  } = {}
+  } = {},
 ) {
   const {
     windowMs = rateLimitConfig.generalWindow,
     maxAttempts = rateLimitConfig.generalMaxRequests,
-    skipSuccessfulRequests = false
+    skipSuccessfulRequests = false,
   } = options;
 
   // Simple in-memory rate limiting (replace with Redis in production)
@@ -237,17 +262,20 @@ export function validateAndRateLimit<T = any>(
         }
       }
 
-      const current = attempts.get(key) || { count: 0, resetTime: now + windowMs };
-      
+      const current = attempts.get(key) || {
+        count: 0,
+        resetTime: now + windowMs,
+      };
+
       if (current.count >= maxAttempts) {
         res.status(429).json({
           success: false,
           error: {
             type: "rate_limit_exceeded",
             message: "Too many requests",
-            retryAfter: Math.ceil((current.resetTime - now) / 1000)
+            retryAfter: Math.ceil((current.resetTime - now) / 1000),
           },
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         });
         return;
       }
@@ -257,7 +285,7 @@ export function validateAndRateLimit<T = any>(
       next();
     },
     // Validation middleware
-    validateWithZod({ body: schema })
+    validateWithZod({ body: schema }),
   ];
 }
 
@@ -268,19 +296,22 @@ export function createValidatedRoute<TBody = any, TQuery = any, TParams = any>(
     query?: z.ZodSchema<TQuery>;
     params?: z.ZodSchema<TParams>;
   },
-  handler: (req: ValidatedRequest & {
-    validatedData: {
-      body?: TBody;
-      query?: TQuery;
-      params?: TParams;
-    };
-  }, res: Response) => Promise<void> | void
+  handler: (
+    req: ValidatedRequest & {
+      validatedData: {
+        body?: TBody;
+        query?: TQuery;
+        params?: TParams;
+      };
+    },
+    res: Response,
+  ) => Promise<void> | void,
 ) {
   return [
     validateWithZod(schemas),
     asyncHandler(async (req: ValidatedRequest, res: Response) => {
       await handler(req as any, res);
-    })
+    }),
   ];
 }
 

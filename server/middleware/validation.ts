@@ -43,21 +43,21 @@ export function validatePassword(
   next: NextFunction,
 ) {
   const { password } = req.body;
-  
+
   if (!password) {
     return res.status(400).json({
       error: "Password is required",
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
   const validation = validatePasswordStrength(password);
-  
+
   if (!validation.isValid) {
     return res.status(400).json({
       error: "Password does not meet security requirements",
       details: validation.errors,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 

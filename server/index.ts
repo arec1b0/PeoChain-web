@@ -6,12 +6,12 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { logger, logError, logInfo, logWarn } from "./utils/logger";
 import { csrfTokenGenerator } from "./middleware/csrf";
-import { 
-  securityHeaders, 
-  sanitizeRequest, 
-  requestMonitoring, 
+import {
+  securityHeaders,
+  sanitizeRequest,
+  requestMonitoring,
   bruteForceProtection,
-  validateContentType 
+  validateContentType,
 } from "./middleware/security";
 import { securityConfig } from "./config/security";
 
@@ -22,7 +22,12 @@ app.use(securityHeaders);
 app.use(sanitizeRequest);
 app.use(requestMonitoring);
 app.use(bruteForceProtection);
-app.use(validateContentType(['application/json', 'application/x-www-form-urlencoded']));
+app.use(
+  validateContentType([
+    "application/json",
+    "application/x-www-form-urlencoded",
+  ]),
+);
 
 // Helmet with enhanced CSP
 app.use(
@@ -35,19 +40,23 @@ app.use(
     hsts: {
       maxAge: 31536000,
       includeSubDomains: true,
-      preload: true
+      preload: true,
     },
     noSniff: true,
     xssFilter: true,
-    referrerPolicy: { policy: "strict-origin-when-cross-origin" }
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
   }),
 );
 
 // Enhanced rate limiting with environment configuration
 const authWindowMs = parseInt(process.env.AUTH_RATE_WINDOW_MS || "900000"); // 15 minutes
 const authMaxAttempts = parseInt(process.env.AUTH_RATE_MAX_ATTEMPTS || "5");
-const generalWindowMs = parseInt(process.env.GENERAL_RATE_WINDOW_MS || "900000");
-const generalMaxRequests = parseInt(process.env.GENERAL_RATE_MAX_REQUESTS || "100");
+const generalWindowMs = parseInt(
+  process.env.GENERAL_RATE_WINDOW_MS || "900000",
+);
+const generalMaxRequests = parseInt(
+  process.env.GENERAL_RATE_MAX_REQUESTS || "100",
+);
 
 // Authentication-specific rate limiter (stricter)
 const authLimiter = rateLimit({
@@ -56,24 +65,24 @@ const authLimiter = rateLimit({
   message: {
     error: "Too many authentication attempts. Please try again later.",
     retryAfter: Math.ceil(authWindowMs / 1000),
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   },
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => {
-    logWarn('Authentication rate limit exceeded', {
+    logWarn("Authentication rate limit exceeded", {
       ip: req.ip,
-      userAgent: req.get('User-Agent'),
+      userAgent: req.get("User-Agent"),
       endpoint: req.originalUrl,
       method: req.method,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
     res.status(429).json({
       error: "Too many authentication attempts. Please try again later.",
       retryAfter: Math.ceil(authWindowMs / 1000),
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-  }
+  },
 });
 
 // General API rate limiter
@@ -83,10 +92,10 @@ const generalLimiter = rateLimit({
   message: {
     error: "Too many requests. Please try again later.",
     retryAfter: Math.ceil(generalWindowMs / 1000),
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   },
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
 });
 
 // Apply rate limiters
@@ -99,7 +108,7 @@ app.use(
     secret: securityConfig.session.secret,
     resave: false,
     saveUninitialized: false,
-    name: 'sessionId', // Change default session name
+    name: "sessionId", // Change default session name
     cookie: {
       secure: securityConfig.session.secure,
       httpOnly: securityConfig.session.httpOnly,

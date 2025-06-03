@@ -73,12 +73,9 @@ const configSchema = z.object({
   // File upload limits
   uploads: z.object({
     maxFileSize: z.number().default(10485760), // 10MB
-    allowedMimeTypes: z.array(z.string()).default([
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-      "application/pdf",
-    ]),
+    allowedMimeTypes: z
+      .array(z.string())
+      .default(["image/jpeg", "image/png", "image/webp", "application/pdf"]),
     uploadTimeout: z.number().default(300000), // 5 minutes
   }),
 });
@@ -88,47 +85,68 @@ const defaultConfig = {
   server: {
     port: parseInt(process.env.PORT || "5000"),
     host: process.env.HOST || "0.0.0.0",
-    env: (process.env.NODE_ENV as "development" | "production" | "test") || "development",
+    env:
+      (process.env.NODE_ENV as "development" | "production" | "test") ||
+      "development",
     maxRequestSize: process.env.MAX_REQUEST_SIZE || "10mb",
   },
   database: {
     poolMax: parseInt(process.env.DB_POOL_MAX || "20"),
     poolMin: parseInt(process.env.DB_POOL_MIN || "2"),
     poolIdleTimeout: parseInt(process.env.DB_POOL_IDLE_TIMEOUT || "30000"),
-    poolConnectionTimeout: parseInt(process.env.DB_POOL_CONNECTION_TIMEOUT || "10000"),
+    poolConnectionTimeout: parseInt(
+      process.env.DB_POOL_CONNECTION_TIMEOUT || "10000",
+    ),
     poolMaxUses: parseInt(process.env.DB_POOL_MAX_USES || "7500"),
   },
   rateLimiting: {
     authWindow: parseInt(process.env.AUTH_RATE_WINDOW_MS || "900000"),
     authMaxAttempts: parseInt(process.env.AUTH_RATE_MAX_ATTEMPTS || "5"),
     generalWindow: parseInt(process.env.GENERAL_RATE_WINDOW_MS || "900000"),
-    generalMaxRequests: parseInt(process.env.GENERAL_RATE_MAX_REQUESTS || "100"),
+    generalMaxRequests: parseInt(
+      process.env.GENERAL_RATE_MAX_REQUESTS || "100",
+    ),
     bruteForceWindow: parseInt(process.env.BRUTE_FORCE_WINDOW_MS || "900000"),
-    bruteForceMaxAttempts: parseInt(process.env.BRUTE_FORCE_MAX_ATTEMPTS || "5"),
+    bruteForceMaxAttempts: parseInt(
+      process.env.BRUTE_FORCE_MAX_ATTEMPTS || "5",
+    ),
   },
   session: {
     maxAge: parseInt(process.env.SESSION_MAX_AGE || "86400000"),
-    cleanupInterval: parseInt(process.env.SESSION_CLEANUP_INTERVAL || "3600000"),
+    cleanupInterval: parseInt(
+      process.env.SESSION_CLEANUP_INTERVAL || "3600000",
+    ),
     cookieName: process.env.SESSION_COOKIE_NAME || "sessionId",
   },
   security: {
-    passwordResetTimeout: parseInt(process.env.PASSWORD_RESET_TIMEOUT || "3600000"),
-    emailVerificationTimeout: parseInt(process.env.EMAIL_VERIFICATION_TIMEOUT || "86400000"),
+    passwordResetTimeout: parseInt(
+      process.env.PASSWORD_RESET_TIMEOUT || "3600000",
+    ),
+    emailVerificationTimeout: parseInt(
+      process.env.EMAIL_VERIFICATION_TIMEOUT || "86400000",
+    ),
     loginAttemptWindow: parseInt(process.env.LOGIN_ATTEMPT_WINDOW || "900000"),
-    accountLockoutDuration: parseInt(process.env.ACCOUNT_LOCKOUT_DURATION || "1800000"),
+    accountLockoutDuration: parseInt(
+      process.env.ACCOUNT_LOCKOUT_DURATION || "1800000",
+    ),
   },
   performance: {
     cacheMemoryLimit: parseInt(process.env.CACHE_MEMORY_LIMIT || "52428800"),
     cacheKeyLimit: parseInt(process.env.CACHE_KEY_LIMIT || "150"),
     requestTimeoutMs: parseInt(process.env.REQUEST_TIMEOUT_MS || "30000"),
     slowQueryThreshold: parseInt(process.env.SLOW_QUERY_THRESHOLD || "1000"),
-    dbPoolUtilizationWarning: parseInt(process.env.DB_POOL_UTIL_WARNING || "80"),
-    dbPoolUtilizationCritical: parseInt(process.env.DB_POOL_UTIL_CRITICAL || "95"),
+    dbPoolUtilizationWarning: parseInt(
+      process.env.DB_POOL_UTIL_WARNING || "80",
+    ),
+    dbPoolUtilizationCritical: parseInt(
+      process.env.DB_POOL_UTIL_CRITICAL || "95",
+    ),
   },
   logging: {
     maxLogLineLength: parseInt(process.env.MAX_LOG_LINE_LENGTH || "1000"),
     logRetentionDays: parseInt(process.env.LOG_RETENTION_DAYS || "30"),
-    errorStackTracesInProduction: process.env.ERROR_STACK_TRACES_PROD === "true",
+    errorStackTracesInProduction:
+      process.env.ERROR_STACK_TRACES_PROD === "true",
     sensitiveFieldRedaction: process.env.SENSITIVE_FIELD_REDACTION !== "false",
   },
   api: {
@@ -141,7 +159,7 @@ const defaultConfig = {
     maxFileSize: parseInt(process.env.MAX_FILE_SIZE || "10485760"),
     allowedMimeTypes: process.env.ALLOWED_MIME_TYPES?.split(",") || [
       "image/jpeg",
-      "image/png", 
+      "image/png",
       "image/webp",
       "application/pdf",
     ],
@@ -184,7 +202,8 @@ export const validateConfig = () => {
     errors.push("Auth rate limiting max attempts must be at least 1");
   }
 
-  if (config.session.maxAge < 60000) { // 1 minute minimum
+  if (config.session.maxAge < 60000) {
+    // 1 minute minimum
     errors.push("Session max age must be at least 1 minute");
   }
 
