@@ -17,7 +17,7 @@ import {
   Zap,
   Shield,
   DollarSign,
-  BarChart2,
+  Gauge,
   ArrowRight,
   CheckCircle,
 } from "lucide-react";
@@ -452,7 +452,7 @@ const Whitepaper: React.FC = () => {
                       className="text-center group"
                     >
                       <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-white/30 transition-all duration-300 group-hover:scale-110">
-                        <BarChart2 className="h-8 w-8 text-white" />
+                        <Gauge className="h-8 w-8 text-white" />
                       </div>
                       <h3 className="font-raleway font-bold text-xl mb-3">
                         Ultra Scalability
