@@ -3,12 +3,23 @@ import { motion } from "framer-motion";
 import MainLayout from "@/components/layout/main-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import {
   Download,
   FileText,
   Users,
   Calendar,
   ChevronRight,
+  BookOpen,
+  Clock,
+  ExternalLink,
+  Zap,
+  Shield,
+  DollarSign,
+  Activity,
+  ArrowRight,
+  CheckCircle,
 } from "lucide-react";
 import { ErrorBoundaryEnhanced } from "@/components/ui/error-boundary-enhanced";
 import { EXTERNAL_URLS } from "@shared/config";
@@ -17,6 +28,14 @@ import { CARD_STYLES, BUTTON_STYLES, LAYOUT_STYLES } from "@shared/styles";
 interface WhitepaperSection {
   title: string;
   summary: string;
+  icon?: React.ReactNode;
+  highlight?: boolean;
+}
+
+interface WhitepaperStats {
+  label: string;
+  value: string;
+  icon: React.ReactNode;
 }
 
 interface WhitepaperData {
@@ -34,6 +53,8 @@ const Whitepaper: React.FC = () => {
       "PeoChain - A Decentralized Financial Ecosystem for Global Inclusion",
     authors: ["Dan Otieno", "Daniil Krizhanovskyi"],
     date: "March 2025",
+    version: "v2.1",
+    pages: "64",
     abstract:
       "PeoChain is an innovative blockchain platform designed to deliver scalable, secure, and accessible decentralized financial services, with a mission to empower underbanked populations globally. Leveraging its novel Proof of Synergy (PoSyg) consensus mechanism and Dynamic Contribution Scoring (DCS) system, PeoChain achieves exceptional scalability, supporting up to 100,000 transactions per second with 1-second finality, while ensuring robust security and economic stability.",
     sections: [
@@ -41,36 +62,50 @@ const Whitepaper: React.FC = () => {
         title: "Introduction",
         summary:
           "Overview of global financial inclusion challenges and PeoChain's innovative solution to bridge the gap for underbanked populations worldwide.",
+        icon: <BookOpen className="h-5 w-5" />,
+        highlight: false,
       },
       {
         title: "Proof of Synergy (PoSyg): A Unique Consensus Model",
         summary:
           "Revolutionary consensus mechanism that combines validator performance, network contribution, and stake weight to achieve optimal scalability and security.",
+        icon: <Zap className="h-5 w-5" />,
+        highlight: true,
       },
       {
         title: "Technical Architecture",
         summary:
           "Comprehensive system design including subnet architecture, cross-chain interoperability, and zero-knowledge proof implementations.",
+        icon: <Shield className="h-5 w-5" />,
+        highlight: false,
       },
       {
         title: "Economic Model (Tokenomics)",
         summary:
           "Token distribution, validator rewards, transaction fee structure, and economic incentives driving network sustainability.",
+        icon: <DollarSign className="h-5 w-5" />,
+        highlight: true,
       },
       {
         title: "Financial Model and Projections",
         summary:
           "Revenue streams, market analysis, adoption forecasts, and long-term financial sustainability projections for the PeoChain ecosystem.",
+        icon: <ArrowUpRight className="h-5 w-5" />,
+        highlight: false,
       },
       {
         title: "Roadmap",
         summary:
           "Development phases from testnet launch through mainnet deployment, including key milestones and timeline for global expansion.",
+        icon: <Calendar className="h-5 w-5" />,
+        highlight: false,
       },
       {
         title: "Conclusion",
         summary:
           "Summary of PeoChain's potential impact on global financial inclusion and the future of decentralized finance.",
+        icon: <CheckCircle className="h-5 w-5" />,
+        highlight: false,
       },
     ],
     keyFeatures: [
@@ -82,6 +117,29 @@ const Whitepaper: React.FC = () => {
       "Localized stablecoins for price stability",
     ],
   };
+
+  const whitepaperStats: WhitepaperStats[] = [
+    {
+      label: "Document Version",
+      value: whitepaperData.version,
+      icon: <FileText className="h-4 w-4" />,
+    },
+    {
+      label: "Total Pages",
+      value: whitepaperData.pages,
+      icon: <BookOpen className="h-4 w-4" />,
+    },
+    {
+      label: "Publication Date",
+      value: whitepaperData.date,
+      icon: <Calendar className="h-4 w-4" />,
+    },
+    {
+      label: "Read Time",
+      value: "15 min",
+      icon: <Clock className="h-4 w-4" />,
+    },
+  ];
 
   return (
     <MainLayout className="bg-mint">
