@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Shield, Zap, Globe, Link2, Code, Cog } from "lucide-react";
+import { Shield, Zap, Globe, Link2, Check, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -39,7 +39,7 @@ const TechnologySection = () => {
       iconColor: "text-blue-600 dark:text-blue-400"
     },
     {
-      icon: Code,
+      icon: Check,
       title: "Smart Contracts",
       description: "Advanced virtual machine with formal verification support and gas optimization.",
       details: ["Gas optimization", "Security auditing", "Multi-language support", "Formal verification"],
@@ -47,7 +47,7 @@ const TechnologySection = () => {
       iconColor: "text-purple-600 dark:text-purple-400"
     },
     {
-      icon: Settings,
+      icon: ArrowRight,
       title: "Developer Tools",
       description: "Comprehensive SDK and toolchain for rapid development with rich documentation.",
       details: ["Complete SDK", "Rich documentation", "Testing frameworks", "IDE integrations"],
