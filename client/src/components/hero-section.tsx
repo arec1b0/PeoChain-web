@@ -17,7 +17,7 @@ import {
   floatingNodesConfig,
 } from "@/data/hero-data";
 import { motion } from "framer-motion";
-import { ArrowRight, Zap, Shield, Globe, Star, ChevronUp } from "lucide-react";
+import { ArrowRight, Zap, Shield, Globe, Sparkles, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import AnimatedCounter from "./animated-counter";
@@ -81,7 +81,7 @@ const HeroSection = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Star className="w-4 h-4 text-sage" />
+            <Sparkles className="w-4 h-4 text-sage" />
             <span className="text-sm font-medium text-sage">Next-Gen Blockchain Technology</span>
           </motion.div>
 
@@ -152,7 +152,7 @@ const HeroSection = () => {
             >
               <span className="relative z-10 flex items-center">
                 View Whitepaper
-                <ChevronUp className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
+                <FileText className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
               </span>
             </Button>
           </motion.div>
