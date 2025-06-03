@@ -17,7 +17,7 @@ import {
   Zap,
   Shield,
   DollarSign,
-  Activity,
+  BarChart2,
   ArrowRight,
   CheckCircle,
 } from "lucide-react";
@@ -90,7 +90,7 @@ const Whitepaper: React.FC = () => {
         title: "Financial Model and Projections",
         summary:
           "Revenue streams, market analysis, adoption forecasts, and long-term financial sustainability projections for the PeoChain ecosystem.",
-        icon: <ArrowUpRight className="h-5 w-5" />,
+        icon: <ArrowRight className="h-5 w-5" />,
         highlight: false,
       },
       {
@@ -142,216 +142,334 @@ const Whitepaper: React.FC = () => {
   ];
 
   return (
-    <MainLayout className="bg-mint">
-      {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h1 className="text-4xl md:text-5xl font-raleway font-bold text-forest mb-6">
-              PeoChain Technical Whitepaper
-            </h1>
-            <p className="text-xl font-hammersmith text-forest/80 max-w-3xl mx-auto">
-              A Decentralized Financial Ecosystem for Global Inclusion
-            </p>
-          </motion.div>
+    <ErrorBoundaryEnhanced>
+      <MainLayout className="bg-gradient-to-br from-mint via-mint/50 to-sage/10 min-h-screen">
+        {/* Hero Section */}
+        <section className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+          {/* Background Elements */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-20 left-10 w-32 h-32 bg-sage/30 rounded-full blur-3xl"></div>
+            <div className="absolute top-40 right-20 w-24 h-24 bg-medium-forest/30 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-sage/20 rounded-full blur-3xl"></div>
+          </div>
 
-          {/* Main Whitepaper Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mb-12"
-          >
-            <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg">
-              <CardHeader className="text-center pb-6">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-sage to-medium-forest rounded-2xl flex items-center justify-center">
-                    <FileText className="h-8 w-8 text-white" />
-                  </div>
-                </div>
-                <CardTitle className="text-2xl font-raleway text-forest mb-2">
-                  {whitepaperData.title}
-                </CardTitle>
-                <div className="flex justify-center items-center space-x-4 text-sm text-forest/70 font-hammersmith">
-                  <div className="flex items-center space-x-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>{whitepaperData.date}</span>
-                  </div>
-                </div>
-              </CardHeader>
+          <div className="max-w-6xl mx-auto relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center mb-20"
+            >
+              <Badge className="mb-6 bg-sage/20 text-forest border-sage/30 px-4 py-2 text-sm font-raleway">
+                Technical Whitepaper
+              </Badge>
+              <h1 className="text-5xl md:text-6xl font-raleway font-bold text-forest mb-8 leading-tight">
+                PeoChain Technical
+                <span className="block bg-gradient-to-r from-sage to-medium-forest bg-clip-text text-transparent">
+                  Whitepaper
+                </span>
+              </h1>
+              <p className="text-2xl font-hammersmith text-forest/70 max-w-4xl mx-auto leading-relaxed">
+                A Decentralized Financial Ecosystem for Global Inclusion
+              </p>
+            </motion.div>
 
-              <CardContent>
-                <div className="text-center mb-8">
-                  <p className="text-forest/80 font-hammersmith leading-relaxed max-w-2xl mx-auto">
-                    {whitepaperData.abstract}
-                  </p>
-                </div>
-
-                <div className="flex justify-center items-center space-x-4 mb-8">
-                  <Button
-                    size="lg"
-                    className="bg-sage hover:bg-medium-forest text-white font-raleway font-medium px-8 py-4"
-                    onClick={() => {
-                      const link = document.createElement("a");
-                      link.href = EXTERNAL_URLS.WHITEPAPER_PDF;
-                      link.download = "PEOCHAIN_White_Paper.pdf";
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                    }}
+            {/* Document Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="mb-16"
+            >
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+                {whitepaperStats.map((stat, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.1 * index }}
+                    className="bg-white/80 backdrop-blur-md rounded-2xl p-4 text-center border border-sage/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                   >
-                    <Download className="mr-2 h-5 w-5" />
-                    Download PDF
-                  </Button>
-                </div>
-
-                {/* Authors */}
-                <div className="mb-8">
-                  <h3 className="text-xl font-raleway font-semibold text-forest mb-4 text-center">
-                    Authors
-                  </h3>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {whitepaperData.authors.map((author, index) => (
-                      <div
-                        key={index}
-                        className="text-center p-4 bg-sage/10 rounded-lg"
-                      >
-                        <div className="flex items-center justify-center mb-2">
-                          <Users className="h-5 w-5 text-sage" />
-                        </div>
-                        <p className="font-hammersmith text-forest/80 text-sm">
-                          {author}
-                        </p>
+                    <div className="flex justify-center mb-2">
+                      <div className="w-8 h-8 bg-sage/20 rounded-lg flex items-center justify-center text-sage">
+                        {stat.icon}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </div>
+                    <p className="text-lg font-raleway font-bold text-forest">{stat.value}</p>
+                    <p className="text-xs font-hammersmith text-forest/60">{stat.label}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
 
-                {/* Table of Contents */}
-                <div className="mb-8">
-                  <h3 className="text-xl font-raleway font-semibold text-forest mb-4 text-center">
-                    Table of Contents
-                  </h3>
-                  <div className="space-y-3">
-                    {whitepaperData.sections.map((section, index) => (
-                      <div
-                        key={index}
-                        className="p-4 bg-sage/5 rounded-lg hover:bg-sage/10 transition-colors border border-sage/10"
-                      >
-                        <div className="flex items-start space-x-3">
-                          <div className="w-8 h-8 bg-sage/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                            <span className="text-sage font-raleway font-semibold text-sm">
-                              {index + 1}
-                            </span>
+            {/* Main Whitepaper Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mb-16"
+            >
+              <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-2xl overflow-hidden">
+                <CardHeader className="bg-gradient-to-br from-sage/10 to-medium-forest/10 text-center pb-8 pt-8">
+                  <div className="flex justify-center mb-6">
+                    <div className="w-20 h-20 bg-gradient-to-br from-sage to-medium-forest rounded-3xl flex items-center justify-center shadow-lg">
+                      <FileText className="h-10 w-10 text-white" />
+                    </div>
+                  </div>
+                  <CardTitle className="text-3xl font-raleway text-forest mb-4 leading-tight">
+                    {whitepaperData.title}
+                  </CardTitle>
+                  <div className="flex justify-center items-center space-x-6 text-sm text-forest/70 font-hammersmith">
+                    <div className="flex items-center space-x-2">
+                      <Calendar className="h-4 w-4" />
+                      <span>{whitepaperData.date}</span>
+                    </div>
+                    <Separator orientation="vertical" className="h-4" />
+                    <div className="flex items-center space-x-2">
+                      <FileText className="h-4 w-4" />
+                      <span>Version {whitepaperData.version}</span>
+                    </div>
+                  </div>
+                </CardHeader>
+
+                <CardContent className="p-8">
+                  <div className="text-center mb-10">
+                    <h3 className="text-xl font-raleway font-semibold text-forest mb-4">Abstract</h3>
+                    <p className="text-forest/80 font-hammersmith leading-relaxed max-w-4xl mx-auto text-lg">
+                      {whitepaperData.abstract}
+                    </p>
+                  </div>
+
+                  <div className="flex justify-center items-center space-x-4 mb-12">
+                    <Button
+                      size="lg"
+                      className="bg-gradient-to-r from-sage to-medium-forest hover:from-medium-forest hover:to-forest text-white font-raleway font-medium px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                      onClick={() => {
+                        const link = document.createElement("a");
+                        link.href = EXTERNAL_URLS.WHITEPAPER_PDF;
+                        link.download = "PEOCHAIN_White_Paper.pdf";
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      }}
+                    >
+                      <Download className="mr-2 h-5 w-5" />
+                      Download PDF
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="border-sage/50 text-sage hover:bg-sage/10 font-raleway font-medium px-8 py-4 transition-all duration-300"
+                      onClick={() => window.open(EXTERNAL_URLS.WHITEPAPER_PDF, "_blank")}
+                    >
+                      <ExternalLink className="mr-2 h-5 w-5" />
+                      View Online
+                    </Button>
+                  </div>
+
+                  {/* Authors */}
+                  <div className="mb-12">
+                    <h3 className="text-2xl font-raleway font-semibold text-forest mb-6 text-center">
+                      Research Authors
+                    </h3>
+                    <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                      {whitepaperData.authors.map((author, index) => (
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: 0.1 * index }}
+                          className="text-center p-6 bg-gradient-to-br from-sage/5 to-sage/10 rounded-2xl border border-sage/20 hover:shadow-lg transition-all duration-300"
+                        >
+                          <div className="flex items-center justify-center mb-3">
+                            <div className="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center">
+                              <Users className="h-6 w-6 text-sage" />
+                            </div>
                           </div>
-                          <div className="flex-1">
-                            <h4 className="font-raleway font-semibold text-forest mb-2">
-                              {section.title}
-                            </h4>
-                            <p className="font-hammersmith text-forest/70 text-sm leading-relaxed">
+                          <p className="font-raleway font-semibold text-forest text-lg">{author}</p>
+                          <p className="font-hammersmith text-forest/60 text-sm mt-1">Lead Researcher</p>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Table of Contents */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="mb-16"
+            >
+              <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-xl overflow-hidden">
+                <CardHeader className="bg-gradient-to-r from-sage/5 to-medium-forest/5 text-center pb-6">
+                  <CardTitle className="text-3xl font-raleway text-forest">
+                    Table of Contents
+                  </CardTitle>
+                  <p className="text-forest/60 font-hammersmith mt-2">Explore the comprehensive research sections</p>
+                </CardHeader>
+                <CardContent className="p-8">
+                  <div className="space-y-4">
+                    {whitepaperData.sections.map((section, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: 0.1 * index }}
+                        className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-lg cursor-pointer group ${
+                          section.highlight 
+                            ? 'bg-gradient-to-r from-sage/10 to-medium-forest/10 border-sage/30 hover:border-sage/50' 
+                            : 'bg-sage/5 border-sage/20 hover:bg-sage/10 hover:border-sage/30'
+                        }`}
+                      >
+                        <div className="flex items-start space-x-4">
+                          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+                            section.highlight 
+                              ? 'bg-sage/30 text-sage group-hover:bg-sage group-hover:text-white' 
+                              : 'bg-sage/20 text-sage group-hover:bg-sage/30'
+                          }`}>
+                            {section.icon || (
+                              <span className="font-raleway font-bold text-sm">
+                                {index + 1}
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between">
+                              <h4 className="font-raleway font-bold text-forest text-lg mb-2 group-hover:text-sage transition-colors duration-300">
+                                {section.title}
+                              </h4>
+                              {section.highlight && (
+                                <Badge className="bg-sage/20 text-sage border-sage/30 ml-2 flex-shrink-0">
+                                  Key Innovation
+                                </Badge>
+                              )}
+                            </div>
+                            <p className="font-hammersmith text-forest/70 leading-relaxed">
                               {section.summary}
                             </p>
                           </div>
-                          <ChevronRight className="h-4 w-4 text-sage mt-2 flex-shrink-0" />
+                          <ChevronRight className="h-5 w-5 text-sage/60 group-hover:text-sage group-hover:translate-x-1 transition-all duration-300 flex-shrink-0 mt-1" />
                         </div>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-          {/* Key Features */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mb-12"
-          >
-            <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-2xl font-raleway text-forest text-center">
-                  Key Innovations
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-2 gap-4">
-                  {whitepaperData.keyFeatures.map((feature, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start space-x-3 p-3 bg-sage/5 rounded-lg"
+            {/* Key Features */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="mb-16"
+            >
+              <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-xl">
+                <CardHeader className="text-center pb-6">
+                  <CardTitle className="text-3xl font-raleway text-forest mb-2">
+                    Key Technical Innovations
+                  </CardTitle>
+                  <p className="text-forest/60 font-hammersmith">Revolutionary features powering the PeoChain ecosystem</p>
+                </CardHeader>
+                <CardContent className="p-8">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {whitepaperData.keyFeatures.map((feature, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5, delay: 0.1 * index }}
+                        className="flex items-start space-x-4 p-4 bg-gradient-to-br from-sage/5 to-sage/10 rounded-2xl border border-sage/20 hover:shadow-lg transition-all duration-300 hover:scale-105"
+                      >
+                        <div className="w-3 h-3 bg-gradient-to-br from-sage to-medium-forest rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="font-hammersmith text-forest/80 leading-relaxed">
+                          {feature}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Research Contributions */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              className="mb-16"
+            >
+              <Card className="bg-gradient-to-br from-sage via-medium-forest to-forest text-white shadow-2xl overflow-hidden">
+                <CardContent className="p-10">
+                  <h2 className="text-4xl font-raleway font-bold mb-8 text-center">
+                    Research Contributions
+                  </h2>
+                  <p className="text-center text-white/80 font-hammersmith mb-10 text-lg max-w-3xl mx-auto">
+                    Pioneering blockchain innovations with measurable impact on global financial inclusion
+                  </p>
+                  <div className="grid md:grid-cols-3 gap-8">
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.2 }}
+                      className="text-center group"
                     >
-                      <div className="w-2 h-2 bg-sage rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="font-hammersmith text-forest/80">
-                        {feature}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Research Contributions */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <Card className="bg-gradient-to-br from-sage to-medium-forest text-white shadow-lg">
-              <CardContent className="p-8 text-[#33523e]">
-                <h2 className="text-2xl font-raleway font-bold mb-6 text-center">
-                  Research Contributions
-                </h2>
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div className="text-center">
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                      <FileText className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="font-raleway font-semibold mb-2">
-                      Proof of Synergy
-                    </h3>
-                    <p className="font-hammersmith text-sm opacity-90">
-                      Novel consensus mechanism combining PoS efficiency with
-                      multi-dimensional scoring
-                    </p>
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-white/30 transition-all duration-300 group-hover:scale-110">
+                        <Zap className="h-8 w-8 text-white" />
+                      </div>
+                      <h3 className="font-raleway font-bold text-xl mb-3">
+                        Proof of Synergy
+                      </h3>
+                      <p className="font-hammersmith text-white/90 leading-relaxed">
+                        Novel consensus mechanism combining PoS efficiency with
+                        multi-dimensional scoring for optimal network performance
+                      </p>
+                    </motion.div>
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.4 }}
+                      className="text-center group"
+                    >
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-white/30 transition-all duration-300 group-hover:scale-110">
+                        <Users className="h-8 w-8 text-white" />
+                      </div>
+                      <h3 className="font-raleway font-bold text-xl mb-3">
+                        Financial Inclusion
+                      </h3>
+                      <p className="font-hammersmith text-white/90 leading-relaxed">
+                        Seamless mobile integration with M-Pesa and GCash,
+                        empowering underbanked populations globally
+                      </p>
+                    </motion.div>
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.6 }}
+                      className="text-center group"
+                    >
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-white/30 transition-all duration-300 group-hover:scale-110">
+                        <BarChart2 className="h-8 w-8 text-white" />
+                      </div>
+                      <h3 className="font-raleway font-bold text-xl mb-3">
+                        Ultra Scalability
+                      </h3>
+                      <p className="font-hammersmith text-white/90 leading-relaxed">
+                        100,000+ TPS with 1-second finality and ultra-low fees,
+                        solving the blockchain trilemma
+                      </p>
+                    </motion.div>
                   </div>
-                  <div className="text-center">
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                      <Users className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="font-raleway font-semibold mb-2">
-                      Financial Inclusion
-                    </h3>
-                    <p className="font-hammersmith text-sm opacity-90">
-                      Mobile integration with M-Pesa and GCash for underbanked
-                      populations
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                      <Download className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="font-raleway font-semibold mb-2">
-                      Scalability
-                    </h3>
-                    <p className="font-hammersmith text-sm opacity-90">
-                      100,000+ TPS with 1-second finality and ultra-low fees
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-      </section>
-    </MainLayout>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+        </section>
+      </MainLayout>
+    </ErrorBoundaryEnhanced>
   );
 };
 
