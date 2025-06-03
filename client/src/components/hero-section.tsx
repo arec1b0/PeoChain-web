@@ -21,7 +21,7 @@ import { ArrowRight, Zap, Shield, Globe, Sparkles, TrendingUp } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import AnimatedCounter from "./animated-counter";
-import { ANIMATION_VARIANTS, TEXT_STYLES, BUTTON_STYLES, CARD_STYLES } from "@/shared/styles";
+import { ANIMATION_VARIANTS, TEXT_STYLES, BUTTON_STYLES, CARD_STYLES } from "../../../shared/styles";
 
 const HeroSection = () => {
   return (
@@ -188,11 +188,10 @@ const HeroSection = () => {
                   </motion.div>
                   <div className={`text-4xl font-bold ${TEXT_STYLES.FOREST} mb-3`}>
                     <AnimatedCounter 
-                      end={metric.value} 
-                      duration={2000} 
-                      decimals={metric.decimals || 0} 
+                      to={metric.value} 
+                      duration={2000}
+                      suffix={metric.suffix}
                     />
-                    {metric.suffix}
                   </div>
                   <p className={`${TEXT_STYLES.FOREST_MUTED} font-medium tracking-wide`}>
                     {metric.label}
