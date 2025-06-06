@@ -359,6 +359,7 @@ const ValidatorBonds: React.FC = () => {
                 </div>
               </CardContent>
             </Card>
+            </Grid>
           </motion.div>
 
           {/* Bonding Process Steps */}
