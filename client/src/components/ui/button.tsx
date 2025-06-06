@@ -41,54 +41,72 @@ type VariantProps<T> = {
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  // Base styles with improved mobile touch handling
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium" +
-    // Better focus handling
-    " ring-offset-background transition-all" +
-    " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" +
-    // Touch-specific optimizations
+  // Enhanced base styles with WCAG 2.2 compliance
+  "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-medium" +
+    " transition-all duration-200 ease-out" +
+    // Enhanced focus handling for better accessibility
+    " focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" +
+    // Touch optimizations for mobile
     " touch-action-manipulation tap-highlight-transparent active:scale-[0.98]" +
-    // Disabled states
-    " disabled:pointer-events-none disabled:opacity-50" +
-    // Icon handling
-    " [&_svg]:pointer-events-none [&_svg]:shrink-0",
+    // Improved disabled states
+    " disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed" +
+    // Icon and loading state handling
+    " [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:transition-transform" +
+    // Ensure minimum touch targets
+    " touch-target",
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/95",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90 active:bg-destructive/95",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground active:bg-accent/90",
+        primary:
+          "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:shadow-md active:bg-primary/95 active:shadow-sm",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 active:bg-secondary/90",
+          "bg-secondary text-secondary-foreground border border-secondary/20 hover:bg-secondary/80 active:bg-secondary/90",
+        outline:
+          "border-2 border-primary/20 bg-background hover:bg-primary/5 hover:border-primary/40 active:bg-primary/10",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground active:bg-accent/90",
-        link: "text-primary underline-offset-4 hover:underline active:text-primary/80",
+          "hover:bg-primary/10 active:bg-primary/20 text-primary",
+        destructive:
+          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 hover:shadow-md active:bg-destructive/95",
+        success:
+          "bg-success text-success-foreground shadow-sm hover:bg-success/90 hover:shadow-md active:bg-success/95",
+        warning:
+          "bg-warning text-warning-foreground shadow-sm hover:bg-warning/90 hover:shadow-md active:bg-warning/95",
+        link: "text-primary underline-offset-4 hover:underline active:text-primary/80 p-0 h-auto",
       },
       size: {
-        // Optimize sizes for touch targets (44px minimum height recommended)
-        default: "h-11 sm:h-10 px-4 py-2 text-base sm:text-sm",
-        sm: "h-10 sm:h-9 rounded-md px-3 py-1.5 text-sm",
-        lg: "h-12 sm:h-11 rounded-md px-8 py-2.5 text-base",
-        icon: "h-11 w-11 sm:h-10 sm:w-10 [&_svg]:size-5 sm:[&_svg]:size-4",
+        // Mobile-first sizing with proper touch targets
+        sm: "h-10 px-3 text-fluid-sm font-medium",
+        default: "h-11 px-4 text-fluid-base font-medium",
+        lg: "h-12 px-6 text-fluid-lg font-semibold",
+        xl: "h-14 px-8 text-fluid-xl font-semibold",
+        icon: "h-11 w-11 [&_svg]:size-5",
+        "icon-sm": "h-9 w-9 [&_svg]:size-4",
+        "icon-lg": "h-12 w-12 [&_svg]:size-6",
+      },
+      loading: {
+        true: "cursor-wait [&_svg]:animate-spin",
+        false: "",
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "primary",
       size: "default",
+      loading: false,
     },
   },
 );
 
 export interface ButtonProps {
   className?: string;
-  variant?: string;
-  size?: string;
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "destructive" | "success" | "warning" | "link";
+  size?: "sm" | "default" | "lg" | "xl" | "icon" | "icon-sm" | "icon-lg";
   asChild?: boolean;
-  // Add a prop to force mobile optimizations even on desktop
-  mobileOptimized?: boolean;
+  loading?: boolean;
+  // Enhanced accessibility props
+  "aria-label"?: string;
+  "aria-describedby"?: string;
+  "aria-expanded"?: boolean;
+  "aria-pressed"?: boolean;
   // Basic button attributes
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
@@ -96,10 +114,17 @@ export interface ButtonProps {
   id?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children?: React.ReactNode;
-  onTouchStart?: () => void;
-  onTouchEnd?: () => void;
-  onTouchCancel?: () => void;
-  [key: string]: any; // Allow for other HTML button attributes
+  // Touch event handlers
+  onTouchStart?: (event: React.TouchEvent<HTMLButtonElement>) => void;
+  onTouchEnd?: (event: React.TouchEvent<HTMLButtonElement>) => void;
+  onTouchCancel?: (event: React.TouchEvent<HTMLButtonElement>) => void;
+  // Focus event handlers
+  onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
+  // Loading state with icon
+  loadingText?: string;
+  icon?: React.ReactNode;
+  iconPosition?: "left" | "right";
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
