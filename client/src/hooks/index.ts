@@ -5,6 +5,11 @@ export { useKeyPress } from "./use-key-press";
 export { useInView } from "./use-in-view";
 export { useIsMobile } from "./use-mobile";
 export { useTouch, withTouchHandlers } from "./use-touch";
+export { usePerformance } from "./use-performance";
+export { useAccessibility } from "./use-accessibility";
+export { useContentData } from "./use-content-data";
+export { useToast } from "./use-toast";
+export { useMobilePerformance } from "./use-mobile-performance";
 
 // Export types
 export type { ClickOutsideEvent } from "./use-on-click-outside";

@@ -13,12 +13,14 @@ interface MainLayoutProps {
   children: React.ReactNode;
   showFooter?: boolean;
   className?: string;
+  mobileOptimized?: boolean;
 }
 
 export const MainLayout: React.FC<MainLayoutProps> = ({
   children,
   showFooter = true,
   className = "",
+  mobileOptimized = true,
 }: MainLayoutProps) => {
   // Properly structure the JSX to provide the children props correctly
   // Create the children elements before using them in JSX to make TypeScript happy

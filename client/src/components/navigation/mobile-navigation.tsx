@@ -56,6 +56,14 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
     }
   }, [isSearchOpen]);
 
+  const onTouchStart = () => {
+    // Handle touch start event
+  };
+
+  const onTouchEnd = () => {
+    // Handle touch end event
+  };
+
   return (
     <>
       {/* Mobile menu and search buttons */}
@@ -95,6 +103,8 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
         {isMobileMenuOpen && (
           <motion.div
             ref={mobileMenuRef}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}

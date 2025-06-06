@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { designTokens } from "@/lib/tokens";
 import { standardAnimations, transitionPresets } from "@/lib/animations";
 import { useUIStore } from "@/store";
+import { useIsMobile, useTouch } from "@/hooks";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
@@ -68,7 +69,7 @@ const EnhancedButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       loading = false,
       loadingText,
       icon,
-      iconPosition = "left",
+      iconPosition = "left" | "right",
       reducedMotion = false,
       children,
       disabled,
@@ -78,12 +79,14 @@ const EnhancedButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const { setLoading } = useUIStore();
     const Comp = asChild ? Slot : motion.button;
+    const isMobile = useIsMobile();
+    const isTouch = useTouch();
 
     const isDisabled = disabled || loading;
 
     // Animation variants based on reduced motion preference
     const animationVariants = React.useMemo(() => {
-      if (reducedMotion || animation === "none") {
+      if (reducedMotion || animation === "none" || isMobile) {
         return {};
       }
 
@@ -106,7 +109,7 @@ const EnhancedButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
             transition: transitionPresets.fast,
           };
       }
-    }, [animation, reducedMotion]);
+    }, [animation, reducedMotion, isMobile]);
 
     const handleClick = React.useCallback(
       (event: React.MouseEvent<HTMLButtonElement>) => {
