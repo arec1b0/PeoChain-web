@@ -159,13 +159,21 @@ export const useUIStore = create<UIStore>()(
           });
         },
       })),
-      { name: "ui-store" },
     ),
+    { name: "ui-store" },
   ),
 );
 
 // App Store - Global application state with persistence
-export const useAppStore = create<AppState>()(
+interface AppStore extends AppState {
+  setUser: (user: User | null) => void;
+  updatePreferences: (preferences: Partial<UserPreferences>) => void;
+  updateNetworkStats: (stats: Partial<NetworkStats>) => void;
+  setCacheValue: (key: string, value: unknown) => void;
+  clearCache: () => void;
+}
+
+export const useAppStore = create<AppStore>()(
   devtools(
     persist(
       subscribeWithSelector(
@@ -240,7 +248,15 @@ export const useAppStore = create<AppState>()(
 );
 
 // Animation Store - Motion and transition state
-export const useAnimationStore = create<AnimationState>()(
+interface AnimationStore extends AnimationState {
+  setReducedMotion: (reduced: boolean) => void;
+  startTransition: (transitionId: string) => void;
+  endTransition: (transitionId: string) => void;
+  startPageTransition: (direction: "forward" | "backward", previousRoute: string) => void;
+  endPageTransition: () => void;
+}
+
+export const useAnimationStore = create<AnimationStore>()(
   devtools(
     subscribeWithSelector(
       immer((set, get) => ({
@@ -294,8 +310,8 @@ export const useAnimationStore = create<AnimationState>()(
           });
         },
       })),
-      { name: "animation-store" },
     ),
+    { name: "animation-store" },
   ),
 );
 
