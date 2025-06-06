@@ -47,33 +47,57 @@ export function usePerformanceMonitor(): {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    const observers: PerformanceObserver[] = [];
+    const timeouts: NodeJS.Timeout[] = [];
+
+    // Auto-cleanup after 5 minutes to prevent memory leaks
+    const cleanupTimeout = setTimeout(() => {
+      observers.forEach(observer => observer.disconnect());
+    }, 5 * 60 * 1000);
+    timeouts.push(cleanupTimeout);
+
     // Largest Contentful Paint observer
     const lcpObserver = new PerformanceObserver((list) => {
       const entries = list.getEntries();
       const lastEntry = entries[entries.length - 1];
       recordMetric("lcp", lastEntry.startTime);
     });
+    observers.push(lcpObserver);
 
-    // First Input Delay observer
+    // First Input Delay observer  
     const fidObserver = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         const eventEntry = entry as PerformanceEventTiming;
         const fid = eventEntry.processingStart - eventEntry.startTime;
         recordMetric("fid", fid);
+        // Disconnect after first input to prevent continuous monitoring
+        fidObserver.disconnect();
       }
     });
+    observers.push(fidObserver);
 
-    // Cumulative Layout Shift observer
+    // Cumulative Layout Shift observer with throttling
+    let clsValue = 0;
+    let clsTimeout: NodeJS.Timeout | null = null;
+    
     const clsObserver = new PerformanceObserver((list) => {
-      let clsValue = 0;
       for (const entry of list.getEntries()) {
         const layoutEntry = entry as LayoutShiftEntry;
         if (!layoutEntry.hadRecentInput) {
           clsValue += layoutEntry.value;
         }
       }
-      recordMetric("cls", clsValue);
+      
+      // Throttle CLS reporting to every 1 second
+      if (clsTimeout) clearTimeout(clsTimeout);
+      clsTimeout = setTimeout(() => {
+        recordMetric("cls", clsValue);
+        clsValue = 0; // Reset after reporting
+      }, 1000);
+      
+      if (clsTimeout) timeouts.push(clsTimeout);
     });
+    observers.push(clsObserver);
 
     try {
       lcpObserver.observe({ entryTypes: ["largest-contentful-paint"] });
@@ -84,9 +108,9 @@ export function usePerformanceMonitor(): {
     }
 
     return () => {
-      lcpObserver.disconnect();
-      fidObserver.disconnect();
-      clsObserver.disconnect();
+      observers.forEach(observer => observer.disconnect());
+      timeouts.forEach(timeout => clearTimeout(timeout));
+      if (clsTimeout) clearTimeout(clsTimeout);
     };
   }, [recordMetric]);
 

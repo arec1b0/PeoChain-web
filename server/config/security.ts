@@ -54,10 +54,20 @@ const securityConfigSchema = z.object({
   }),
 });
 
+// Generate secure session secret if none provided
+function generateSecureSecret(): string {
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("SESSION_SECRET environment variable is required in production");
+  }
+  // Generate a cryptographically secure secret for development
+  const crypto = require("crypto");
+  return crypto.randomBytes(64).toString("hex");
+}
+
 // Default security configuration
 const defaultSecurityConfig = {
   session: {
-    secret: process.env.SESSION_SECRET || "dev-secret-change-in-production",
+    secret: process.env.SESSION_SECRET || generateSecureSecret(),
     maxAge: parseInt(process.env.SESSION_MAX_AGE || "86400000"),
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
@@ -86,17 +96,19 @@ const defaultSecurityConfig = {
     headerName: process.env.CSRF_HEADER_NAME || "x-csrf-token",
   },
   csp: {
-    enabled: process.env.CSP_ENABLED !== "false",
+    enabled: process.env.NODE_ENV === "production", // Always enabled in production
     directives: {
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       scriptSrc:
         process.env.NODE_ENV === "development"
-          ? ["'self'", "'unsafe-eval'", "'unsafe-inline'"]
+          ? ["'self'", "'unsafe-eval'", "'unsafe-inline'", "http://localhost:*"]
           : ["'self'"],
       imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'"],
-      fontSrc: ["'self'"],
+      connectSrc: process.env.NODE_ENV === "development" 
+        ? ["'self'", "ws://localhost:*", "http://localhost:*"]
+        : ["'self'", "wss:", "https:"],
+      fontSrc: ["'self'", "https:"],
       objectSrc: ["'none'"],
       mediaSrc: ["'self'"],
       frameSrc: ["'none'"],
