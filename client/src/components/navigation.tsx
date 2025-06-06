@@ -28,15 +28,15 @@ const Navigation: React.FC = () => {
       />
 
       <header
-        className="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{ maxHeight: "100vh" }}
       >
         <nav
           className={cn(
-            "flex items-center justify-between px-4 py-2 sm:py-3 transition-all duration-300",
+            "flex items-center justify-between px-6 lg:px-8 py-4 lg:py-5 transition-all duration-300",
             isScrolled
-              ? "bg-background/80 backdrop-blur-md shadow-sm"
-              : "bg-transparent",
+              ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl shadow-lg border-b border-sage/20"
+              : "bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm",
           )}
           aria-label="Main navigation"
         >

@@ -55,7 +55,7 @@ export const DesktopNavigation: React.FC = () => {
         );
       })}
       <Button
-        variant="default"
+        variant="primary"
         size="lg"
         className="ml-4 px-6 py-3 text-lg font-bold bg-gradient-to-r from-sage to-medium-forest hover:from-medium-forest hover:to-dark-sage text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         onClick={() => window.open(EXTERNAL_URLS.VALIDATOR_APPLICATION, "_blank")}

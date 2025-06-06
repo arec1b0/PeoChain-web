@@ -80,7 +80,7 @@
   --duration-normal: 300ms;
   --duration-slow: 500ms;
   
-  /* Fluid Typography System */
+  /* Enhanced Fluid Typography System */
   --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
   --text-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
   --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
@@ -89,6 +89,10 @@
   --text-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
   --text-3xl: clamp(1.875rem, 1.5rem + 1.875vw, 3rem);
   --text-4xl: clamp(2.25rem, 1.8rem + 2.25vw, 3.75rem);
+  --text-5xl: clamp(2.5rem, 2rem + 2.5vw, 4rem);
+  --text-6xl: clamp(3rem, 2.5rem + 3vw, 5rem);
+  --text-7xl: clamp(3.5rem, 3rem + 3.5vw, 6rem);
+  --text-8xl: clamp(4rem, 3.5rem + 4vw, 8rem);
   
   /* Systematic Line Heights */
   --leading-tight: 1.25;
@@ -101,10 +105,22 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-3xl: 0 35px 60px -12px rgb(0 0 0 / 0.35);
   
-  /* Fluid Spacing */
-  --space-xs: clamp(0.25rem, 1vw, 0.5rem);
-  --space-sm: clamp(0.5rem, 1.5vw, 1rem);
+  /* Mobile-First Breakpoints */
+  --mobile-sm: 375px;
+  --mobile-md: 425px;
+  --tablet: 768px;
+  --desktop: 1024px;
+  --desktop-lg: 1440px;
+  
+  /* Mobile-Optimized Spacing */
+  --space-mobile-xs: 0.5rem;
+  --space-mobile-sm: 1rem;
+  --space-mobile-md: 1.5rem;
+  --space-mobile-lg: 2rem;
+  --space-mobile-xl: 3rem;
   --space-md: clamp(1rem, 2.5vw, 1.5rem);
   --space-lg: clamp(1.5rem, 4vw, 3rem);
   --space-xl: clamp(2rem, 6vw, 4rem);
