@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import MainLayout from "@/components/layout/main-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Container, Section, Grid, EnhancedCard } from "@/components/ui/layout-system";
 import {
   Download,
   FileText,
@@ -12,7 +13,6 @@ import {
 } from "lucide-react";
 import { ErrorBoundaryEnhanced } from "@/components/ui/error-boundary-enhanced";
 import { EXTERNAL_URLS } from "@shared/config";
-import { CARD_STYLES, BUTTON_STYLES, LAYOUT_STYLES } from "@shared/styles";
 
 interface WhitepaperSection {
   title: string;
@@ -85,29 +85,33 @@ const Whitepaper: React.FC = () => {
 
   return (
     <MainLayout className="bg-mint">
-      {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
+      {/* Hero Section with enhanced layout */}
+      <Section spacing="xl" background="default">
+        <Container variant="wide">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center space-y-fluid-lg"
           >
-            <h1 className="text-4xl md:text-5xl font-raleway font-bold text-forest mb-6">
+            <h1 className="text-fluid-4xl font-bold leading-tight text-foreground">
               PeoChain Technical Whitepaper
             </h1>
-            <p className="text-xl font-hammersmith text-forest/80 max-w-3xl mx-auto">
+            <p className="text-fluid-xl leading-relaxed text-muted-foreground max-w-prose mx-auto">
               A Decentralized Financial Ecosystem for Global Inclusion
             </p>
           </motion.div>
+        </Container>
+      </Section>
 
+      <Section spacing="lg">
+        <Container variant="wide">
           {/* Main Whitepaper Card */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mb-12"
+            className="space-y-fluid-lg"
           >
             <Card className="bg-white/95 backdrop-blur-md border-sage/20 shadow-lg">
               <CardHeader className="text-center pb-6">
@@ -291,8 +295,8 @@ const Whitepaper: React.FC = () => {
               </CardContent>
             </Card>
           </motion.div>
-        </div>
-      </section>
+        </Container>
+      </Section>
     </MainLayout>
   );
 };

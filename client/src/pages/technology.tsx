@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import MainLayout from "@/components/layout/main-layout";
 import TechStackSection from "@/components/tech-stack-section";
 import TechnologySection from "@/components/technology-section";
+import { Container, Section } from "@/components/ui/layout-system";
 import { useMobilePerformance } from "@/hooks";
 
 const fadeIn = {
@@ -32,28 +33,22 @@ const Technology: React.FC = () => {
 
   return (
     <MainLayout className="bg-gradient-to-br from-mint/50 to-white dark:from-gray-900 dark:to-gray-800">
-      {/* Hero Section */}
-      <section className="pt-24 pb-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className={cn(
-              "font-raleway font-bold text-forest dark:text-white mb-6",
-              isMobile ? "text-4xl" : "text-5xl md:text-6xl"
-            )}>
+      {/* Hero Section with enhanced layout system */}
+      <Section spacing="xl" container containerVariant="wide">
+        <Container variant="default">
+          <div className="text-center space-y-fluid-lg">
+            <h1 className="text-fluid-4xl font-bold leading-tight text-foreground">
               Technology Stack
             </h1>
-            <p className={cn(
-              "font-hammersmith text-forest/80 dark:text-gray-300 max-w-3xl mx-auto",
-              isMobile ? "text-lg" : "text-xl"
-            )}>
+            <p className="text-fluid-lg leading-relaxed text-muted-foreground max-w-prose mx-auto">
               Discover the innovative technologies powering PeoChain's
               revolutionary blockchain platform
             </p>
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      {/* Advanced Technology Stack Section with lazy loading */}
+      {/* Advanced Technology Stack Section with enhanced spacing */}
       <motion.div
         initial={shouldReduceMotion ? {} : { opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -62,7 +57,7 @@ const Technology: React.FC = () => {
         <TechStackSection />
       </motion.div>
 
-      {/* Revolutionary Technology Section with lazy loading */}
+      {/* Revolutionary Technology Section with enhanced spacing */}
       <motion.div
         initial={shouldReduceMotion ? {} : { opacity: 0 }}
         animate={{ opacity: 1 }}

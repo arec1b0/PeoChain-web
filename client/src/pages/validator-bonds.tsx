@@ -26,8 +26,8 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import MainLayout from "@/components/layout/main-layout";
+import { Container, Section, Grid, EnhancedCard } from "@/components/ui/layout-system";
 import { EXTERNAL_URLS, NETWORK_CONFIG } from "@shared/config";
-import { CARD_STYLES, BUTTON_STYLES, LAYOUT_STYLES } from "@shared/styles";
 
 interface BondingStep {
   step: number;
