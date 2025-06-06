@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 interface AnimatedCounterProps {
   from?: number;
@@ -22,7 +22,24 @@ export default function AnimatedCounter({
 }: AnimatedCounterProps) {
   const [count, setCount] = useState(from);
   const countRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(countRef, { once: true, margin: "-100px" });
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (countRef.current) {
+      observer.observe(countRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!isInView) return;

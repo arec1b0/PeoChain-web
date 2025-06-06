@@ -1,7 +1,7 @@
 // Modern Card Component - 2025 Design Standards
 import React from "react";
 import { cn } from "@/lib/utils";
-import { motion, MotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface ModernCardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "default" | "elevated" | "outlined" | "ghost";
@@ -37,7 +37,7 @@ export function ModernCard({
 }: ModernCardProps) {
   const Component = interactive ? motion.div : "div";
   
-  const motionProps: MotionProps = interactive ? {
+  const motionProps = interactive ? {
     whileHover: { y: -2 },
     whileTap: { scale: 0.98 },
     transition: { type: "spring", stiffness: 400, damping: 30 }
