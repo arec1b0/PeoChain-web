@@ -17,15 +17,6 @@ const Home: React.FC = () => {
   return (
     <MainLayout>
       <HeroSection />
-
-      <ErrorBoundaryEnhanced
-        children={() => (
-          <Suspense fallback={<SectionLoadingSkeleton />}>
-            <TrilemmaSection />
-          </Suspense>
-        )}
-      />
-
       <FeaturesSection />
     </MainLayout>
   );
