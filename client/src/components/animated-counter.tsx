@@ -8,6 +8,7 @@ interface AnimatedCounterProps {
   className?: string;
   suffix?: string;
   prefix?: string;
+  decimals?: number;
 }
 
 export default function AnimatedCounter({
@@ -17,6 +18,7 @@ export default function AnimatedCounter({
   className = "",
   suffix = "",
   prefix = "",
+  decimals = 0,
 }: AnimatedCounterProps) {
   const [count, setCount] = useState(from);
   const countRef = useRef<HTMLDivElement>(null);
@@ -47,6 +49,9 @@ export default function AnimatedCounter({
   }, [isInView, from, to, duration]);
 
   const formatNumber = (num: number) => {
+    if (decimals > 0) {
+      return num.toFixed(decimals);
+    }
     return num.toLocaleString();
   };
 

@@ -32,36 +32,36 @@ export const DesktopNavigation: React.FC = () => {
   };
 
   return (
-    <div className="hidden md:flex items-center space-x-1">
+    <div className="hidden md:flex items-center space-x-3">
       {navItems.map((item) => {
         const Icon = item.icon || "div";
         return (
           <Link
             key={item.id}
             href={item.href}
-            className={`px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+            className={`px-5 py-3 rounded-lg text-lg font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:scale-105 ${
               location.startsWith(item.href)
-                ? "text-foreground bg-primary/10"
-                : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                ? "text-white bg-medium-forest shadow-lg"
+                : "text-foreground hover:text-medium-forest hover:bg-sage/10 hover:shadow-md"
             }`}
             aria-current={location.startsWith(item.href) ? "page" : undefined}
             onKeyDown={(e: React.KeyboardEvent) => handleKeyDown(e, item.href)}
           >
             <div className="flex items-center">
-              {item.icon && <Icon className="mr-2 h-4 w-4" />}
+              {item.icon && <Icon className="mr-2 h-5 w-5" />}
               {item.label}
             </div>
           </Link>
         );
       })}
       <Button
-        variant="outline"
-        size="sm"
-        className="ml-2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        variant="default"
+        size="lg"
+        className="ml-4 px-6 py-3 text-lg font-bold bg-gradient-to-r from-sage to-medium-forest hover:from-medium-forest hover:to-dark-sage text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         onClick={() => window.open(EXTERNAL_URLS.VALIDATOR_APPLICATION, "_blank")}
       >
-        To Bonds
-        <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+        Validator Bonds
+        <ArrowRight className="ml-2 h-5 w-5" />
       </Button>
     </div>
   );
