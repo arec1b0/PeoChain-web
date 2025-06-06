@@ -147,12 +147,12 @@ const HeroSection = () => {
           >
             <Button
               size="lg"
-              className="px-12 py-6 text-xl font-bold bg-gradient-to-r from-medium-forest to-dark-sage hover:from-dark-sage hover:to-medium-forest text-white shadow-2xl hover:shadow-3xl transition-all duration-300 rounded-2xl group relative overflow-hidden min-w-[280px]"
+              className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold bg-gradient-to-r from-medium-forest to-dark-sage hover:from-dark-sage hover:to-medium-forest text-white shadow-2xl hover:shadow-3xl transition-all duration-300 rounded-xl sm:rounded-2xl group relative overflow-hidden min-w-[280px] max-w-sm sm:max-w-none"
               onClick={() => window.open(EXTERNAL_URLS.GET_STARTED, "_blank")}
             >
               <span className="relative z-10 flex items-center justify-center">
                 Join Validator Network
-                <ArrowRight className="ml-3 h-6 w-6 transition-transform group-hover:translate-x-2" />
+                <ArrowRight className="ml-2 sm:ml-3 h-5 sm:h-6 w-5 sm:w-6 transition-transform group-hover:translate-x-2" />
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-sage to-medium-forest opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </Button>
@@ -166,12 +166,12 @@ const HeroSection = () => {
             <Button
               variant="outline"
               size="lg"
-              className="px-12 py-6 text-xl font-bold border-2 border-medium-forest text-medium-forest hover:bg-medium-forest hover:text-white backdrop-blur-sm bg-white/80 dark:bg-gray-900/80 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl group relative overflow-hidden min-w-[280px]"
+              className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold border-2 border-medium-forest text-medium-forest hover:bg-medium-forest hover:text-white backdrop-blur-sm bg-white/80 dark:bg-gray-900/80 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-xl sm:rounded-2xl group relative overflow-hidden min-w-[280px] max-w-sm sm:max-w-none"
               onClick={() => window.open(EXTERNAL_URLS.WHITEPAPER_PDF, "_blank")}
             >
               <span className="relative z-10 flex items-center justify-center">
                 Read Whitepaper
-                <FileText className="ml-3 h-6 w-6 transition-transform group-hover:scale-110" />
+                <FileText className="ml-2 sm:ml-3 h-5 sm:h-6 w-5 sm:w-6 transition-transform group-hover:scale-110" />
               </span>
             </Button>
           </motion.div>
@@ -256,6 +256,29 @@ const HeroSection = () => {
             </motion.div>
           ))}
         </motion.div>
+      </div>
+
+      {/* Mobile Sticky CTA Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t border-sage/20 p-4 sm:hidden">
+        <div className="flex gap-3">
+          <Button
+            size="lg"
+            className="flex-1 py-3 text-base font-bold bg-gradient-to-r from-medium-forest to-dark-sage hover:from-dark-sage hover:to-medium-forest text-white shadow-lg transition-all duration-300"
+            onClick={() => window.open(EXTERNAL_URLS.GET_STARTED, "_blank")}
+          >
+            Join Network
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="flex-1 py-3 text-base font-bold border-2 border-medium-forest text-medium-forest hover:bg-medium-forest hover:text-white transition-all duration-300"
+            onClick={() => window.open(EXTERNAL_URLS.WHITEPAPER_PDF, "_blank")}
+          >
+            Whitepaper
+            <FileText className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </section>
   );
