@@ -222,50 +222,54 @@ const ValidatorBonds: React.FC = () => {
 
   return (
     <MainLayout className="bg-gradient-to-br from-mint to-white dark:from-gray-900 dark:to-gray-800">
-      <div className="pt-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+      <Section spacing="xl" background="default">
+        <Container variant="wide">
           {/* Header Section */}
           <motion.div
-            className="text-center mb-16"
+            className="text-center space-y-fluid-lg"
             initial="hidden"
             animate="visible"
             custom={0}
             variants={fadeIn}
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-raleway font-medium text-forest dark:text-white mb-6">
-              Validator <span className="text-sage">Bonding</span>
+            <h1 className="text-fluid-4xl font-bold leading-tight text-foreground">
+              Validator <span className="text-primary">Bonding</span>
             </h1>
-            <p className="text-lg sm:text-xl font-hammersmith text-forest/80 dark:text-gray-300 max-w-3xl mx-auto mb-8">
+            <p className="text-fluid-lg leading-relaxed text-muted-foreground max-w-prose mx-auto">
               Join PeoChain's decentralized validator network through our
               non-custodial bonding system. Secure the network, earn rewards,
               and participate in consensus without giving up control of your
               assets.
             </p>
 
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <div className="px-4 py-2 text-sm border border-sage text-sage inline-flex items-center rounded-full">
-                <Shield className="h-4 w-4 mr-2" />
+            <div className="flex flex-wrap justify-center gap-fluid-sm">
+              <Badge variant="outline" className="gap-2 touch-target">
+                <Shield className="h-4 w-4" />
                 Non-Custodial
-              </div>
-              <div className="px-4 py-2 text-sm border border-medium-forest text-medium-forest inline-flex items-center rounded-full">
-                <Zap className="h-4 w-4 mr-2" />
+              </Badge>
+              <Badge variant="outline" className="gap-2 touch-target">
+                <Zap className="h-4 w-4" />
                 Testnet Active
-              </div>
-              <div className="px-4 py-2 text-sm border border-dark-sage text-dark-sage inline-flex items-center rounded-full">
-                <Globe className="h-4 w-4 mr-2" />
+              </Badge>
+              <Badge variant="outline" className="gap-2 touch-target">
+                <Globe className="h-4 w-4" />
                 Mainnet Q2 2025
-              </div>
+              </Badge>
             </div>
           </motion.div>
+        </Container>
+      </Section>
 
+      <Section spacing="lg">
+        <Container variant="wide">
           {/* Network Status Cards */}
           <motion.div
-            className="grid md:grid-cols-2 gap-8 mb-16"
             initial="hidden"
             animate="visible"
             custom={1}
             variants={fadeIn}
           >
+            <Grid cols={2} gap="lg" className="mb-fluid-xl">
             <Card className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-sage/20 shadow-lg">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-sage">
@@ -614,8 +618,8 @@ const ValidatorBonds: React.FC = () => {
               </CardContent>
             </Card>
           </motion.div>
-        </div>
-      </div>
+        </Container>
+      </Section>
     </MainLayout>
   );
 };
