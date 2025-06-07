@@ -26,19 +26,19 @@ import { EXTERNAL_URLS } from "@shared/config";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-mint/40 to-sage/20 dark:from-gray-900 dark:via-gray-800 dark:to-sage/10">
-      {/* Enhanced Visual Background */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-mint/30 to-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-sage/5" aria-labelledby="hero-heading">
+      {/* Simplified Visual Background */}
       <div className="absolute inset-0">
-        {/* Main Visual Element - Abstract Blockchain Network */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-10 dark:opacity-5">
+        {/* Static Network Visualization - Reduced Visual Noise */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-5 dark:opacity-3" aria-hidden="true">
           <svg 
             className="w-full h-full max-w-4xl" 
             viewBox="0 0 800 600" 
             fill="none"
             preserveAspectRatio="xMidYMid meet"
           >
-            {/* Network nodes */}
-            <g className="animate-pulse">
+            {/* Network nodes - Static, no animation */}
+            <g>
               <circle cx="150" cy="150" r="8" fill="currentColor" className="text-sage" />
               <circle cx="350" cy="100" r="10" fill="currentColor" className="text-medium-forest" />
               <circle cx="650" cy="180" r="6" fill="currentColor" className="text-sage" />
@@ -46,8 +46,8 @@ const HeroSection = () => {
               <circle cx="550" cy="400" r="8" fill="currentColor" className="text-sage" />
               <circle cx="400" cy="300" r="14" fill="currentColor" className="text-medium-forest" />
             </g>
-            {/* Connecting lines */}
-            <g className="stroke-current text-sage opacity-30" strokeWidth="2">
+            {/* Connecting lines - Simplified */}
+            <g className="stroke-current text-sage opacity-20" strokeWidth="1.5">
               <line x1="150" y1="150" x2="350" y2="100" />
               <line x1="350" y1="100" x2="650" y2="180" />
               <line x1="200" y1="350" x2="400" y2="300" />
@@ -58,122 +58,73 @@ const HeroSection = () => {
           </svg>
         </div>
         
-        {/* Floating Animation Elements - Optimized */}
-        <motion.div
-          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-sage/20 to-medium-forest/10 rounded-full blur-2xl will-change-transform"
-          animate={{
-            x: [0, 40, 0],
-            y: [0, -15, 0],
+        {/* Single Subtle Background Element - Reduced Motion */}
+        <div 
+          className="absolute top-1/4 left-1/4 w-1/2 h-1/2 bg-gradient-to-br from-sage/10 to-medium-forest/5 rounded-full blur-3xl opacity-30 dark:opacity-20"
+          style={{
+            transform: 'translate(-25%, -25%)',
           }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-10 w-24 h-24 bg-gradient-to-br from-medium-forest/20 to-dark-sage/10 rounded-full blur-2xl will-change-transform"
-          animate={{
-            x: [0, -30, 0],
-            y: [0, 20, 0],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          aria-hidden="true"
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <motion.div
-          variants={ANIMATION_VARIANTS.FADE_IN_UP}
-          initial="hidden"
-          animate="visible"
-          className="mb-16"
-        >
-          <motion.div
-            className="inline-flex items-center gap-3 px-5 py-3 bg-gradient-to-r from-sage/15 to-medium-forest/10 rounded-full border border-sage/30 mb-8 backdrop-blur-sm"
-            whileHover={{ scale: 1.05, y: -2 }}
-            transition={{ type: "spring", stiffness: 300 }}
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="mb-12">
+          <div
+            className="inline-flex items-center gap-3 px-5 py-3 bg-sage/15 rounded-lg border border-sage/30 mb-6 backdrop-blur-sm"
           >
-            <Zap className="w-5 h-5 text-medium-forest" />
-            <span className="text-base font-semibold text-medium-forest">Next-Gen Blockchain Technology</span>
-          </motion.div>
+            <Zap className="w-5 h-5 text-dark-forest" aria-hidden="true" />
+            <span className="text-base font-semibold text-dark-forest dark:text-white">Next-Gen Blockchain Technology</span>
+          </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.9] text-foreground mb-8">
-            <motion.span
-              className="block text-medium-forest"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-            >
+          <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+            <span className="block text-dark-forest dark:text-white">
               PeoChain
-            </motion.span>
-            <motion.span
-              className="block text-3xl sm:text-4xl lg:text-5xl xl:text-6xl mt-4 font-medium text-medium-forest dark:text-sage"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-            >
+            </span>
+            <span className="block text-2xl sm:text-3xl lg:text-4xl mt-3 font-medium text-medium-forest dark:text-sage">
               Blockchain Trilemma
-              <span className="block text-medium-forest dark:text-sage font-bold"> Solved</span>
-            </motion.span>
+              <span className="block text-dark-forest dark:text-white font-bold"> Solved</span>
+            </span>
           </h1>
 
-          <motion.p
-            className="text-xl sm:text-2xl lg:text-3xl text-muted-foreground max-w-5xl mx-auto leading-relaxed mb-12 font-medium"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+          <p
+            className="text-lg sm:text-xl lg:text-2xl text-gray-800 dark:text-gray-200 max-w-3xl mx-auto leading-relaxed mb-10"
           >
-            Revolutionary blockchain technology achieving unprecedented <span className="text-medium-forest font-semibold">scalability</span>, 
-            <span className="text-medium-forest font-semibold"> security</span>, and <span className="text-medium-forest font-semibold">decentralization</span> through innovative consensus mechanisms.
-          </motion.p>
-        </motion.div>
+            Revolutionary blockchain technology achieving unprecedented <span className="text-dark-forest dark:text-white font-semibold">scalability</span>, 
+            <span className="text-dark-forest dark:text-white font-semibold"> security</span>, and <span className="text-dark-forest dark:text-white font-semibold">decentralization</span> through innovative consensus mechanisms.
+          </p>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex flex-col gap-4 sm:gap-6 justify-center items-center mb-20"
-        >
-          <motion.div
-            whileHover={{ scale: 1.03, y: -3 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
+        <div className="flex flex-col gap-5 sm:gap-6 justify-center items-center mb-16">
+          <div>
             <Button
               size="lg"
-              className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold bg-gradient-to-r from-medium-forest to-dark-sage hover:from-dark-sage hover:to-medium-forest text-white shadow-2xl hover:shadow-3xl transition-all duration-300 rounded-xl sm:rounded-2xl group relative overflow-hidden min-w-[280px] max-w-sm sm:max-w-none"
+              className="w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 text-lg font-bold bg-dark-forest hover:bg-medium-forest text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-lg min-w-[250px] max-w-sm sm:max-w-none focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-dashed focus-visible:outline-2"
               onClick={() => window.open(EXTERNAL_URLS.GET_STARTED, "_blank")}
+              aria-label="Join Validator Network (opens in new tab)"
             >
-              <span className="relative z-10 flex items-center justify-center">
+              <span className="flex items-center justify-center">
                 Join Validator Network
-                <ArrowRight className="ml-2 sm:ml-3 h-5 sm:h-6 w-5 sm:w-6 transition-transform group-hover:translate-x-2" />
+                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-sage to-medium-forest opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </Button>
-          </motion.div>
+          </div>
 
-          <motion.div
-            whileHover={{ scale: 1.03, y: -3 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
+          <div>
             <Button
               variant="outline"
               size="lg"
-              className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold border-2 border-medium-forest text-medium-forest hover:bg-medium-forest hover:text-white backdrop-blur-sm bg-white/80 dark:bg-gray-900/80 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-xl sm:rounded-2xl group relative overflow-hidden min-w-[280px] max-w-sm sm:max-w-none"
+              className="w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 text-lg font-bold border-2 border-dark-forest text-dark-forest dark:text-white dark:border-white hover:bg-dark-forest hover:text-white dark:hover:bg-white dark:hover:text-dark-forest bg-white/90 dark:bg-transparent shadow-md hover:shadow-lg transition-all duration-300 rounded-lg min-w-[250px] max-w-sm sm:max-w-none focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-dashed focus-visible:outline-2"
               onClick={() => window.open(EXTERNAL_URLS.WHITEPAPER_PDF, "_blank")}
+              aria-label="Read Whitepaper (opens in new tab)"
             >
-              <span className="relative z-10 flex items-center justify-center">
+              <span className="flex items-center justify-center">
                 Read Whitepaper
-                <FileText className="ml-2 sm:ml-3 h-5 sm:h-6 w-5 sm:w-6 transition-transform group-hover:scale-110" />
+                <FileText className="ml-2 h-5 w-5" aria-hidden="true" />
               </span>
             </Button>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         <motion.div
           variants={ANIMATION_VARIANTS.STAGGER_CONTAINER}

@@ -42,7 +42,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
   onToggleSearch,
   onSearchQueryChange,
   onSearchSubmit,
-}) => {
+}: MobileNavigationProps) => {
   const [location] = useLocation();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -67,23 +67,23 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
   return (
     <>
       {/* Mobile menu and search buttons */}
-      <div className="flex md:hidden items-center space-x-1">
+      <div className="flex lg:hidden items-center space-x-2">
         <button
           ref={searchButtonRef}
           type="button"
           onClick={onToggleSearch}
-          className="touch-target p-4 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+          className="touch-target min-h-[44px] min-w-[44px] p-3 rounded-lg hover:bg-sage/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-dashed focus-visible:outline-2"
           aria-label="Search"
           aria-expanded={isSearchOpen}
           aria-controls="search-dialog"
         >
-          <Search className="h-6 w-6" aria-hidden="true" />
+          <Search className="h-6 w-6 text-gray-900 dark:text-gray-100" aria-hidden="true" />
         </button>
         <button
           ref={menuButtonRef}
           type="button"
           onClick={onToggleMobileMenu}
-          className="touch-target p-4 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+          className="touch-target min-h-[44px] min-w-[44px] p-3 rounded-lg hover:bg-sage/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-dashed focus-visible:outline-2"
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-menu"
@@ -91,9 +91,9 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
           style={{ touchAction: "manipulation" }}
         >
           {isMobileMenuOpen ? (
-            <X className="h-6 w-6" aria-hidden="true" />
+            <X className="h-6 w-6 text-gray-900 dark:text-gray-100" aria-hidden="true" />
           ) : (
-            <Menu className="h-6 w-6" aria-hidden="true" />
+            <Menu className="h-6 w-6 text-gray-900 dark:text-gray-100" aria-hidden="true" />
           )}
         </button>
       </div>
@@ -126,12 +126,12 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
                     key={item.id}
                     href={item.href}
                     className={cn(
-                      "block px-4 py-3 rounded-md text-base font-medium transition-colors",
-                      "touch-action-manipulation tap-highlight-transparent",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                      "block px-4 py-4 rounded-md text-base font-medium transition-colors",
+                      "min-h-[44px] overflow-hidden overflow-wrap-break-word",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-dashed focus-visible:outline-2",
                       location.startsWith(item.href)
-                        ? "text-primary bg-accent font-semibold"
-                        : "text-foreground hover:bg-accent hover:bg-opacity-50",
+                        ? "text-white bg-dark-forest font-semibold"
+                        : "text-gray-900 dark:text-gray-100 hover:bg-sage/20",
                     )}
                     onClick={() => {
                       onToggleMobileMenu();
@@ -142,8 +142,8 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
                     }
                   >
                     <div className="flex items-center">
-                      {item.icon && <Icon className="mr-2 h-4 w-4" />}
-                      {item.label}
+                      {item.icon && <Icon className="mr-3 h-5 w-5" aria-hidden="true" />}
+                      <span className="overflow-wrap-break-word max-w-[90vw]">{item.label}</span>
                       {location.startsWith(item.href) && (
                         <ArrowRight
                           className="ml-2 h-4 w-4"

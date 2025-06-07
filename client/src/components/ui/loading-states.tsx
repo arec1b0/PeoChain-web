@@ -141,38 +141,48 @@ export function SectionLoadingSkeleton() {
 export function SpinnerLoader({
   size = "default",
   className = "",
+  label = "Loading...",
 }: {
   size?: "sm" | "default" | "lg";
   className?: string;
+  label?: string;
 }) {
   const sizeClasses = {
-    sm: "w-4 h-4",
-    default: "w-6 h-6",
-    lg: "w-8 h-8",
+    sm: "w-4 h-4 border-2",
+    default: "w-6 h-6 border-2",
+    lg: "w-8 h-8 border-3",
   };
 
   return (
-    <div className={`flex items-center justify-center ${className}`}>
-      <div className={`animate-spin rounded-full border-2 border-sage/20 border-t-sage ${sizeClasses[size]}`} />
+    <div className={`flex items-center justify-center ${className}`} role="status" aria-live="polite">
+      <div 
+        className={`animate-spin rounded-full border-solid border-sage/30 border-t-dark-forest ${sizeClasses[size]}`} 
+        aria-hidden="true"
+      />
+      <span className="sr-only">{label}</span>
     </div>
   );
 }
 
-export function FloatingLoader() {
+export function FloatingLoader({ message = "Loading..." }: { message?: string }) {
   return (
     <motion.div
-      className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center"
+      className="fixed inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="loading-message"
     >
-      <div className="text-center">
+      <div className="text-center p-6 rounded-lg bg-white/10 dark:bg-gray-800/20 backdrop-blur-md shadow-lg">
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="w-12 h-12 border-4 border-sage/20 border-t-sage rounded-full mx-auto mb-4"
+          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+          className="w-12 h-12 border-3 border-sage/30 border-t-dark-forest rounded-full mx-auto mb-4"
+          aria-hidden="true"
         />
-        <p className="text-muted-foreground">Loading...</p>
+        <p id="loading-message" className="text-gray-900 dark:text-gray-100 font-medium">{message}</p>
       </div>
     </motion.div>
   );
