@@ -153,7 +153,7 @@ export function SpinnerLoader({
 
   return (
     <div className={`flex items-center justify-center ${className}`}>
-      <RotateCw className={`animate-spin text-sage ${sizeClasses[size]}`} />
+      <div className={`animate-spin rounded-full border-2 border-sage/20 border-t-sage ${sizeClasses[size]}`} />
     </div>
   );
 }
