@@ -91,7 +91,7 @@ const buttonVariants = cva(
     defaultVariants: {
       variant: "primary",
       size: "default",
-      loading: false,
+      loading: "false",
     },
   },
 );
@@ -102,6 +102,7 @@ export interface ButtonProps {
   size?: "sm" | "default" | "lg" | "xl" | "icon" | "icon-sm" | "icon-lg";
   asChild?: boolean;
   loading?: boolean;
+  mobileOptimized?: boolean;
   // Enhanced accessibility props
   "aria-label"?: string;
   "aria-describedby"?: string;

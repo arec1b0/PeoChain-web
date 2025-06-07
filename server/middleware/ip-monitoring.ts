@@ -21,7 +21,7 @@ function cleanupOldEntries() {
   const now = Date.now();
   const oneHour = 60 * 60 * 1000;
   
-  for (const [ip, data] of suspiciousPatterns.entries()) {
+  for (const [ip, data] of Array.from(suspiciousPatterns.entries())) {
     if (now - data.lastActivity > oneHour) {
       suspiciousPatterns.delete(ip);
     }
@@ -68,7 +68,7 @@ function updateIPTracking(ip: string, patterns: string[]) {
 
   existing.count += patterns.length;
   existing.lastActivity = Date.now();
-  existing.patterns = [...new Set([...existing.patterns, ...patterns])];
+  existing.patterns = [...Array.from(new Set([...existing.patterns, ...patterns]))];
 
   suspiciousPatterns.set(ip, existing);
   
