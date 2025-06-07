@@ -119,8 +119,8 @@ app.use(
   }),
 );
 
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: false, limit: "10mb" }));
+app.use((express as any).json({ limit: "10mb" }));
+app.use((express as any).urlencoded({ extended: false, limit: "10mb" }));
 
 // CSRF token generation middleware
 app.use(csrfTokenGenerator);
@@ -172,7 +172,7 @@ app.use((req: any, res: any, next: any) => {
     const message = status === 500 ? "Internal Server Error" : err.message;
 
     // Log the error with context
-    logError(err, `${req.method} ${req.path}`);
+    logError(err, `${(req as any).method} ${(req as any).path}`);
 
     // Don't expose stack traces in production
     const response: any = {
@@ -190,7 +190,7 @@ app.use((req: any, res: any, next: any) => {
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
+  if ((app as any).get("env") === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
@@ -200,13 +200,7 @@ app.use((req: any, res: any, next: any) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = 5000;
-  server.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
+  server.listen(port, "0.0.0.0", () => {
       log(`serving on port ${port}`);
     },
   );
