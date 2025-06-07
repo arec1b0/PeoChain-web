@@ -32,7 +32,7 @@ export default function FeaturesSection() {
         id="features"
         className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-sage/5 via-white to-mint/30 dark:from-gray-900 dark:via-gray-800 dark:to-sage/10"
       >
-        <div className="max-w-8xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -40,7 +40,7 @@ export default function FeaturesSection() {
             className="text-center mb-20"
           >
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-              <span className="bg-gradient-to-r from-sage via-medium-forest to-dark-sage bg-clip-text text-transparent">Advanced Technology</span>
+              <span className="text-medium-forest dark:text-sage">Advanced Technology</span>
               <span className="block mt-2">Powering PeoChain</span>
             </h2>
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">

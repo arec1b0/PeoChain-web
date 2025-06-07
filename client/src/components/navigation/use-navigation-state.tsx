@@ -78,18 +78,23 @@ export const useNavigationState = () => {
 
   const toggleMobileMenu = useCallback(() => {
     setIsMobileMenuOpen((prev) => !prev);
-  }, []);
+    if (isSearchOpen) setIsSearchOpen(false);
+  }, [isSearchOpen]);
 
   const toggleSearch = useCallback(() => {
     setIsSearchOpen((prev) => !prev);
-  }, []);
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+  }, [isMobileMenuOpen]);
 
   const handleSearchSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
-    // Handle search submission
+    if (searchQuery.trim()) {
+      // Handle search submission
+      console.log('Search query:', searchQuery);
+    }
     setIsMobileMenuOpen(false);
     setIsSearchOpen(false);
-  }, []);
+  }, [searchQuery]);
 
   const navigateToHome = useCallback(
     (e?: React.KeyboardEvent | React.MouseEvent) => {

@@ -39,7 +39,7 @@ export const DesktopNavigation: React.FC = () => {
           <Link
             key={item.id}
             href={item.href}
-            className={`px-5 py-3 rounded-lg text-lg font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:scale-105 ${
+            className={`touch-target px-6 py-4 rounded-lg text-lg font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:scale-105 ${
               location.startsWith(item.href)
                 ? "text-white bg-medium-forest shadow-lg"
                 : "text-foreground hover:text-medium-forest hover:bg-sage/10 hover:shadow-md"
