@@ -113,13 +113,13 @@ const HeroSection = () => {
               PeoChain
             </motion.span>
             <motion.span
-              className="block text-3xl sm:text-4xl lg:text-5xl xl:text-6xl mt-4 font-medium bg-gradient-to-r from-sage via-medium-forest to-dark-sage bg-clip-text text-transparent"
+              className="block text-3xl sm:text-4xl lg:text-5xl xl:text-6xl mt-4 font-medium text-medium-forest dark:text-sage"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
               Blockchain Trilemma
-              <span className="block text-medium-forest font-bold"> Solved</span>
+              <span className="block text-medium-forest dark:text-sage font-bold"> Solved</span>
             </motion.span>
           </h1>
 
