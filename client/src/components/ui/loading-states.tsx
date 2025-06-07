@@ -1,5 +1,5 @@
+import React from "react";
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -7,16 +7,21 @@ export function HeroSectionSkeleton() {
   return (
     <section className="relative h-screen flex items-center justify-center pt-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-mint">
       <div className="max-w-6xl mx-auto text-center relative z-10">
-        {/* Title Skeleton */}
-        <div className="mb-6">
-          <Skeleton className="h-16 w-3/4 mx-auto mb-4" />
-          <Skeleton className="h-16 w-2/3 mx-auto" />
+        {/* Title Skeleton - Matches actual hero text dimensions */}
+        <div className="mb-8">
+          <div className="inline-flex items-center gap-3 px-5 py-3 bg-sage/15 rounded-full border border-sage/30 mb-8 backdrop-blur-sm">
+            <Skeleton className="h-5 w-5 rounded" />
+            <Skeleton className="h-4 w-48" />
+          </div>
+          <Skeleton className="h-20 w-full max-w-4xl mx-auto mb-4" />
+          <Skeleton className="h-16 w-5/6 max-w-3xl mx-auto" />
         </div>
 
-        {/* Description Skeleton */}
+        {/* Description Skeleton - Matches actual paragraph */}
         <div className="mb-12">
-          <Skeleton className="h-6 w-full max-w-4xl mx-auto mb-2" />
-          <Skeleton className="h-6 w-3/4 max-w-4xl mx-auto" />
+          <Skeleton className="h-6 w-full max-w-5xl mx-auto mb-3" />
+          <Skeleton className="h-6 w-4/5 max-w-5xl mx-auto mb-3" />
+          <Skeleton className="h-6 w-3/4 max-w-5xl mx-auto" />
         </div>
 
         {/* Metrics Grid Skeleton */}
@@ -34,11 +39,13 @@ export function HeroSectionSkeleton() {
           ))}
         </div>
 
-        {/* Buttons Skeleton */}
-        <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={i} className="h-12 w-48" />
-          ))}
+        {/* Action Buttons Skeleton - Matches actual layout */}
+        <div className="flex flex-col gap-4 sm:gap-6 justify-center items-center mb-20">
+          <Skeleton className="h-16 w-80 rounded-xl" />
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Skeleton className="h-12 w-56 rounded-lg" />
+            <Skeleton className="h-12 w-56 rounded-lg" />
+          </div>
         </div>
       </div>
     </section>
@@ -146,7 +153,7 @@ export function SpinnerLoader({
 
   return (
     <div className={`flex items-center justify-center ${className}`}>
-      <Loader2 className={`animate-spin text-sage ${sizeClasses[size]}`} />
+      <RotateCw className={`animate-spin text-sage ${sizeClasses[size]}`} />
     </div>
   );
 }

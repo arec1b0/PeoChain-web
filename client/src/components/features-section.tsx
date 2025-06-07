@@ -101,8 +101,8 @@ export default function FeaturesSection() {
                 }}
                 whileHover={{ 
                   scale: 1.02, 
-                  y: -5,
-                  transition: { duration: 0.3 }
+                  y: -8,
+                  transition: { type: "spring", stiffness: 300, damping: 20 }
                 }}
                 className="group cursor-pointer"
               >
